@@ -14,7 +14,7 @@
    <div class="container-fluid">
 	<div class="jumbotron">
 	  <h1>Cohabitem Sarrià</h1>
-	  <p><small>Mappeig the pisos, cases i terrenys per impulsar cessions d'us i masoveria urbana</p>
+	  <p><small>Mappeig the pisos, cases i terrenys per impulsar cessions d'ós i masoveria urbana</p>
 	</div>
 
 
@@ -50,6 +50,21 @@
 			    <input type="text" class="form-control" id="address2" placeholder="Pis, escala, porteria">
 			  </div>
 			  <div class="form-group">
+			    <label for="postalcode">Codi Postal</label>
+			    <input type="number" class="form-control" id="postalcode" placeholder="08034, 08017,...">
+			  </div>
+				<div class="form-group">
+				<label for="type">Tipus</label>
+				<select class="form-control">
+				  <option>Pis</option>
+				  <option>Casa</option>
+				  <option>Edifici</option>
+				  <option>Solar</option>
+				  <option>Illa</option>
+				</select>
+				</div>
+
+			  <div class="form-group">
 			    <label for="catastral">Referència Catastral</label>
 			    <input type="text" class="form-control" id="catastral" placeholder="ref catastral">
 			    <p class="help-block">Un text Explicatiu</p>
@@ -59,7 +74,7 @@
 			    <textarea class="form-control" id="comment" rows="3" placeholder="Tota la informació que puguis aportar"></textarea>
 			  </div>
 			  
-			  <button type="submit" class="btn btn-default">Desa</button>
+			  <button type="submit" id="desa" class="btn btn-default">Desa</button>
 			</form>
 		</div>
 	</div>
