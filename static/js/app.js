@@ -12,7 +12,7 @@ var geocoding = require('esri-leaflet-geocoder');
 // since leaflet is bundled into the browserify package it won't be able to detect where the images
 // solution is to point it to where you host the the leaflet images yourself
 //L.Icon.Default.imagePath = 'http://cdn.leafletjs.com/leaflet-0.7.3/images';
-L.Icon.Default.imagePath = 'node_modules/leaflet/dist/images/';
+L.Icon.Default.imagePath = 'static/img/';
 
 
 //https://github.com/Esri/esri-leaflet-browserify-example
