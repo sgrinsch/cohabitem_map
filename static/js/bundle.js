@@ -31165,7 +31165,7 @@ var the_geom = {"type":"Point","coordinates":[$('#lon').val(),$('#lat').val()]}
 		});
 // refresh map
 //console.log('https://' + config.cartoDBusername + '.cartodb.com/api/v2/'+ sql);
-//cartoDBData.clearLayers();
+cartoDBData.clearLayers();
 getGeoJSON();
 }
 
