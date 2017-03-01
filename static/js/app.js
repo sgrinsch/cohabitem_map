@@ -68,8 +68,7 @@ map.on('click', function(e) {
     map.removeLayer(marker); // remove
 	}
 	geocodeService.reverse().latlng(e.latlng).run(function(error, result) {
-		console.log (result.address.Match_addr);
-	$('#lat').val(result.latlng.lat);
+	 $('#lat').val(result.latlng.lat);
 	 $('#lon').val(result.latlng.lng);
 	 $('#address1').val(result.address.Match_addr);
 	  marker = L.marker(result.latlng);
