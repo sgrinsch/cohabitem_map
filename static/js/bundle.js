@@ -31155,7 +31155,7 @@ $('#myTabs a').click(function (e) {
 var config = {
 	cartoDBusername : "sgrinschpun",
 	cartoDBinsertfunction : "insert_crowd_mapping_data",
-	cartoDBtablename : "mappeig",
+	cartoDBtablename : "mappeig_2",
 	mapcenter: [41.396904, 2.120389],
 	zoom: 15,
 };
@@ -31227,7 +31227,7 @@ L.Marker.prototype.animateDragging = function () {
 var cartoDBData = null;
 
 // Write SQL Selection Query to be Used on CartoDB Table
-var sqlQuery = "SELECT the_geom, description, name FROM " + config.cartoDBtablename;
+var sqlQuery = "SELECT the_geom, address, address2, catastral, city, comment, email, name, postal, region, type FROM " + config.cartoDBtablename;
 
 // Create Leaflet map object
 var map = L.map('map', { center: config.mapcenter, zoom: config.zoom});
@@ -31264,7 +31264,7 @@ function getGeoJSON() {
         		return new L.marker(latlng, {icon: house});
     		},
 			onEachFeature: function (feature, layer) {
-				layer.bindPopup('' + unescape(feature.properties.description) + '<br>Submitted by ' + unescape(feature.properties.name) + '');
+				layer.bindPopup('' + unescape(feature.properties.address) + '<br>Submitted by ' + unescape(feature.properties.name) + '');
 			}
 		}).addTo(map);
 	});
@@ -31391,10 +31391,18 @@ var the_geom = {"type":"Point","coordinates":[$('#lon').val(),$('#lat').val()]}
 		sql = "SELECT " + config.cartoDBinsertfunction + "(";
 		sql += "'" + JSON.stringify(the_geom) + "'";
 		sql += "," + "'" + escape($('#Address').val())+ "'";
-		sql += "," + "'" + escape($('#Address').val())+ "'";
+		sql += "," + "'" + escape($('#address2').val())+ "'";
+		sql += "," + "'" + escape($('#catastral').val())+ "'";
+		sql += "," + "'" + escape($('#City').val())+ "'";
+		sql += "," + "'" + escape($('#comment').val())+ "'";
+		sql += "," + "'" + escape($('#email').val())+ "'";
+		sql += "," + "'" + escape($('#name').val())+ "'";
+		sql += "," + "'" + escape($('#Postal').val())+ "'";
+		sql += "," + "'" + escape($('#Region').val())+ "'";
+		sql += "," + "'" + escape($('#type').val())+ "'";
 		sql += ");";
 
-		console.log(sql);
+		//console.log(sql);
 
 //Sending the data
 		$.ajax({
@@ -31411,12 +31419,19 @@ var the_geom = {"type":"Point","coordinates":[$('#lon').val(),$('#lat').val()]}
 				console.log("Problem saving the data");
 			}
 		});
-// refresh map
-//console.log('https://' + config.cartoDBusername + '.cartodb.com/api/v2/'+ sql);
-cartoDBData.clearLayers();
-results.clearLayers();
-map.removeLayer(marker);
-getGeoJSON();
+	// refresh map
+	//console.log('https://' + config.cartoDBusername + '.cartodb.com/api/v2/'+ sql);
+	if (cartoDBData) { // check
+		cartoDBData.clearLayers(); // remove
+	}
+	if (results) { // check
+		results.clearLayers(); // remove
+	}
+	if (marker) { // check
+		map.removeLayer(marker);// remove
+	}
+
+	getGeoJSON();
 }
 
 $('#desa').click(function (e) {

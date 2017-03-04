@@ -11,7 +11,7 @@ http://bl.ocks.org/mourner/4284949
 Ok Working,
 
 
-
+##################
 
 
 # Different icons depending on the type (pis, casa,....)
@@ -45,9 +45,13 @@ cpoying?
 
 
 
-
-
 # Separate app.js into modules
 
 # It has to work on mobile
 # Mobile: geolocate_me
+
+
+
+
+#move everything to webpack
+https://css-tricks.com/css-modules-part-2-getting-started/
