@@ -31330,7 +31330,13 @@ L.Marker.prototype.animateDragging = function () {
 		 $('#lat').val(result.latlng.lat);
 		 $('#lon').val(result.latlng.lng);
 		 $('#address1').val(result.address.Match_addr);
-    	});
+		 map.removeLayer(marker);
+	 	marker = L.marker(result.latlng, {icon: add, draggable: true})
+  			.addTo(map)
+  			.bindPopup(result.address.Match_addr)
+  			.openPopup()
+  			.animateDragging();
+	});
 
 
 
