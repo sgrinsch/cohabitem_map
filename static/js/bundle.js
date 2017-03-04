@@ -2385,6 +2385,133 @@ require('../../js/affix.js')
 }(jQuery);
 
 },{}],14:[function(require,module,exports){
+/*
+  Leaflet.AwesomeMarkers, a plugin that adds colorful iconic markers for Leaflet, based on the Font Awesome icons
+  (c) 2012-2013, Lennard Voogdt
+
+  http://leafletjs.com
+  https://github.com/lvoogdt
+*/
+
+/*global L*/
+
+(function (window, document, undefined) {
+    "use strict";
+    /*
+     * Leaflet.AwesomeMarkers assumes that you have already included the Leaflet library.
+     */
+
+    L.AwesomeMarkers = {};
+
+    L.AwesomeMarkers.version = '2.0.1';
+
+    L.AwesomeMarkers.Icon = L.Icon.extend({
+        options: {
+            iconSize: [35, 45],
+            iconAnchor:   [17, 42],
+            popupAnchor: [1, -32],
+            shadowAnchor: [10, 12],
+            shadowSize: [36, 16],
+            className: 'awesome-marker',
+            prefix: 'glyphicon',
+            spinClass: 'fa-spin',
+            extraClasses: '',
+            icon: 'home',
+            markerColor: 'blue',
+            iconColor: 'white'
+        },
+
+        initialize: function (options) {
+            options = L.Util.setOptions(this, options);
+        },
+
+        createIcon: function () {
+            var div = document.createElement('div'),
+                options = this.options;
+
+            if (options.icon) {
+                div.innerHTML = this._createInner();
+            }
+
+            if (options.bgPos) {
+                div.style.backgroundPosition =
+                    (-options.bgPos.x) + 'px ' + (-options.bgPos.y) + 'px';
+            }
+
+            this._setIconStyles(div, 'icon-' + options.markerColor);
+            return div;
+        },
+
+        _createInner: function() {
+            var iconClass, iconSpinClass = "", iconColorClass = "", iconColorStyle = "", options = this.options;
+
+            if(options.icon.slice(0,options.prefix.length+1) === options.prefix + "-") {
+                iconClass = options.icon;
+            } else {
+                iconClass = options.prefix + "-" + options.icon;
+            }
+
+            if(options.spin && typeof options.spinClass === "string") {
+                iconSpinClass = options.spinClass;
+            }
+
+            if(options.iconColor) {
+                if(options.iconColor === 'white' || options.iconColor === 'black') {
+                    iconColorClass = "icon-" + options.iconColor;
+                } else {
+                    iconColorStyle = "style='color: " + options.iconColor + "' ";
+                }
+            }
+
+            return "<i " + iconColorStyle + "class='" + options.extraClasses + " " + options.prefix + " " + iconClass + " " + iconSpinClass + " " + iconColorClass + "'></i>";
+        },
+
+        _setIconStyles: function (img, name) {
+            var options = this.options,
+                size = L.point(options[name === 'shadow' ? 'shadowSize' : 'iconSize']),
+                anchor;
+
+            if (name === 'shadow') {
+                anchor = L.point(options.shadowAnchor || options.iconAnchor);
+            } else {
+                anchor = L.point(options.iconAnchor);
+            }
+
+            if (!anchor && size) {
+                anchor = size.divideBy(2, true);
+            }
+
+            img.className = 'awesome-marker-' + name + ' ' + options.className;
+
+            if (anchor) {
+                img.style.marginLeft = (-anchor.x) + 'px';
+                img.style.marginTop  = (-anchor.y) + 'px';
+            }
+
+            if (size) {
+                img.style.width  = size.x + 'px';
+                img.style.height = size.y + 'px';
+            }
+        },
+
+        createShadow: function () {
+            var div = document.createElement('div');
+
+            this._setIconStyles(div, 'shadow');
+            return div;
+      }
+    });
+        
+    L.AwesomeMarkers.icon = function (options) {
+        return new L.AwesomeMarkers.Icon(options);
+    };
+
+}(this, document));
+
+
+
+
+},{}],15:[function(require,module,exports){
 /* esri-leaflet-geocoder - v2.2.3 - Fri Jan 06 2017 15:53:06 GMT-0800 (PST)
  * Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
@@ -3599,7 +3726,7 @@ require('../../js/affix.js')
 
 }));
 
-},{"esri-leaflet":15,"leaflet":17}],15:[function(require,module,exports){
+},{"esri-leaflet":16,"leaflet":18}],16:[function(require,module,exports){
 /* esri-leaflet - v2.0.7 - Fri Jan 06 2017 15:43:16 GMT-0800 (PST)
  * Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
@@ -7517,7 +7644,7 @@ require('../../js/affix.js')
 
 }));
 
-},{"leaflet":17}],16:[function(require,module,exports){
+},{"leaflet":18}],17:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v3.1.1
  * https://jquery.com/
@@ -17739,7 +17866,7 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /*
  Leaflet 1.0.3, a JS library for interactive maps. http://leafletjs.com
  (c) 2010-2016 Vladimir Agafonkin, (c) 2010-2011 CloudMade
@@ -30991,7 +31118,7 @@ L.control.layers = function (baseLayers, overlays, options) {
 
 }(window, document));
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 (function (global){
 //***  Require & Imports for bundle *** 
 
@@ -31012,6 +31139,11 @@ var geocoding = require('esri-leaflet-geocoder');
 L.Icon.Default.imagePath = 'static/img/';
 
 
+// require awesome markers
+require('drmonty-leaflet-awesome-markers');
+
+
+
 //*** Initial Configurations *** 
 var config = {
 	cartoDBusername : "sgrinschpun",
@@ -31020,6 +31152,42 @@ var config = {
 	mapcenter: [41.396904, 2.120389],
 	zoom: 15,
 };
+
+
+
+//***  Define icons  ***/
+// consider changing to fa, more icons
+
+//from db
+var house = L.AwesomeMarkers.icon({
+    icon: 'home',
+    markerColor: 'blue',
+    spin: true
+});
+
+var apartment = L.AwesomeMarkers.icon({
+    icon: 'th-large',
+    markerColor: 'blue',
+    spin: true
+});
+
+var building = L.AwesomeMarkers.icon({
+    icon: 'th',
+    markerColor: 'blue',
+    spin: true
+});
+
+var solar = L.AwesomeMarkers.icon({
+    icon: 'align-justify',
+    markerColor: 'blue',
+    spin: true
+});
+
+
+var add = L.AwesomeMarkers.icon({
+    markerColor: 'red',
+    spin: true
+});
 
 //*** Function for animateddragging ***
 L.Marker.prototype.animateDragging = function () {
@@ -31085,6 +31253,9 @@ function getGeoJSON() {
 	$.getJSON(getData, function (data) {
 
 		cartoDBData = L.geoJson(data, {
+			pointToLayer: function(feature, latlng) {
+        		return new L.marker(latlng, {icon: house});
+    		},
 			onEachFeature: function (feature, layer) {
 				layer.bindPopup('' + unescape(feature.properties.description) + '<br>Submitted by ' + unescape(feature.properties.name) + '');
 			}
@@ -31122,7 +31293,7 @@ var results = L.layerGroup().addTo(map);
 	}
     
     results.clearLayers();
-    results.addLayer(L.marker(data.results[0].latlng));
+    results.addLayer(L.marker(data.results[0].latlng, {icon: add}));
     //console.log(data.results[0]);
     $('#lat').val(data.results[0].latlng.lat);
 	$('#lon').val(data.results[0].latlng.lng);
@@ -31150,7 +31321,7 @@ map.on('click', function(e) {
 		 $('#lat').val(result.latlng.lat);
 		 $('#lon').val(result.latlng.lng);
 		 $('#address1').val(result.address.Match_addr);
-		 marker = L.marker(result.latlng, {draggable: true})
+		 marker = L.marker(result.latlng, {draggable: true}, {icon: add})
 		  			.addTo(map)
 		  			.bindPopup(result.address.Match_addr)
 		  			.openPopup()
@@ -31207,4 +31378,4 @@ $('#desa').click(function (e) {
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"bootstrap":1,"esri-leaflet":15,"esri-leaflet-geocoder":14,"jquery":16,"leaflet":17}]},{},[18]);
+},{"bootstrap":1,"drmonty-leaflet-awesome-markers":14,"esri-leaflet":16,"esri-leaflet-geocoder":15,"jquery":17,"leaflet":18}]},{},[19]);

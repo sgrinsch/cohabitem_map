@@ -17,6 +17,11 @@ var geocoding = require('esri-leaflet-geocoder');
 L.Icon.Default.imagePath = 'static/img/';
 
 
+// require awesome markers
+require('drmonty-leaflet-awesome-markers');
+
+
+
 //*** Initial Configurations *** 
 var config = {
 	cartoDBusername : "sgrinschpun",
@@ -25,6 +30,42 @@ var config = {
 	mapcenter: [41.396904, 2.120389],
 	zoom: 15,
 };
+
+
+
+//***  Define icons  ***/
+// consider changing to fa, more icons
+
+//from db
+var house = L.AwesomeMarkers.icon({
+    icon: 'home',
+    markerColor: 'blue',
+    spin: true
+});
+
+var apartment = L.AwesomeMarkers.icon({
+    icon: 'th-large',
+    markerColor: 'blue',
+    spin: true
+});
+
+var building = L.AwesomeMarkers.icon({
+    icon: 'th',
+    markerColor: 'blue',
+    spin: true
+});
+
+var solar = L.AwesomeMarkers.icon({
+    icon: 'align-justify',
+    markerColor: 'blue',
+    spin: true
+});
+
+
+var add = L.AwesomeMarkers.icon({
+    markerColor: 'red',
+    spin: true
+});
 
 //*** Function for animateddragging ***
 L.Marker.prototype.animateDragging = function () {
@@ -90,6 +131,9 @@ function getGeoJSON() {
 	$.getJSON(getData, function (data) {
 
 		cartoDBData = L.geoJson(data, {
+			pointToLayer: function(feature, latlng) {
+        		return new L.marker(latlng, {icon: house});
+    		},
 			onEachFeature: function (feature, layer) {
 				layer.bindPopup('' + unescape(feature.properties.description) + '<br>Submitted by ' + unescape(feature.properties.name) + '');
 			}
@@ -127,7 +171,7 @@ var results = L.layerGroup().addTo(map);
 	}
     
     results.clearLayers();
-    results.addLayer(L.marker(data.results[0].latlng));
+    results.addLayer(L.marker(data.results[0].latlng, {icon: add}));
     //console.log(data.results[0]);
     $('#lat').val(data.results[0].latlng.lat);
 	$('#lon').val(data.results[0].latlng.lng);
@@ -155,7 +199,7 @@ map.on('click', function(e) {
 		 $('#lat').val(result.latlng.lat);
 		 $('#lon').val(result.latlng.lng);
 		 $('#address1').val(result.address.Match_addr);
-		 marker = L.marker(result.latlng, {draggable: true})
+		 marker = L.marker(result.latlng, {icon: add, draggable: true})
 		  			.addTo(map)
 		  			.bindPopup(result.address.Match_addr)
 		  			.openPopup()
@@ -197,6 +241,8 @@ var the_geom = {"type":"Point","coordinates":[$('#lon').val(),$('#lat').val()]}
 // refresh map
 //console.log('https://' + config.cartoDBusername + '.cartodb.com/api/v2/'+ sql);
 cartoDBData.clearLayers();
+results.clearLayers();
+map.removeLayer(marker);
 getGeoJSON();
 }
 

@@ -2,15 +2,25 @@
 
 	https://github.com/lvoogdt/Leaflet.awesome-markers
 
+Ok with glyphicons. Consider swithcing to fontawesome for better icons
+
+
 # Different icons depending on the type (pis, casa,....)
 	
 	https://github.com/lvoogdt/Leaflet.awesome-markers
+
+1. Implement db & data
+2. add conditions on getGeoJSON as per http://leafletjs.com/examples/geojson/
+
 
 # Markers from reverse geocoding & search control can be dragged and lalon is updated by reverse geocoding
 
 http://bl.ocks.org/mourner/4284949
 
 # When we click on a marker, the form is updated
+
+http://stackoverflow.com/questions/16927793/marker-in-leaflet-click-event
+http://jsfiddle.net/ve2huzxw/74/
 
 
 # We can update the carto database
