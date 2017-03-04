@@ -31321,7 +31321,7 @@ map.on('click', function(e) {
 		 $('#lat').val(result.latlng.lat);
 		 $('#lon').val(result.latlng.lng);
 		 $('#address1').val(result.address.Match_addr);
-		 marker = L.marker(result.latlng, {draggable: true}, {icon: add})
+		 marker = L.marker(result.latlng, {icon: add, draggable: true})
 		  			.addTo(map)
 		  			.bindPopup(result.address.Match_addr)
 		  			.openPopup()
@@ -31363,6 +31363,8 @@ var the_geom = {"type":"Point","coordinates":[$('#lon').val(),$('#lat').val()]}
 // refresh map
 //console.log('https://' + config.cartoDBusername + '.cartodb.com/api/v2/'+ sql);
 cartoDBData.clearLayers();
+results.clearLayers();
+map.removeLayer(marker);
 getGeoJSON();
 }
 
