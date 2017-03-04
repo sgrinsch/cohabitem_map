@@ -12,3 +12,16 @@ padding:0;
 /*border: 1px solid black;
 border-radius: 8px;*/
 }
+
+
+
+
+/* http://bl.ocks.org/mourner/4284949 */
+
+.leaflet-marker-icon,
+    .leaflet-marker-shadow {
+      -webkit-transition: margin 0.2s;
+         -moz-transition: margin 0.2s;
+           -o-transition: margin 0.2s;
+              transition: margin 0.2s;
+    } 

@@ -26,6 +26,27 @@ var config = {
 	zoom: 15,
 };
 
+//*** Function for animateddragging ***
+L.Marker.prototype.animateDragging = function () {
+      
+      var iconMargin, shadowMargin;
+      
+      this.on('dragstart', function () {
+        if (!iconMargin) {
+          iconMargin = parseInt(L.DomUtil.getStyle(this._icon, 'marginTop'));
+          shadowMargin = parseInt(L.DomUtil.getStyle(this._shadow, 'marginLeft'));
+        }
+      
+        this._icon.style.marginTop = (iconMargin - 15)  + 'px';
+        this._shadow.style.marginLeft = (shadowMargin + 8) + 'px';
+      });
+      
+      return this.on('dragend', function () {
+        this._icon.style.marginTop = iconMargin + 'px';
+        this._shadow.style.marginLeft = shadowMargin + 'px';
+      });
+    };
+
 
 
 //*** Draw map with data from Carto *** 
@@ -125,19 +146,24 @@ var geocodeService = geocoding.geocodeService();
 
 map.on('click', function(e) {
 	if (results) { // check
-    results.clearLayers();; // remove
+    	results.clearLayers(); // remove
 	}
 	if (marker) { // check
-    map.removeLayer(marker); // remove
+    	map.removeLayer(marker); // remove
 	}
 	geocodeService.reverse().latlng(e.latlng).run(function(error, result) {
-	 $('#lat').val(result.latlng.lat);
-	 $('#lon').val(result.latlng.lng);
-	 $('#address1').val(result.address.Match_addr);
-	  marker = L.marker(result.latlng);
-	  marker.addTo(map).bindPopup(result.address.Match_addr).openPopup();
-	});
+		 $('#lat').val(result.latlng.lat);
+		 $('#lon').val(result.latlng.lng);
+		 $('#address1').val(result.address.Match_addr);
+		 marker = L.marker(result.latlng, {draggable: true})
+		  			.addTo(map)
+		  			.bindPopup(result.address.Match_addr)
+		  			.openPopup()
+		  			.animateDragging();
+    });
+
 });
+
 
 //*** Send data to Carto ****
 function setData() {

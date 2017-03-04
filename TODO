@@ -1,0 +1,24 @@
+# Marker icon from CARTo different from marker added
+
+	https://github.com/lvoogdt/Leaflet.awesome-markers
+
+# Different icons depending on the type (pis, casa,....)
+	
+	https://github.com/lvoogdt/Leaflet.awesome-markers
+
+# Markers from reverse geocoding & search control can be dragged and lalon is updated by reverse geocoding
+
+http://bl.ocks.org/mourner/4284949
+
+# When we click on a marker, the form is updated
+
+
+# We can update the carto database
+	if we clcik on an existing marker we can update
+	if we click on a new marker we can insert 
+
+
+# Separate app.js into modules
+
+# It has to work on mobile
+# Mobile: geolocate_me
