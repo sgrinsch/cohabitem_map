@@ -31293,7 +31293,7 @@ var results = L.layerGroup().addTo(map);
 	}
     
     results.clearLayers();
-    results.addLayer(L.marker(data.results[0].latlng, {icon: add}));
+    results.addLayer(L.marker(data.results[0].latlng, {icon: add,draggable: true}).animateDragging()  );
     //console.log(data.results[0]);
     $('#lat').val(data.results[0].latlng.lat);
 	$('#lon').val(data.results[0].latlng.lng);
@@ -31308,6 +31308,34 @@ var results = L.layerGroup().addTo(map);
 
 var geocodeService = geocoding.geocodeService();
 
+//*** Function for animateddragging ***
+L.Marker.prototype.animateDragging = function () {
+      
+      var iconMargin, shadowMargin;
+      
+      this.on('dragstart', function () {
+        if (!iconMargin) {
+          iconMargin = parseInt(L.DomUtil.getStyle(this._icon, 'marginTop'));
+          shadowMargin = parseInt(L.DomUtil.getStyle(this._shadow, 'marginLeft'));
+        }
+      
+        this._icon.style.marginTop = (iconMargin - 15)  + 'px';
+        this._shadow.style.marginLeft = (shadowMargin + 8) + 'px';
+      });
+      
+      return this.on('dragend', function (e) {
+        this._icon.style.marginTop = iconMargin + 'px';
+        this._shadow.style.marginLeft = shadowMargin + 'px';
+        geocodeService.reverse().latlng(e.target.getLatLng()).run(function(error, result) {
+		 $('#lat').val(result.latlng.lat);
+		 $('#lon').val(result.latlng.lng);
+		 $('#address1').val(result.address.Match_addr);
+    	});
+
+
+
+      });
+    };
 
 
 map.on('click', function(e) {
