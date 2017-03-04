@@ -31143,6 +31143,13 @@ L.Icon.Default.imagePath = 'static/img/';
 require('drmonty-leaflet-awesome-markers');
 
 
+// Allow tabbed navigation bootstrap
+$('#myTabs a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})
+
+
 
 //*** Initial Configurations *** 
 var config = {
@@ -31352,6 +31359,7 @@ map.on('click', function(e) {
     	map.removeLayer(marker); // remove
 	}
 	geocodeService.reverse().latlng(e.latlng).run(function(error, result) {
+		console.log (result);
 		 $('#lat').val(result.latlng.lat);
 		 $('#lon').val(result.latlng.lng);
 		 $('#address1').val(result.address.Match_addr);

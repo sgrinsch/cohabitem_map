@@ -12,82 +12,103 @@
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
   </head>
   <body>
-   <div class="container-fluid">
+  <div class="container-fluid">
 	<div class="jumbotron">
-	  <h1>Cohabitem Sarrià</h1>
-	  <p><small>Mappeig the pisos, cases i terrenys per impulsar cessions d'ús i masoveria urbana</p>
+		<h1>Cohabitem Sarrià</h1>
+		<p><small>Mappeig the pisos, cases i terrenys per impulsar cessions d'ús i masoveria urbana</p>
 	</div>
 
-
-
-	<div class="row">
-		<div class="col-sm-6">
-			<div id="map"></div>
-		</div>
-		<div class="col-sm-4 col-sm-offset-1">
-			<form class="form-horizontal">
-			  <div class="form-group">
-			    <label for="address1">Adreça 1</label>
-			    <input type="text" class="form-control" id="address1" placeholder="Carrer, Plaça,..." readonly>
-			   </div>
-			</form>
-
-			<form class="form-inline">
-			  <div class="form-group">
-			    <label for="lat">Latitut</label>
-			    <input type="number" class="form-control input-sm" id="lat" placeholder="41.39" readonly>
-			  </div>
-			  <div class="form-group">
-			    <label for="lon">Longitut</label>
-			    <input type="number" class="form-control input-sm" id="lon" placeholder="2.12" readonly>
-			  </div>
-			   <p class="help-block">Adreça i coordenades s'afegeixen automàticament del mapa</p>
-			</form>			
-		
-
-			<form class="form-horizontal">
-			<div class="form-group">
-			    <label for="address2">Adreça 2</label>
-			    <input type="text" class="form-control" id="address2" placeholder="Pis, escala, porteria">
-			  </div>
-			  <div class="form-group">
-			    <label for="postalcode">Codi Postal</label>
-			    <input type="number" class="form-control" id="postalcode" placeholder="08034, 08017,...">
-			  </div>
-				<div class="form-group">
-				<label for="type">Tipus</label>
-				<select class="form-control">
-				  <option>Pis</option>
-				  <option>Casa</option>
-				  <option>Edifici</option>
-				  <option>Solar</option>
-				  <option>Illa</option>
-				</select>
+	<ul class="nav nav-tabs" id=myTabs role=tablist>
+	    <li role=presentation class=active><a href=#addtab id=home-tab role=tab data-toggle=tab aria-controls=home aria-expanded=true>Afegeix informació</a></li>
+	    <li role=presentation><a href=#maptab role=tab id=profile-tab data-toggle=tab aria-controls=profile>Visualitza el mapa</a></li>
+	    <li role=presentation><a href=#datatab role=tab id=profile-tab data-toggle=tab aria-controls=profile>Visualitza les dades</a></li>
+	</ul>
+	<div class=tab-content id=myTabContent>
+	    <div class="tab-pane fade in active" role=tabpanel id=addtab aria-labelledby=home-tab>
+	        <div class="row">
+				<div class="col-sm-6">
+					<div id="map"></div>
 				</div>
+				<div class="col-sm-4">
+					
+					<form class="form-horizontal myform">
+					<h3>Formulari per afegir informació</h3>
+					  <div class="form-group">
+					    <label for="address1">Adreça 1</label>
+					    <input type="text" class="form-control" id="address1" placeholder="Carrer, Plaça,..." readonly>
+					   </div>
+					</form>
 
-			  <div class="form-group">
-			    <label for="catastral">Referència Catastral</label>
-			    <input type="text" class="form-control" id="catastral" placeholder="ref catastral">
-			    <p class="help-block">Un text Explicatiu</p>
-			  </div>
-			  <div class="form-group">
-			   <label for="comment">Comentaris</label>
-			    <textarea class="form-control" id="comment" rows="3" placeholder="Tota la informació que puguis aportar"></textarea>
-			  </div>
-			  <div class="form-group">
-			    <label for="name">Nom</label>
-			    <input type="text" class="form-control" id="name" placeholder="El teu nom">
-			  </div>
-			  <div class="form-group">
-			    <label for="email">email</label>
-			    <input type="email" class="form-control" id="email" placeholder="El teu email">
-			  </div>
-			  <button type="submit" id="desa" class="btn btn-default">Desa</button>
-			</form>
+					<form class="form-inline myform">
+					  <div class="form-group">
+					    <label for="lat">Latitut</label>
+					    <input type="number" class="form-control input-sm" id="lat" placeholder="41.39" readonly>
+					  </div>
+					  <div class="form-group">
+					    <label for="lon">Longitut</label>
+					    <input type="number" class="form-control input-sm" id="lon" placeholder="2.12" readonly>
+					  </div>
+					   <p class="help-block">Adreça i coordenades s'afegeixen automàticament del mapa</p>
+					</form>			
+				
+
+					<form class="form-horizontal myform">
+					<div class="form-group">
+					    <label for="address2">Adreça 2</label>
+					    <input type="text" class="form-control" id="address2" placeholder="Pis, escala, porteria">
+					  </div>
+					  <div class="form-group">
+					    <label for="postalcode">Codi Postal</label>
+					    <input type="number" class="form-control" id="postalcode" placeholder="08034, 08017,...">
+					  </div>
+						<div class="form-group">
+						<label for="type">Tipus</label>
+						<select class="form-control">
+						  <option>Pis</option>
+						  <option>Casa</option>
+						  <option>Edifici</option>
+						  <option>Solar</option>
+						  <option>Illa</option>
+						</select>
+						</div>
+
+					  <div class="form-group">
+					    <label for="catastral">Referència Catastral</label>
+					    <input type="text" class="form-control" id="catastral" placeholder="ref catastral">
+					    <p class="help-block"><a href="https://www1.sedecatastro.gob.es/OVCFrames.aspx?TIPO=consulta" target="blank">Enllaç per cercar la referència catastral</a></p>
+					  </div>
+					  <div class="form-group">
+					   <label for="comment">Comentaris</label>
+					    <textarea class="form-control" id="comment" rows="3" placeholder="Tota la informació que puguis aportar"></textarea>
+					  </div>
+					  <div class="form-group">
+					    <label for="name">Nom</label>
+					    <input type="text" class="form-control" id="name" placeholder="El teu nom">
+					  </div>
+					  <div class="form-group">
+					    <label for="email">email</label>
+					    <input type="email" class="form-control" id="email" placeholder="El teu email">
+					  </div>
+					  <button type="submit" id="desa" class="btn btn-default">Desa</button>
+					</form>
+					
+				</div>
+			</div>
 		</div>
+	   	
+	    <div class="tab-pane fade" role=tabpanel id=maptab aria-labelledby=profile-tab>
+	        <iframe width="100%" height="520" frameborder="0" src="https://sgrinschpun.carto.com/viz/8ae9344c-00ae-11e7-871c-0ecd1babdde5/embed_map?zoom=15" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+	    </div>
+	   	<div class="tab-pane fade" role=tabpanel id=datatab aria-labelledby=profile-tab>
+	        
+
+	    </div>
 	</div>
-   	
-   </div>
+
+</div>
+
+	
 
 
 	<script src="static/js/bundle.js"></script>
