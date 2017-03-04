@@ -182,7 +182,10 @@ var results = L.layerGroup().addTo(map);
     //console.log(data.results[0]);
     $('#lat').val(data.results[0].latlng.lat);
 	$('#lon').val(data.results[0].latlng.lng);
-    $('#address1').val(data.results[0].properties.Match_addr);
+    $('#Address').val(data.results[0].properties.StAddr);
+    $('#Postal').val(data.results[0].properties.Postal);
+	$('#City').val(data.results[0].properties.City);
+	$('#Region').val(data.results[0].properties.Region);
 /*    for (var i = data.results.length - 1; i >= 0; i--) {
       results.addLayer(L.marker(data.results[i].latlng));
     }*/
@@ -212,9 +215,12 @@ L.Marker.prototype.animateDragging = function () {
         this._icon.style.marginTop = iconMargin + 'px';
         this._shadow.style.marginLeft = shadowMargin + 'px';
         geocodeService.reverse().latlng(e.target.getLatLng()).run(function(error, result) {
-			$('#lat').val(result.latlng.lat);
-			$('#lon').val(result.latlng.lng);
-			$('#address1').val(result.address.Match_addr);
+			 $('#lat').val(result.latlng.lat);
+			 $('#lon').val(result.latlng.lng);
+			 $('#Address').val(result.address.Address);
+			 $('#Postal').val(result.address.Postal);
+			 $('#City').val(result.address.City);
+			 $('#Region').val(result.address.Region);
 			map.removeLayer(marker);
 		 	marker = L.marker(result.latlng, {icon: add, draggable: true})
 	  			.addTo(map)
@@ -237,10 +243,13 @@ map.on('click', function(e) {
     	map.removeLayer(marker); // remove
 	}
 	geocodeService.reverse().latlng(e.latlng).run(function(error, result) {
-		console.log (result);
+		//console.log (result);
 		 $('#lat').val(result.latlng.lat);
 		 $('#lon').val(result.latlng.lng);
-		 $('#address1').val(result.address.Match_addr);
+		 $('#Address').val(result.address.Address);
+		 $('#Postal').val(result.address.Postal);
+		 $('#City').val(result.address.City);
+		 $('#Region').val(result.address.Region);
 		 marker = L.marker(result.latlng, {icon: add, draggable: true})
 		  			.addTo(map)
 		  			.bindPopup(result.address.Match_addr)
@@ -259,8 +268,8 @@ var the_geom = {"type":"Point","coordinates":[$('#lon').val(),$('#lat').val()]}
 //Construct the SQL query to insert data
 		sql = "SELECT " + config.cartoDBinsertfunction + "(";
 		sql += "'" + JSON.stringify(the_geom) + "'";
-		sql += "," + "'" + escape($('#address1').val())+ "'";
-		sql += "," + "'" + escape($('#address1').val())+ "'";
+		sql += "," + "'" + escape($('#Address').val())+ "'";
+		sql += "," + "'" + escape($('#Address').val())+ "'";
 		sql += ");";
 
 		console.log(sql);
