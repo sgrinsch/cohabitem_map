@@ -4,6 +4,15 @@
 
 Ok with glyphicons. Consider swithcing to fontawesome for better icons
 
+# Markers from reverse geocoding & search control can be dragged and lalon is updated by reverse geocoding
+
+http://bl.ocks.org/mourner/4284949
+
+Ok Working,
+
+
+
+
 
 # Different icons depending on the type (pis, casa,....)
 	
@@ -12,10 +21,6 @@ Ok with glyphicons. Consider swithcing to fontawesome for better icons
 1. Implement db & data
 2. add conditions on getGeoJSON as per http://leafletjs.com/examples/geojson/
 
-
-# Markers from reverse geocoding & search control can be dragged and lalon is updated by reverse geocoding
-
-http://bl.ocks.org/mourner/4284949
 
 # When we click on a marker, the form is updated
 
