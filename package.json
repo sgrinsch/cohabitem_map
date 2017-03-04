@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "beefy static/js/app.js:static/js/bundle.js --live",
     "bundle": "browserify static/js/app.js -o static/js/bundle.js"
+
   },
   "author": "sgrinschpun",
   "license": "ISC",
