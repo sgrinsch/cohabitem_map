@@ -31297,7 +31297,6 @@ getGeoJSON();
 
 var marker;
 
-// add basemap
 
 
 // add search control
