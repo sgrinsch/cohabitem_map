@@ -128,7 +128,13 @@ var OpenStreetMap_DE = L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmd
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 });
 
-CartoDB_Positron.addTo(map);
+var Esri_WorldStreetMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+});
+
+Esri_WorldStreetMap.addTo(map);
+
+//CartoDB_Positron.addTo(map);
 //OpenStreetMap_DE.addTo(map)
 /*L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
