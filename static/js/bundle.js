@@ -31192,6 +31192,7 @@ var solar = L.AwesomeMarkers.icon({
 
 
 var add = L.AwesomeMarkers.icon({
+	icon: 'asterisk',
     markerColor: 'red',
     spin: true
 });
@@ -31216,6 +31217,8 @@ L.Marker.prototype.animateDragging = function () {
         this._shadow.style.marginLeft = shadowMargin + 'px';
       });
     };
+
+
 
 
 
@@ -31261,14 +31264,24 @@ function getGeoJSON() {
 
 		cartoDBData = L.geoJson(data, {
 			pointToLayer: function(feature, latlng) {
-        		return new L.marker(latlng, {icon: house});
+				if (feature.properties.type == 'Pis'){
+        		return new L.marker(latlng, {icon: apartment});
+        		} else if (feature.properties.type == 'Casa'){
+        		return new L.marker(latlng, {icon: house})
+        		} else if (feature.properties.type == 'Edifici'){
+        		return new L.marker(latlng, {icon: building})
+        		}  else if (feature.properties.type == 'Solar'){
+        		return new L.marker(latlng, {icon: solar})
+        		}
     		},
 			onEachFeature: function (feature, layer) {
-				layer.bindPopup('' + unescape(feature.properties.address) + '<br>Submitted by ' + unescape(feature.properties.name) + '');
+				layer.bindPopup('<strong>' + feature.properties.type + '</strong>  a  ' + unescape(feature.properties.address) 
+					+ '<br><br>Afegit per  ' + unescape(feature.properties.name) + '');
 			}
 		}).addTo(map);
 	});
 }
+
 
 getGeoJSON();
 

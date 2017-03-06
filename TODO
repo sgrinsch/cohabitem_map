@@ -10,16 +10,17 @@ http://bl.ocks.org/mourner/4284949
 
 Ok Working,
 
-
-##################
-
-
 # Different icons depending on the type (pis, casa,....)
 	
 	https://github.com/lvoogdt/Leaflet.awesome-markers
 
 1. Implement db & data
 2. add conditions on getGeoJSON as per http://leafletjs.com/examples/geojson/
+
+
+##################
+
+
 
 
 # When we click on a marker, the form is updated
@@ -31,7 +32,6 @@ http://jsfiddle.net/ve2huzxw/74/
 # We can update the carto database
 	if we clcik on an existing marker we can update
 	if we click on a new marker we can insert 
-
 
 
 #show data fro cartodb
@@ -51,7 +51,8 @@ cpoying?
 # Mobile: geolocate_me
 
 
-
+#upload pictures
+https://fineuploader.com/
 
 #move everything to webpack
 https://css-tricks.com/css-modules-part-2-getting-started/
