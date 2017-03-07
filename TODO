@@ -60,6 +60,16 @@ https://css-tricks.com/css-modules-part-2-getting-started/
 
 
 
+
+
+
+
+https://github.com/FineUploader/integration-examples/tree/master/src/s3-no-server
+https://fineuploader-s3-client-demo.s3.amazonaws.com/index.html
+https://blog.fineuploader.com/2014/01/15/uploads-without-any-server-code/
+
+
+
 Google
 client ID
 462559995937-acv7thl6aonvlsrl5vvjhpu6tc6udppp.apps.googleusercontent.com
@@ -70,13 +80,13 @@ Maju5HMbOcGsF6bJWO78ahKs
 
 AWS sgrinschpun g
 
-Buchet finuploaderforgeo
+Buchet fineuploaderforgeo
 Grup: 
 Usr fine-uploader
 Access key ID
 AKIAIXJTSSG4PJ3ZF5PA
 Secret access key
 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
-
+role: arn:aws:iam::616504842486:role/s3-serverless-uploads-role
 
 
