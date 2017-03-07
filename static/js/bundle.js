@@ -31431,25 +31431,26 @@ var the_geom = {"type":"Point","coordinates":[$('#lon').val(),$('#lat').val()]}
 			dataType: 'json',
 			success: function (responseData, textStatus, jqXHR) {
 				console.log("Data saved");
+					// refresh map
+				//console.log('https://' + config.cartoDBusername + '.cartodb.com/api/v2/'+ sql);
+				if (cartoDBData) { // check
+					cartoDBData.clearLayers(); // remove
+				}
+				if (results) { // check
+					results.clearLayers(); // remove
+				}
+				if (marker) { // check
+					map.removeLayer(marker);// remove
+				}
+
+				getGeoJSON();
 			},
 			error: function (responseData, textStatus, errorThrown) {
 
 				console.log("Problem saving the data");
 			}
 		});
-	// refresh map
-	//console.log('https://' + config.cartoDBusername + '.cartodb.com/api/v2/'+ sql);
-	if (cartoDBData) { // check
-		cartoDBData.clearLayers(); // remove
-	}
-	if (results) { // check
-		results.clearLayers(); // remove
-	}
-	if (marker) { // check
-		map.removeLayer(marker);// remove
-	}
 
-	getGeoJSON();
 }
 
 $('#desa').click(function (e) {
