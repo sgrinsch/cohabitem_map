@@ -5,6 +5,7 @@ var $ = require('jquery');
 global.jQuery = require('jquery');
 window.$ = $;
 require('bootstrap');
+require('bootstrap-table');
 
 // require leaflet
 var L = require('leaflet');
@@ -143,9 +144,18 @@ Esri_WorldStreetMap.addTo(map);
 //Fetches
 var getData = "https://" + config.cartoDBusername + ".cartodb.com/api/v2/sql?format=GeoJSON&q=" + sqlQuery;
 
+function buildJSON( ) (address, type, name) {
+	this.address = address;
+  	this.type = type;
+  	this.name = name;
+}
+var datos =[]
+
+
+
 function getGeoJSON() {
 	$.getJSON(getData, function (data) {
-
+		var datos = [];
 		cartoDBData = L.geoJson(data, {
 			pointToLayer: function(feature, latlng) {
 				if (feature.properties.type == 'Pis'){
@@ -162,7 +172,15 @@ function getGeoJSON() {
 				layer.bindPopup('<strong>' + feature.properties.type + '</strong>  a  ' + unescape(feature.properties.address) 
 					+ '<br><br>Afegit per  ' + unescape(feature.properties.name) + '');
 			}
+			datos.push(new buildJSON(feature.properties.address,feature.properties.type,feature.properties.name ))
 		}).addTo(map);
+var $table = $('#table');
+$table.bootstrapTable({data: data.features});	
+console.log (datos);
+
+
+console.log (data.features.length);
+	console.log (datos);
 	});
 }
 
@@ -338,6 +356,7 @@ $('#desa').click(function (e) {
 
 //http://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
 
+//////////bootstrap-table
 
 
 
