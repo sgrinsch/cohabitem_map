@@ -52,6 +52,7 @@ http://bootstrap-table.wenzhixin.net.cn/examples/
 
 # how to add css from npm modules
 copying? no, process sass with npm-sass
+http://stackoverflow.com/questions/7111610/import-regular-css-file-in-scss-file
 
 
 
