@@ -20,6 +20,15 @@ Ok Working,
 
 ##################
 
+# add leaflet draw functionality in new tab
+infrmation is saved in a different carto.db table
+
+
+# add score for zones // emojis // colors?
+visualization that aggregates data.
+
+
+
 #cambiar el mapa
 https://leaflet-extras.github.io/leaflet-providers/preview/
 
@@ -42,7 +51,7 @@ http://bootstrap-table.wenzhixin.net.cn/examples/
 
 
 # how to add css from npm modules
-cpoying?
+copying? no, process sass with npm-sass
 
 
 
@@ -50,20 +59,11 @@ cpoying?
 
 # It has to work on mobile
 # Mobile: geolocate_me
+https://github.com/domoritz/leaflet-locatecontrol
 
 
-#upload pictures
+#upload pictures.....> requires control on the server side
 https://fineuploader.com/
-
-#move everything to webpack
-https://css-tricks.com/css-modules-part-2-getting-started/
-
-
-
-
-
-
-
 https://github.com/FineUploader/integration-examples/tree/master/src/s3-no-server
 https://fineuploader-s3-client-demo.s3.amazonaws.com/index.html
 https://blog.fineuploader.com/2014/01/15/uploads-without-any-server-code/
