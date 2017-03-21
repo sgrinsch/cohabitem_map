@@ -60,6 +60,7 @@ copying? no, process sass with npm-sass
 # It has to work on mobile
 # Mobile: geolocate_me
 https://github.com/domoritz/leaflet-locatecontrol
+http://leafletjs.com/examples/mobile/
 
 
 #upload pictures.....> requires control on the server side
