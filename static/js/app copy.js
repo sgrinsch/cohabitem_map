@@ -1,3 +1,5 @@
+//***  Require & Imports for bundle *** 
+
 //jQuery & Bootstrap 
 var $ = require('jquery');
 global.jQuery = require('jquery');
@@ -5,11 +7,10 @@ window.$ = $;
 require('bootstrap');
 require('bootstrap-table');
 
-// require leaflet & plugins
+// require leaflet
 var L = require('leaflet');
 var esri = require('esri-leaflet');
 var geocoding = require('esri-leaflet-geocoder');
-require('leaflet-draw');
 
 // since leaflet is bundled into the browserify package it won't be able to detect where the images
 // solution is to point it to where you host the the leaflet images yourself
@@ -24,19 +25,7 @@ require('drmonty-leaflet-awesome-markers');
 // Allow tabbed navigation bootstrap
 $('#myTabs a').click(function (e) {
   e.preventDefault()
-  $(this).tab('show');
-  console.log ("hecho");
-})
-
-
-$("body").on("shown.bs.tab", "#addresstab", function() {
-    map.invalidateSize(false);
-    map2.invalidateSize(false);
-});
-
-$("body").on("shown.bs.tab", "#drawtab", function() {
-    map2.invalidateSize(false);
-    map.invalidateSize(false);
+  $(this).tab('show')
 });
 
 
@@ -45,25 +34,9 @@ $("body").on("shown.bs.tab", "#drawtab", function() {
 var config = {
 	cartoDBusername : "sgrinschpun",
 	cartoDBinsertfunction : "insert_crowd_mapping_data",
-	cartoDBinsertfunction2 : "insert_crowd_mapping_data2",
 	cartoDBtablename : "mappeig_2",
-	cartoDBtablename2 : "mappeig_dibuix",
 	mapcenter: [41.396904, 2.120389],
 	zoom: 15,
-	drawOptions: {
-				draw : {
-					polygon : true,
-					polyline : true,
-					rectangle : true,
-					/*Circles aren't supported by the GeoJSON spec, so won't get sent to the database properly. 
-					*http://stackoverflow.com/a/16944309/4047679
-					*/
-					circle : false,
-					marker: true
-				},
-				edit : false,
-				remove: false
-	}
 };
 
 
@@ -124,21 +97,22 @@ L.Marker.prototype.animateDragging = function () {
       });
     };
 
+
+
+
+
 //*** Draw map with data from Carto *** 
 
 // Add Data from CartoDB using the SQL API
 // Declare Variables
 // Create Global Variable to hold CartoDB points
 var cartoDBData = null;
-var cartoDBData2 = null;
 
 // Write SQL Selection Query to be Used on CartoDB Table
 var sqlQuery = "SELECT the_geom, address, address2, catastral, city, comment, email, name, postal, region, type FROM " + config.cartoDBtablename;
-var sqlQuery2 = "SELECT the_geom, comment, email, name, title FROM " + config.cartoDBtablename2;
 
 // Create Leaflet map object
 var map = L.map('map', { center: config.mapcenter, zoom: config.zoom});
-var map2 = L.map('map2', { center: config.mapcenter, zoom: config.zoom });
 
 //var map = L.map('map').setView([41.396904, 2.120389], 15);
 
@@ -159,12 +133,7 @@ var Esri_WorldStreetMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/res
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
 });
 
-var Esri_WorldStreetMap2 = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
-});
-
 Esri_WorldStreetMap.addTo(map);
-Esri_WorldStreetMap2 .addTo(map2);
 
 //CartoDB_Positron.addTo(map);
 //OpenStreetMap_DE.addTo(map)
@@ -174,10 +143,11 @@ Esri_WorldStreetMap2 .addTo(map2);
 
 //Fetches
 var getData = "https://" + config.cartoDBusername + ".cartodb.com/api/v2/sql?format=GeoJSON&q=" + sqlQuery;
-var getData2 = "https://" + config.cartoDBusername + ".cartodb.com/api/v2/sql?format=GeoJSON&q=" + sqlQuery2;
+
 
 function getGeoJSON() {
 	$.getJSON(getData, function (data) {
+		var datos = [];
 		cartoDBData = L.geoJson(data, {
 			pointToLayer: function(feature, latlng) {
 				if (feature.properties.type == 'Pis'){
@@ -193,51 +163,17 @@ function getGeoJSON() {
 			onEachFeature: function (feature, layer) {
 				layer.bindPopup('<strong>' + feature.properties.type + '</strong>  a  ' + unescape(feature.properties.address) 
 					+ '<br><br>Afegit per  ' + unescape(feature.properties.name) + '');
-
 			}
 		}).addTo(map);
-	});
-}
-
-function getGeoJSON2() {
-	$.getJSON(getData2, function (data) {
-		cartoDBData2 = L.geoJson(data, {
-			onEachFeature: function (feature, layer) {
-				layer.bindPopup('<strong>' + feature.properties.title + '</strong> '
-					+ '<br><br>Afegit per  ' + unescape(feature.properties.name) + '<br><br>'+unescape(feature.properties.comment) );
-
-			}
-		}).addTo(map2);
-	});
-}
 
 
 getGeoJSON();
-getGeoJSON2();
-
-
-/// leaflet draw
-
- // FeatureGroup is to store editable layers
-     var drawnItems = new L.FeatureGroup();
-     //map2.addLayer(drawnItems);
-     var drawControl = new L.Control.Draw(config.drawOptions);
-     map2.addControl(drawControl);
-
-	map2.on('draw:created', function (e) {
-		var layer = e.layer;
-		map2.addLayer(drawnItems);
-		drawnItems.addLayer(layer);
-		console.log("drawn");
-		//dialog.dialog("open");
-	});
 
 //*** GeoCoding Control + Reverse geocoding from ESRI ****
 //https://github.com/Esri/esri-leaflet-browserify-example
 //https://esri.github.io/esri-leaflet/examples/geocoding-control.html
 
 var marker;
-
 
 
 // add search control
@@ -399,51 +335,9 @@ $('#desa').click(function (e) {
 	setData();
 });
 
-function setData2() {
-			drawnItems.eachLayer(function (layer) {
-			//Convert the drawing to a GeoJSON to pass to the CartoDB sql database
-				var drawing = "'" + JSON.stringify(layer.toGeoJSON().geometry) + "'",
-				  //Construct the SQL query to insert data from the three parameters: the drawing, the input username, and the input description of the drawn shape
-					sql = "SELECT " + config.cartoDBinsertfunction2 + "(";
-					sql += drawing;
-					sql += "," + "'" + escape($('#comment2').val())+ "'";
-					sql += "," + "'" + escape($('#email2').val())+ "'";
-					sql += "," + "'" + escape($('#name2').val())+ "'";
-					sql += "," + "'" + escape($('#title2').val())+ "'";
-					sql += ");";
-				console.log(drawing);
-				console.log(sql);
-				//Sending the data
-				$.ajax({
-					type: 'POST',
-					url: 'https://' + config.cartoDBusername + '.cartodb.com/api/v2/sql',
-					crossDomain: true,
-					data: {"q": sql},
-					dataType: 'json',
-					success: function (responseData, textStatus, jqXHR) {
-						console.log("Data saved");
-						getGeoJSON();
-					},
-					error: function (responseData, textStatus, errorThrown) {
-						console.log("Problem saving the data");
-					}
-				});
-				/* 
-				* Transfer submitted drawing to the CartoDB layer, this results in the user's data appearing on the map without
-				* requerying the database (see the refreshLayer() function for an alternate way of doing this) 
-				*/
-/*				var newData = layer.toGeoJSON();
-				newData.properties.description = description.value;
-				newData.properties.name = username.value;
-				cartoDBData.addData(newData);*/
-
-			});
-			
-}
-
-$('#desa2').click(function (e) {
-	e.preventDefault();
-	setData2();
-});
+//http://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
 
 //////////bootstrap-table
+
+
+

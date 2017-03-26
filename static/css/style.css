@@ -8,7 +8,7 @@ body {
 }
 /*#map { position: absolute; top:0; bottom:0; right:0; left:0; }*/
 
-#map {
+#map, #map2 {
 width: 100%;
 position: absolute;
 height: 800px;
@@ -19,7 +19,7 @@ border-radius: 8px;*/
 }
 
 @media (max-width: 768px) { 
-	#map {
+	#map, #map2 {
 		width: 100%;
 		position: absolute;
 		height: 400px;

@@ -6822,19 +6822,19 @@ require('../../js/affix.js')
 
 }));
 
-},{"esri-leaflet":17,"leaflet":19}],17:[function(require,module,exports){
-/* esri-leaflet - v2.0.7 - Fri Jan 06 2017 15:43:16 GMT-0800 (PST)
+},{"esri-leaflet":17,"leaflet":20}],17:[function(require,module,exports){
+/* esri-leaflet - v2.0.8 - Tue Mar 21 2017 16:10:14 GMT-0700 (PDT)
  * Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('leaflet')) :
 	typeof define === 'function' && define.amd ? define(['exports', 'leaflet'], factory) :
 	(factory((global.L = global.L || {}, global.L.esri = global.L.esri || {}),global.L));
-}(this, function (exports,L) { 'use strict';
+}(this, function (exports,L$1) { 'use strict';
 
-	L = 'default' in L ? L['default'] : L;
+	var L$1__default = 'default' in L$1 ? L$1['default'] : L$1;
 
-	var version = "2.0.7";
+	var version = "2.0.8";
 
 	var cors = ((window.XMLHttpRequest && 'withCredentials' in new window.XMLHttpRequest()));
 	var pointerEvents = document.documentElement.style.pointerEvents === '';
@@ -6886,7 +6886,7 @@ require('../../js/affix.js')
 	  var httpRequest = new window.XMLHttpRequest();
 
 	  httpRequest.onerror = function (e) {
-	    httpRequest.onreadystatechange = L.Util.falseFn;
+	    httpRequest.onreadystatechange = L$1.Util.falseFn;
 
 	    callback.call(context, {
 	      error: {
@@ -6916,7 +6916,7 @@ require('../../js/affix.js')
 	        response = null;
 	      }
 
-	      httpRequest.onerror = L.Util.falseFn;
+	      httpRequest.onerror = L$1.Util.falseFn;
 
 	      callback.call(context, error, response);
 	    }
@@ -7029,7 +7029,7 @@ require('../../js/affix.js')
 	    }
 	  };
 
-	  var script = L.DomUtil.create('script', null, document.body);
+	  var script = L$1.DomUtil.create('script', null, document.body);
 	  script.type = 'text/javascript';
 	  script.src = url + '?' + serialize(params);
 	  script.id = callbackId;
@@ -7426,9 +7426,9 @@ require('../../js/affix.js')
 	function extentToBounds (extent) {
 	  // "NaN" coordinates from ArcGIS Server indicate a null geometry
 	  if (extent.xmin !== 'NaN' && extent.ymin !== 'NaN' && extent.xmax !== 'NaN' && extent.ymax !== 'NaN') {
-	    var sw = L.latLng(extent.ymin, extent.xmin);
-	    var ne = L.latLng(extent.ymax, extent.xmax);
-	    return L.latLngBounds(sw, ne);
+	    var sw = L$1.latLng(extent.ymin, extent.xmin);
+	    var ne = L$1.latLng(extent.ymax, extent.xmax);
+	    return L$1.latLngBounds(sw, ne);
 	  } else {
 	    return null;
 	  }
@@ -7436,7 +7436,7 @@ require('../../js/affix.js')
 
 	// convert an LatLngBounds (Leaflet) to extent (ArcGIS)
 	function boundsToExtent (bounds) {
-	  bounds = L.latLngBounds(bounds);
+	  bounds = L$1.latLngBounds(bounds);
 	  return {
 	    'xmin': bounds.getSouthWest().lng,
 	    'ymin': bounds.getSouthWest().lat,
@@ -7493,7 +7493,7 @@ require('../../js/affix.js')
 	  // trim url whitespace and add a trailing slash if needed
 	function cleanUrl (url) {
 	  // trim leading and trailing spaces, but not spaces inside the url
-	  url = L.Util.trim(url);
+	  url = L$1.Util.trim(url);
 
 	  // add a trailing slash to the url if the user omitted it
 	  if (url[url.length - 1] !== '/') {
@@ -7557,7 +7557,7 @@ require('../../js/affix.js')
 	    '}';
 
 	    document.getElementsByTagName('head')[0].appendChild(hoverAttributionStyle);
-	    L.DomUtil.addClass(map.attributionControl._container, 'esri-truncated-attribution:hover');
+	    L$1.DomUtil.addClass(map.attributionControl._container, 'esri-truncated-attribution:hover');
 
 	    // define a new css class in JS to trim attribution into a single line
 	    var attributionStyle = document.createElement('style');
@@ -7574,7 +7574,7 @@ require('../../js/affix.js')
 	    '}';
 
 	    document.getElementsByTagName('head')[0].appendChild(attributionStyle);
-	    L.DomUtil.addClass(map.attributionControl._container, 'esri-truncated-attribution');
+	    L$1.DomUtil.addClass(map.attributionControl._container, 'esri-truncated-attribution');
 
 	    // update the width used to truncate when the map itself is resized
 	    map.on('resize', function (e) {
@@ -7586,7 +7586,7 @@ require('../../js/affix.js')
 	}
 
 	function _getAttributionData (url, map) {
-	  jsonp(url, {}, L.Util.bind(function (error, attributions) {
+	  jsonp(url, {}, L$1.Util.bind(function (error, attributions) {
 	    if (error) { return; }
 	    map._esriAttributions = [];
 	    for (var c = 0; c < attributions.contributors.length; c++) {
@@ -7594,12 +7594,12 @@ require('../../js/affix.js')
 
 	      for (var i = 0; i < contributor.coverageAreas.length; i++) {
 	        var coverageArea = contributor.coverageAreas[i];
-	        var southWest = L.latLng(coverageArea.bbox[0], coverageArea.bbox[1]);
-	        var northEast = L.latLng(coverageArea.bbox[2], coverageArea.bbox[3]);
+	        var southWest = L$1.latLng(coverageArea.bbox[0], coverageArea.bbox[1]);
+	        var northEast = L$1.latLng(coverageArea.bbox[2], coverageArea.bbox[3]);
 	        map._esriAttributions.push({
 	          attribution: contributor.attribution,
 	          score: coverageArea.score,
-	          bounds: L.latLngBounds(southWest, northEast),
+	          bounds: L$1.latLngBounds(southWest, northEast),
 	          minZoom: coverageArea.zoomMin,
 	          maxZoom: coverageArea.zoomMax
 	        });
@@ -7623,7 +7623,7 @@ require('../../js/affix.js')
 	  if (map && map.attributionControl && oldAttributions) {
 	    var newAttributions = '';
 	    var bounds = map.getBounds();
-	    var wrappedBounds = L.latLngBounds(
+	    var wrappedBounds = L$1.latLngBounds(
 	      bounds.getSouthWest().wrap(),
 	      bounds.getNorthEast().wrap()
 	    );
@@ -7650,7 +7650,7 @@ require('../../js/affix.js')
 	  }
 	}
 
-	var Util = {
+	var EsriUtil = {
 	  shallowClone: shallowClone,
 	  warn: warn,
 	  cleanUrl: cleanUrl,
@@ -7667,7 +7667,7 @@ require('../../js/affix.js')
 	  _updateMapAttribution: _updateMapAttribution
 	};
 
-	var Task = L.Class.extend({
+	var Task = L$1.Class.extend({
 
 	  options: {
 	    proxy: false,
@@ -7676,7 +7676,7 @@ require('../../js/affix.js')
 
 	  // Generate a method for each methodName:paramName in the setters for this task.
 	  generateSetter: function (param, context) {
-	    return L.Util.bind(function (value) {
+	    return L$1.Util.bind(function (value) {
 	      this.params[param] = value;
 	      return this;
 	    }, context);
@@ -7686,14 +7686,14 @@ require('../../js/affix.js')
 	    // endpoint can be either a url (and options) for an ArcGIS Rest Service or an instance of EsriLeaflet.Service
 	    if (endpoint.request && endpoint.options) {
 	      this._service = endpoint;
-	      L.Util.setOptions(this, endpoint.options);
+	      L$1.Util.setOptions(this, endpoint.options);
 	    } else {
-	      L.Util.setOptions(this, endpoint);
+	      L$1.Util.setOptions(this, endpoint);
 	      this.options.url = cleanUrl(endpoint.url);
 	    }
 
 	    // clone default params into this object
-	    this.params = L.Util.extend({}, this.params || {});
+	    this.params = L$1.Util.extend({}, this.params || {});
 
 	    // generate setter methods based on the setters object implimented a child class
 	    if (this.setters) {
@@ -7756,45 +7756,65 @@ require('../../js/affix.js')
 	    outFields: '*'
 	  },
 
+	  // Returns a feature if its shape is wholly contained within the search geometry. Valid for all shape type combinations.
 	  within: function (geometry) {
 	    this._setGeometry(geometry);
-	    this.params.spatialRel = 'esriSpatialRelContains'; // will make code read layer within geometry, to the api this will reads geometry contains layer
+	    this.params.spatialRel = 'esriSpatialRelContains'; // to the REST api this reads geometry **contains** layer
 	    return this;
 	  },
 
+	  // Returns a feature if any spatial relationship is found. Applies to all shape type combinations.
 	  intersects: function (geometry) {
 	    this._setGeometry(geometry);
 	    this.params.spatialRel = 'esriSpatialRelIntersects';
 	    return this;
 	  },
 
+	  // Returns a feature if its shape wholly contains the search geometry. Valid for all shape type combinations.
 	  contains: function (geometry) {
 	    this._setGeometry(geometry);
-	    this.params.spatialRel = 'esriSpatialRelWithin'; // will make code read layer contains geometry, to the api this will reads geometry within layer
+	    this.params.spatialRel = 'esriSpatialRelWithin'; // to the REST api this reads geometry **within** layer
 	    return this;
 	  },
 
+	  // Returns a feature if the intersection of the interiors of the two shapes is not empty and has a lower dimension than the maximum dimension of the two shapes. Two lines that share an endpoint in common do not cross. Valid for Line/Line, Line/Area, Multi-point/Area, and Multi-point/Line shape type combinations.
 	  crosses: function (geometry) {
 	    this._setGeometry(geometry);
 	    this.params.spatialRel = 'esriSpatialRelCrosses';
 	    return this;
 	  },
 
+	  // Returns a feature if the two shapes share a common boundary. However, the intersection of the interiors of the two shapes must be empty. In the Point/Line case, the point may touch an endpoint only of the line. Applies to all combinations except Point/Point.
 	  touches: function (geometry) {
 	    this._setGeometry(geometry);
 	    this.params.spatialRel = 'esriSpatialRelTouches';
 	    return this;
 	  },
 
+	  // Returns a feature if the intersection of the two shapes results in an object of the same dimension, but different from both of the shapes. Applies to Area/Area, Line/Line, and Multi-point/Multi-point shape type combinations.
 	  overlaps: function (geometry) {
 	    this._setGeometry(geometry);
 	    this.params.spatialRel = 'esriSpatialRelOverlaps';
 	    return this;
 	  },
 
-	  // only valid for Feature Services running on ArcGIS Server 10.3 or ArcGIS Online
+	  // Returns a feature if the envelope of the two shapes intersects.
+	  bboxIntersects: function (geometry) {
+	    this._setGeometry(geometry);
+	    this.params.spatialRel = 'esriSpatialRelEnvelopeIntersects';
+	    return this;
+	  },
+
+	  // if someone can help decipher the ArcObjects explanation and translate to plain speak, we should mention this method in the doc
+	  indexIntersects: function (geometry) {
+	    this._setGeometry(geometry);
+	    this.params.spatialRel = 'esriSpatialRelIndexIntersects'; // Returns a feature if the envelope of the query geometry intersects the index entry for the target geometry
+	    return this;
+	  },
+
+	  // only valid for Feature Services running on ArcGIS Server 10.3+ or ArcGIS Online
 	  nearby: function (latlng, radius) {
-	    latlng = L.latLng(latlng);
+	    latlng = L$1.latLng(latlng);
 	    this.params.geometry = [latlng.lng, latlng.lat];
 	    this.params.geometryType = 'esriGeometryPoint';
 	    this.params.spatialRel = 'esriSpatialRelIntersects';
@@ -7831,8 +7851,8 @@ require('../../js/affix.js')
 	  run: function (callback, context) {
 	    this._cleanParams();
 
-	    // services hosted on ArcGIS Online also support requesting geojson directly
-	    if (this.options.isModern || Util.isArcgisOnline(this.options.url)) {
+	    // services hosted on ArcGIS Online and ArcGIS Server 10.3.1+ support requesting geojson directly
+	    if (this.options.isModern || isArcgisOnline(this.options.url)) {
 	      this.params.f = 'geojson';
 
 	      return this.request(function (error, response) {
@@ -7844,7 +7864,7 @@ require('../../js/affix.js')
 	    } else {
 	      return this.request(function (error, response) {
 	        this._trapSQLerrors(error);
-	        callback.call(context, error, (response && Util.responseToFeatureCollection(response)), response);
+	        callback.call(context, error, (response && responseToFeatureCollection(response)), response);
 	      }, this);
 	    }
 	  },
@@ -7870,8 +7890,8 @@ require('../../js/affix.js')
 	    this._cleanParams();
 	    this.params.returnExtentOnly = true;
 	    return this.request(function (error, response) {
-	      if (response && response.extent && Util.extentToBounds(response.extent)) {
-	        callback.call(context, error, Util.extentToBounds(response.extent), response);
+	      if (response && response.extent && extentToBounds(response.extent)) {
+	        callback.call(context, error, extentToBounds(response.extent), response);
 	      } else {
 	        error = {
 	          message: 'Invalid Bounds'
@@ -7882,9 +7902,9 @@ require('../../js/affix.js')
 	  },
 
 	  // only valid for image services
-	  pixelSize: function (point) {
-	    point = L.point(point);
-	    this.params.pixelSize = [point.x, point.y];
+	  pixelSize: function (rawPoint) {
+	    var castPoint = L$1.point(rawPoint);
+	    this.params.pixelSize = [castPoint.x, castPoint.y];
 	    return this;
 	  },
 
@@ -7897,7 +7917,7 @@ require('../../js/affix.js')
 	  _trapSQLerrors: function (error) {
 	    if (error) {
 	      if (error.code === '400') {
-	        Util.warn('one common syntax error in query requests is encasing string values in double quotes instead of single quotes');
+	        warn('one common syntax error in query requests is encasing string values in double quotes instead of single quotes');
 	      }
 	    }
 	  },
@@ -7912,9 +7932,9 @@ require('../../js/affix.js')
 	    this.params.inSr = 4326;
 
 	    // convert bounds to extent and finish
-	    if (geometry instanceof L.LatLngBounds) {
+	    if (geometry instanceof L$1.LatLngBounds) {
 	      // set geometry + geometryType
-	      this.params.geometry = Util.boundsToExtent(geometry);
+	      this.params.geometry = boundsToExtent(geometry);
 	      this.params.geometryType = 'esriGeometryEnvelope';
 	      return;
 	    }
@@ -7925,7 +7945,7 @@ require('../../js/affix.js')
 	    }
 
 	    // convert L.LatLng to a geojson point and continue;
-	    if (geometry instanceof L.LatLng) {
+	    if (geometry instanceof L$1.LatLng) {
 	      geometry = {
 	        type: 'Point',
 	        coordinates: [geometry.lng, geometry.lat]
@@ -7933,11 +7953,11 @@ require('../../js/affix.js')
 	    }
 
 	    // handle L.GeoJSON, pull out the first geometry
-	    if (geometry instanceof L.GeoJSON) {
+	    if (geometry instanceof L$1.GeoJSON) {
 	      // reassign geometry to the GeoJSON value  (we are assuming that only one feature is present)
 	      geometry = geometry.getLayers()[0].feature.geometry;
-	      this.params.geometry = Util.geojsonToArcGIS(geometry);
-	      this.params.geometryType = Util.geojsonTypeToArcGIS(geometry.type);
+	      this.params.geometry = geojsonToArcGIS(geometry);
+	      this.params.geometryType = geojsonTypeToArcGIS(geometry.type);
 	    }
 
 	    // Handle L.Polyline and L.Polygon
@@ -7953,13 +7973,13 @@ require('../../js/affix.js')
 
 	    // confirm that our GeoJSON is a point, line or polygon
 	    if (geometry.type === 'Point' || geometry.type === 'LineString' || geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') {
-	      this.params.geometry = Util.geojsonToArcGIS(geometry);
-	      this.params.geometryType = Util.geojsonTypeToArcGIS(geometry.type);
+	      this.params.geometry = geojsonToArcGIS(geometry);
+	      this.params.geometryType = geojsonTypeToArcGIS(geometry.type);
 	      return;
 	    }
 
 	    // warn the user if we havn't found an appropriate object
-	    Util.warn('invalid geometry passed to spatial query. Should be L.LatLng, L.LatLngBounds, L.Marker or a GeoJSON Point, Line, Polygon or MultiPolygon object');
+	    warn('invalid geometry passed to spatial query. Should be L.LatLng, L.LatLngBounds, L.Marker or a GeoJSON Point, Line, Polygon or MultiPolygon object');
 
 	    return;
 	  }
@@ -8012,7 +8032,7 @@ require('../../js/affix.js')
 
 	  run: function (callback, context) {
 	    return this.request(function (error, response) {
-	      callback.call(context, error, (response && Util.responseToFeatureCollection(response)), response);
+	      callback.call(context, error, (response && responseToFeatureCollection(response)), response);
 	    }, context);
 	  }
 	});
@@ -8050,7 +8070,7 @@ require('../../js/affix.js')
 	  },
 
 	  on: function (map) {
-	    var extent = Util.boundsToExtent(map.getBounds());
+	    var extent = boundsToExtent(map.getBounds());
 	    var size = map.getSize();
 	    this.params.imageDisplay = [size.x, size.y, 96];
 	    this.params.mapExtent = [extent.xmin, extent.ymin, extent.xmax, extent.ymax];
@@ -8058,7 +8078,7 @@ require('../../js/affix.js')
 	  },
 
 	  at: function (latlng) {
-	    latlng = L.latLng(latlng);
+	    latlng = L$1.latLng(latlng);
 	    this.params.geometry = [latlng.lng, latlng.lat];
 	    this.params.geometryType = 'esriGeometryPoint';
 	    return this;
@@ -8072,7 +8092,7 @@ require('../../js/affix.js')
 
 	  simplify: function (map, factor) {
 	    var mapWidth = Math.abs(map.getBounds().getWest() - map.getBounds().getEast());
-	    this.params.maxAllowableOffset = (mapWidth / map.getSize().y) * (1 - factor);
+	    this.params.maxAllowableOffset = (mapWidth / map.getSize().y) * factor;
 	    return this;
 	  },
 
@@ -8085,7 +8105,7 @@ require('../../js/affix.js')
 
 	      // ok no error lets just assume we have features...
 	      } else {
-	        var featureCollection = Util.responseToFeatureCollection(response);
+	        var featureCollection = responseToFeatureCollection(response);
 	        response.results = response.results.reverse();
 	        for (var i = 0; i < featureCollection.features.length; i++) {
 	          var feature = featureCollection.features[i];
@@ -8115,7 +8135,7 @@ require('../../js/affix.js')
 	  },
 
 	  at: function (latlng) {
-	    latlng = L.latLng(latlng);
+	    latlng = L$1.latLng(latlng);
 	    this.params.geometry = JSON.stringify({
 	      x: latlng.lng,
 	      y: latlng.lat,
@@ -8179,7 +8199,7 @@ require('../../js/affix.js')
 	    }
 
 	    if (catalogItems && catalogItems.features) {
-	      geoJSON.catalogItems = Util.responseToFeatureCollection(catalogItems);
+	      geoJSON.catalogItems = responseToFeatureCollection(catalogItems);
 	      if (catalogItemVisibilities && catalogItemVisibilities.length === geoJSON.catalogItems.features.length) {
 	        for (var i = catalogItemVisibilities.length - 1; i >= 0; i--) {
 	          geoJSON.catalogItems.features[i].properties.catalogItemVisibility = catalogItemVisibilities[i];
@@ -8195,7 +8215,7 @@ require('../../js/affix.js')
 	  return new IdentifyImage(params);
 	}
 
-	var Service = L.Evented.extend({
+	var Service = L$1.Evented.extend({
 
 	  options: {
 	    proxy: false,
@@ -8207,7 +8227,7 @@ require('../../js/affix.js')
 	    options = options || {};
 	    this._requestQueue = [];
 	    this._authenticating = false;
-	    L.Util.setOptions(this, options);
+	    L$1.Util.setOptions(this, options);
 	    this.options.url = cleanUrl(this.options.url);
 	  },
 
@@ -8270,7 +8290,7 @@ require('../../js/affix.js')
 	  },
 
 	  _createServiceCallback: function (method, path, params, callback, context) {
-	    return L.Util.bind(function (error, response) {
+	    return L$1.Util.bind(function (error, response) {
 	      if (error && (error.code === 499 || error.code === 498)) {
 	        this._authenticating = true;
 
@@ -8278,11 +8298,11 @@ require('../../js/affix.js')
 
 	        // fire an event for users to handle and re-authenticate
 	        this.fire('authenticationrequired', {
-	          authenticate: L.Util.bind(this.authenticate, this)
+	          authenticate: L$1.Util.bind(this.authenticate, this)
 	        }, true);
 
 	        // if the user has access to a callback they can handle the auth error
-	        error.authenticate = L.Util.bind(this.authenticate, this);
+	        error.authenticate = L$1.Util.bind(this.authenticate, this);
 	      }
 
 	      callback.call(context, error, response);
@@ -8429,7 +8449,7 @@ require('../../js/affix.js')
 
 	var tileProtocol = (window.location.protocol !== 'https:') ? 'http:' : 'https:';
 
-	var BasemapLayer = L.TileLayer.extend({
+	var BasemapLayer = L$1.TileLayer.extend({
 	  statics: {
 	    TILES: {
 	      Streets: {
@@ -8610,16 +8630,16 @@ require('../../js/affix.js')
 	    }
 
 	    // merge passed options into the config options
-	    var tileOptions = L.Util.extend(config.options, options);
+	    var tileOptions = L$1.Util.extend(config.options, options);
 
-	    L.Util.setOptions(this, tileOptions);
+	    L$1.Util.setOptions(this, tileOptions);
 
 	    if (this.options.token) {
 	      config.urlTemplate += ('?token=' + this.options.token);
 	    }
 
 	    // call the initialize method on L.TileLayer to set everything up
-	    L.TileLayer.prototype.initialize.call(this, config.urlTemplate, tileOptions);
+	    L$1.TileLayer.prototype.initialize.call(this, config.urlTemplate, tileOptions);
 	  },
 
 	  onAdd: function (map) {
@@ -8636,12 +8656,12 @@ require('../../js/affix.js')
 
 	    map.on('moveend', _updateMapAttribution);
 
-	    L.TileLayer.prototype.onAdd.call(this, map);
+	    L$1.TileLayer.prototype.onAdd.call(this, map);
 	  },
 
 	  onRemove: function (map) {
 	    map.off('moveend', _updateMapAttribution);
-	    L.TileLayer.prototype.onRemove.call(this, map);
+	    L$1.TileLayer.prototype.onRemove.call(this, map);
 	  },
 
 	  _initPane: function () {
@@ -8664,7 +8684,7 @@ require('../../js/affix.js')
 	  return new BasemapLayer(key, options);
 	}
 
-	var TiledMapLayer = L.TileLayer.extend({
+	var TiledMapLayer = L$1.TileLayer.extend({
 	  options: {
 	    zoomOffsetAllowance: 0.1,
 	    errorTileUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEABAMAAACuXLVVAAAAA1BMVEUzNDVszlHHAAAAAXRSTlMAQObYZgAAAAlwSFlzAAAAAAAAAAAB6mUWpAAAADZJREFUeJztwQEBAAAAgiD/r25IQAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7waBAAABw08RwAAAAABJRU5ErkJggg=='
@@ -8701,7 +8721,7 @@ require('../../js/affix.js')
 
 	  initialize: function (options) {
 	    options.url = cleanUrl(options.url);
-	    options = L.Util.setOptions(this, options);
+	    options = L$1.Util.setOptions(this, options);
 
 	    // set the urls
 	    this.tileUrl = options.url + 'tile/{z}/{y}/{x}';
@@ -8719,13 +8739,13 @@ require('../../js/affix.js')
 	    }
 
 	    // init layer by calling TileLayers initialize method
-	    L.TileLayer.prototype.initialize.call(this, this.tileUrl, options);
+	    L$1.TileLayer.prototype.initialize.call(this, this.tileUrl, options);
 	  },
 
 	  getTileUrl: function (tilePoint) {
 	    var zoom = this._getZoomForUrl();
 
-	    return L.Util.template(this.tileUrl, L.extend({
+	    return L$1.Util.template(this.tileUrl, L$1.Util.extend({
 	      s: this._getSubdomain(tilePoint),
 	      x: tilePoint.x,
 	      y: tilePoint.y,
@@ -8803,7 +8823,7 @@ require('../../js/affix.js')
 	      }, this);
 	    }
 
-	    L.TileLayer.prototype.onAdd.call(this, map);
+	    L$1.TileLayer.prototype.onAdd.call(this, map);
 	  },
 
 	  metadata: function (callback, context) {
@@ -8841,21 +8861,21 @@ require('../../js/affix.js')
 	  return new TiledMapLayer(url, options);
 	}
 
-	var Overlay = L.ImageOverlay.extend({
+	var Overlay = L$1.ImageOverlay.extend({
 	  onAdd: function (map) {
 	    this._topLeft = map.getPixelBounds().min;
-	    L.ImageOverlay.prototype.onAdd.call(this, map);
+	    L$1.ImageOverlay.prototype.onAdd.call(this, map);
 	  },
 	  _reset: function () {
-	    if (this._map.options.crs === L.CRS.EPSG3857) {
-	      L.ImageOverlay.prototype._reset.call(this);
+	    if (this._map.options.crs === L$1.CRS.EPSG3857) {
+	      L$1.ImageOverlay.prototype._reset.call(this);
 	    } else {
-	      L.DomUtil.setPosition(this._image, this._topLeft.subtract(this._map.getPixelOrigin()));
+	      L$1.DomUtil.setPosition(this._image, this._topLeft.subtract(this._map.getPixelOrigin()));
 	    }
 	  }
 	});
 
-	var RasterLayer = L.Layer.extend({
+	var RasterLayer = L$1.Layer.extend({
 
 	  options: {
 	    opacity: 1,
@@ -8871,7 +8891,7 @@ require('../../js/affix.js')
 	    // include 'Powered by Esri' in map attribution
 	    setEsriAttribution(map);
 
-	    this._update = L.Util.throttle(this._update, this.options.updateInterval, this);
+	    this._update = L$1.Util.throttle(this._update, this.options.updateInterval, this);
 
 	    map.on('moveend', this._update, this);
 
@@ -8916,7 +8936,7 @@ require('../../js/affix.js')
 	  bindPopup: function (fn, popupOptions) {
 	    this._shouldRenderPopup = false;
 	    this._lastClick = false;
-	    this._popup = L.popup(popupOptions);
+	    this._popup = L$1.popup(popupOptions);
 	    this._popupFunction = fn;
 	    if (this._map) {
 	      this._map.on('click', this._getPopupData, this);
@@ -9076,6 +9096,7 @@ require('../../js/affix.js')
 	    if (zoom > this.options.maxZoom || zoom < this.options.minZoom) {
 	      if (this._currentImage) {
 	        this._currentImage._map.removeLayer(this._currentImage);
+	        this._currentImage = null;
 	      }
 	      return;
 	    }
@@ -9086,7 +9107,7 @@ require('../../js/affix.js')
 	  },
 
 	  _renderPopup: function (latlng, error, results, response) {
-	    latlng = L.latLng(latlng);
+	    latlng = L$1.latLng(latlng);
 	    if (this._shouldRenderPopup && this._lastClick.equals(latlng)) {
 	      // add the popup to the map where the mouse was clicked at
 	      var content = this._popupFunction(error, results, response);
@@ -9124,7 +9145,7 @@ require('../../js/affix.js')
 	    this.service = imageService(options);
 	    this.service.addEventParent(this);
 
-	    L.Util.setOptions(this, options);
+	    L$1.Util.setOptions(this, options);
 	  },
 
 	  setPixelType: function (pixelType) {
@@ -9138,7 +9159,7 @@ require('../../js/affix.js')
 	  },
 
 	  setBandIds: function (bandIds) {
-	    if (L.Util.isArray(bandIds)) {
+	    if (L$1.Util.isArray(bandIds)) {
 	      this.options.bandIds = bandIds.join(',');
 	    } else {
 	      this.options.bandIds = bandIds.toString();
@@ -9152,7 +9173,7 @@ require('../../js/affix.js')
 	  },
 
 	  setNoData: function (noData, noDataInterpretation) {
-	    if (L.Util.isArray(noData)) {
+	    if (L$1.Util.isArray(noData)) {
 	      this.options.noData = noData.join(',');
 	    } else {
 	      this.options.noData = noData.toString();
@@ -9191,9 +9212,9 @@ require('../../js/affix.js')
 	  },
 
 	  _getPopupData: function (e) {
-	    var callback = L.Util.bind(function (error, results, response) {
+	    var callback = L$1.Util.bind(function (error, results, response) {
 	      if (error) { return; } // we really can't do anything here but authenticate or requesterror will fire
-	      setTimeout(L.Util.bind(function () {
+	      setTimeout(L$1.Util.bind(function () {
 	        this._renderPopup(e.latlng, error, results, response);
 	      }, this), 300);
 	    }, this);
@@ -9298,7 +9319,7 @@ require('../../js/affix.js')
 	      }, this);
 	    } else {
 	      params.f = 'image';
-	      this._renderImage(this.options.url + 'exportImage' + L.Util.getParamString(params), bounds);
+	      this._renderImage(this.options.url + 'exportImage' + L$1.Util.getParamString(params), bounds);
 	    }
 	  }
 	});
@@ -9328,7 +9349,7 @@ require('../../js/affix.js')
 	      options.f = 'json';
 	    }
 
-	    L.Util.setOptions(this, options);
+	    L$1.Util.setOptions(this, options);
 	  },
 
 	  getDynamicLayers: function () {
@@ -9384,14 +9405,17 @@ require('../../js/affix.js')
 	  },
 
 	  _getPopupData: function (e) {
-	    var callback = L.Util.bind(function (error, featureCollection, response) {
+	    var callback = L$1.Util.bind(function (error, featureCollection, response) {
 	      if (error) { return; } // we really can't do anything here but authenticate or requesterror will fire
-	      setTimeout(L.Util.bind(function () {
+	      setTimeout(L$1.Util.bind(function () {
 	        this._renderPopup(e.latlng, error, featureCollection, response);
 	      }, this), 300);
 	    }, this);
 
 	    var identifyRequest = this.identify().on(this._map).at(e.latlng);
+
+	    // remove extraneous vertices from response features
+	    identifyRequest.simplify(this._map, 0.5);
 
 	    if (this.options.layers) {
 	      identifyRequest.layers('visible:' + this.options.layers.join(','));
@@ -9481,7 +9505,7 @@ require('../../js/affix.js')
 	      }, this);
 	    } else {
 	      params.f = 'image';
-	      this._renderImage(this.options.url + 'export' + L.Util.getParamString(params), bounds);
+	      this._renderImage(this.options.url + 'export' + L$1.Util.getParamString(params), bounds);
 	    }
 	  }
 	});
@@ -9490,7 +9514,7 @@ require('../../js/affix.js')
 	  return new DynamicMapLayer(url, options);
 	}
 
-	var VirtualGrid = L.Layer.extend({
+	var VirtualGrid = L$1__default.Layer.extend({
 
 	  options: {
 	    cellSize: 512,
@@ -9498,13 +9522,13 @@ require('../../js/affix.js')
 	  },
 
 	  initialize: function (options) {
-	    options = L.setOptions(this, options);
+	    options = L$1__default.setOptions(this, options);
 	    this._zooming = false;
 	  },
 
 	  onAdd: function (map) {
 	    this._map = map;
-	    this._update = L.Util.throttle(this._update, this.options.updateInterval, this);
+	    this._update = L$1__default.Util.throttle(this._update, this.options.updateInterval, this);
 	    this._reset();
 	    this._update();
 	  },
@@ -9587,7 +9611,7 @@ require('../../js/affix.js')
 	    var cellSize = this._getCellSize();
 
 	    // cell coordinates range for the current view
-	    var cellBounds = L.bounds(
+	    var cellBounds = L$1__default.bounds(
 	      bounds.min.divideBy(cellSize).floor(),
 	      bounds.max.divideBy(cellSize).floor());
 
@@ -9606,7 +9630,7 @@ require('../../js/affix.js')
 	    // create a queue of coordinates to load cells from
 	    for (j = bounds.min.y; j <= bounds.max.y; j++) {
 	      for (i = bounds.min.x; i <= bounds.max.x; i++) {
-	        coords = L.point(i, j);
+	        coords = L$1__default.point(i, j);
 	        coords.z = zoom;
 
 	        if (this._isValidCell(coords)) {
@@ -9652,7 +9676,7 @@ require('../../js/affix.js')
 
 	    // don't load cell if it doesn't intersect the bounds in options
 	    var cellBounds = this._cellCoordsToBounds(coords);
-	    return L.latLngBounds(this.options.bounds).intersects(cellBounds);
+	    return L$1__default.latLngBounds(this.options.bounds).intersects(cellBounds);
 	  },
 
 	  // converts cell coordinates to its geographical bounds
@@ -9664,7 +9688,7 @@ require('../../js/affix.js')
 	    var nw = map.wrapLatLng(map.unproject(nwPoint, coords.z));
 	    var se = map.wrapLatLng(map.unproject(sePoint, coords.z));
 
-	    return L.latLngBounds(nw, se);
+	    return L$1__default.latLngBounds(nw, se);
 	  },
 
 	  // converts cell coordinates to key for the cell cache
@@ -9678,7 +9702,7 @@ require('../../js/affix.js')
 	    var x = parseInt(kArr[0], 10);
 	    var y = parseInt(kArr[1], 10);
 
-	    return L.point(x, y);
+	    return L$1__default.point(x, y);
 	  },
 
 	  // remove any present cells that are off the specified bounds
@@ -9769,8 +9793,8 @@ require('../../js/affix.js')
 	  },
 
 	  _wrapCoords: function (coords) {
-	    coords.x = this._wrapLng ? L.Util.wrapNum(coords.x, this._wrapLng) : coords.x;
-	    coords.y = this._wrapLat ? L.Util.wrapNum(coords.y, this._wrapLat) : coords.y;
+	    coords.x = this._wrapLng ? L$1__default.Util.wrapNum(coords.x, this._wrapLng) : coords.x;
+	    coords.y = this._wrapLat ? L$1__default.Util.wrapNum(coords.y, this._wrapLat) : coords.y;
 	  },
 
 	  // get the global cell coordinates range for the current zoom
@@ -9778,7 +9802,7 @@ require('../../js/affix.js')
 	    var bounds = this._map.getPixelWorldBounds();
 	    var size = this._getCellSize();
 
-	    return bounds ? L.bounds(
+	    return bounds ? L$1__default.bounds(
 	        bounds.min.divideBy(size).floor(),
 	        bounds.max.divideBy(size).ceil().subtract([1, 1])) : null;
 	  }
@@ -9891,7 +9915,7 @@ require('../../js/affix.js')
 	    VirtualGrid.prototype.initialize.call(this, options);
 
 	    options.url = cleanUrl(options.url);
-	    options = L.setOptions(this, options);
+	    options = L$1.setOptions(this, options);
 
 	    this.service = featureLayerService(options);
 	    this.service.addEventParent(this);
@@ -9932,10 +9956,18 @@ require('../../js/affix.js')
 	    this.service.metadata(function (err, metadata) {
 	      if (!err) {
 	        var supportedFormats = metadata.supportedQueryFormats;
-	        // check to see whether service can emit GeoJSON natively
-	        if (supportedFormats && supportedFormats.indexOf('geoJSON') !== -1) {
+
+	        // Check if someone has requested that we don't use geoJSON, even if it's available
+	        var forceJsonFormat = false;
+	        if (this.service.options.isModern === false) {
+	          forceJsonFormat = true;
+	        }
+
+	        // Unless we've been told otherwise, check to see whether service can emit GeoJSON natively
+	        if (!forceJsonFormat && supportedFormats && supportedFormats.indexOf('geoJSON') !== -1) {
 	          this.service.options.isModern = true;
 	        }
+
 	        // add copyright text listed in service metadata
 	        if (!this.options.attribution && map.attributionControl && metadata.copyrightText) {
 	          this.options.attribution = metadata.copyrightText;
@@ -9964,7 +9996,10 @@ require('../../js/affix.js')
 	   */
 
 	  createCell: function (bounds, coords) {
-	    this._requestFeatures(bounds, coords);
+	    // dont fetch features outside the scale range defined for the layer
+	    if (this._visibleZoom()) {
+	      this._requestFeatures(bounds, coords);
+	    }
 	  },
 
 	  _requestFeatures: function (bounds, coords, callback) {
@@ -9985,7 +10020,7 @@ require('../../js/affix.js')
 	      // no error, features
 	      if (!error && featureCollection && featureCollection.features.length) {
 	        // schedule adding features until the next animation frame
-	        L.Util.requestAnimFrame(L.Util.bind(function () {
+	        L$1.Util.requestAnimFrame(L$1.Util.bind(function () {
 	          this._addFeatures(featureCollection.features, coords);
 	          this._postProcessFeatures(bounds);
 	        }, this));
@@ -10007,7 +10042,7 @@ require('../../js/affix.js')
 	  },
 
 	  _postProcessFeatures: function (bounds) {
-	    // deincriment the request counter now that we have processed features
+	    // deincrement the request counter now that we have processed features
 	    this._activeRequests--;
 
 	    // if there are no more active requests fire a load event for this view
@@ -10028,16 +10063,18 @@ require('../../js/affix.js')
 
 	    for (var i = features.length - 1; i >= 0; i--) {
 	      var id = features[i].id;
-	      this._currentSnapshot.push(id);
-	      this._cache[key].push(id);
+
+	      if (this._currentSnapshot.indexOf(id) === -1) {
+	        this._currentSnapshot.push(id);
+	      }
+	      if (this._cache[key].indexOf(id) === -1) {
+	        this._cache[key].push(id);
+	      }
 	    }
 
 	    if (this.options.timeField) {
 	      this._buildTimeIndexes(features);
 	    }
-
-	    // need to PR removal of the logic below too...
-	    // https://github.com/patrickarlt/leaflet-virtual-grid/blob/master/src/virtual-grid.js#L100-L102
 
 	    this.createLayers(features);
 	  },
@@ -10071,7 +10108,7 @@ require('../../js/affix.js')
 	    var newSnapshot = [];
 	    var pendingRequests = 0;
 	    var requestError = null;
-	    var requestCallback = L.Util.bind(function (error, featureCollection) {
+	    var requestCallback = L$1.Util.bind(function (error, featureCollection) {
 	      if (error) {
 	        requestError = error;
 	      }
@@ -10087,7 +10124,7 @@ require('../../js/affix.js')
 	      if (pendingRequests <= 0) {
 	        this._currentSnapshot = newSnapshot;
 	        // schedule adding features for the next animation frame
-	        L.Util.requestAnimFrame(L.Util.bind(function () {
+	        L$1.Util.requestAnimFrame(L$1.Util.bind(function () {
 	          this.removeLayers(oldSnapshot);
 	          this.addLayers(newSnapshot);
 	          if (callback) {
@@ -10128,7 +10165,7 @@ require('../../js/affix.js')
 	    var oldTo = this.options.to;
 	    var pendingRequests = 0;
 	    var requestError = null;
-	    var requestCallback = L.Util.bind(function (error) {
+	    var requestCallback = L$1.Util.bind(function (error) {
 	      if (error) {
 	        requestError = error;
 	      }
@@ -10188,7 +10225,7 @@ require('../../js/affix.js')
 	    }
 
 	    // schedule adding features until the next animation frame
-	    L.Util.requestAnimFrame(L.Util.bind(function () {
+	    L$1.Util.requestAnimFrame(L$1.Util.bind(function () {
 	      this.removeLayers(layersToRemove);
 	      this.addLayers(layersToAdd);
 	    }, this));
@@ -10321,7 +10358,7 @@ require('../../js/affix.js')
 	      var error;
 	      callback(error, this._metadata);
 	    } else {
-	      this.metadata(L.Util.bind(function (error, response) {
+	      this.metadata(L$1.Util.bind(function (error, response) {
 	        this._metadata = response;
 	        callback(error, this._metadata);
 	      }, this));
@@ -10329,13 +10366,13 @@ require('../../js/affix.js')
 	  },
 
 	  addFeature: function (feature, callback, context) {
-	    this._getMetadata(L.Util.bind(function (error, metadata) {
+	    this._getMetadata(L$1.Util.bind(function (error, metadata) {
 	      if (error) {
 	        if (callback) { callback.call(this, error, null); }
 	        return;
 	      }
 
-	      this.service.addFeature(feature, L.Util.bind(function (error, response) {
+	      this.service.addFeature(feature, L$1.Util.bind(function (error, response) {
 	        if (!error) {
 	          // assign ID from result to appropriate objectid field from service metadata
 	          feature.properties[metadata.objectIdField] = response.objectId;
@@ -10423,7 +10460,7 @@ require('../../js/affix.js')
 	  },
 
 	  createNewLayer: function (geojson) {
-	    var layer = L.GeoJSON.geometryToLayer(geojson, this.options);
+	    var layer = L$1.GeoJSON.geometryToLayer(geojson, this.options);
 	    layer.defaultOptions = layer.options;
 	    return layer;
 	  },
@@ -10432,7 +10469,7 @@ require('../../js/affix.js')
 	    // convert the geojson coordinates into a Leaflet LatLng array/nested arrays
 	    // pass it to setLatLngs to update layer geometries
 	    var latlngs = [];
-	    var coordsToLatLng = this.options.coordsToLatLng || L.GeoJSON.coordsToLatLng;
+	    var coordsToLatLng = this.options.coordsToLatLng || L$1.GeoJSON.coordsToLatLng;
 
 	    // copy new attributes, if present
 	    if (geojson.properties) {
@@ -10441,23 +10478,23 @@ require('../../js/affix.js')
 
 	    switch (geojson.geometry.type) {
 	      case 'Point':
-	        latlngs = L.GeoJSON.coordsToLatLng(geojson.geometry.coordinates);
+	        latlngs = L$1.GeoJSON.coordsToLatLng(geojson.geometry.coordinates);
 	        layer.setLatLng(latlngs);
 	        break;
 	      case 'LineString':
-	        latlngs = L.GeoJSON.coordsToLatLngs(geojson.geometry.coordinates, 0, coordsToLatLng);
+	        latlngs = L$1.GeoJSON.coordsToLatLngs(geojson.geometry.coordinates, 0, coordsToLatLng);
 	        layer.setLatLngs(latlngs);
 	        break;
 	      case 'MultiLineString':
-	        latlngs = L.GeoJSON.coordsToLatLngs(geojson.geometry.coordinates, 1, coordsToLatLng);
+	        latlngs = L$1.GeoJSON.coordsToLatLngs(geojson.geometry.coordinates, 1, coordsToLatLng);
 	        layer.setLatLngs(latlngs);
 	        break;
 	      case 'Polygon':
-	        latlngs = L.GeoJSON.coordsToLatLngs(geojson.geometry.coordinates, 1, coordsToLatLng);
+	        latlngs = L$1.GeoJSON.coordsToLatLngs(geojson.geometry.coordinates, 1, coordsToLatLng);
 	        layer.setLatLngs(latlngs);
 	        break;
 	      case 'MultiPolygon':
-	        latlngs = L.GeoJSON.coordsToLatLngs(geojson.geometry.coordinates, 2, coordsToLatLng);
+	        latlngs = L$1.GeoJSON.coordsToLatLngs(geojson.geometry.coordinates, 2, coordsToLatLng);
 	        layer.setLatLngs(latlngs);
 	        break;
 	    }
@@ -10542,8 +10579,8 @@ require('../../js/affix.js')
 	  },
 
 	  cellEnter: function (bounds, coords) {
-	    if (!this._zooming && this._map) {
-	      L.Util.requestAnimFrame(L.Util.bind(function () {
+	    if (this._visibleZoom() && !this._zooming && this._map) {
+	      L$1.Util.requestAnimFrame(L$1.Util.bind(function () {
 	        var cacheKey = this._cacheKey(coords);
 	        var cellKey = this._cellCoordsToKey(coords);
 	        var layers = this._cache[cacheKey];
@@ -10556,7 +10593,7 @@ require('../../js/affix.js')
 
 	  cellLeave: function (bounds, coords) {
 	    if (!this._zooming) {
-	      L.Util.requestAnimFrame(L.Util.bind(function () {
+	      L$1.Util.requestAnimFrame(L$1.Util.bind(function () {
 	        if (this._map) {
 	          var cacheKey = this._cacheKey(coords);
 	          var cellKey = this._cellCoordsToKey(coords);
@@ -10611,7 +10648,7 @@ require('../../js/affix.js')
 	    var layer = this._layers[id];
 	    var style = this._originalStyle || L.Path.prototype.options;
 	    if (layer) {
-	      L.Util.extend(layer.options, layer.defaultOptions);
+	      L$1.Util.extend(layer.options, layer.defaultOptions);
 	      this.setFeatureStyle(id, style);
 	    }
 	    return this;
@@ -10631,6 +10668,19 @@ require('../../js/affix.js')
 	  /**
 	   * Utility Methods
 	   */
+
+	  eachActiveFeature: function (fn, context) {
+	    // figure out (roughly) which layers are in view
+	    if (this._map) {
+	      var activeBounds = this._map.getBounds();
+	      for (var i in this._layers) {
+	        if (activeBounds.intersects(this._layers[i].getBounds()) && this._currentSnapshot.indexOf(this._layers[i].feature.id) !== -1) {
+	          fn.call(context, this._layers[i]);
+	        }
+	      }
+	    }
+	    return this;
+	  },
 
 	  eachFeature: function (fn, context) {
 	    for (var i in this._layers) {
@@ -10674,7 +10724,7 @@ require('../../js/affix.js')
 	    if (layer && layer.setIcon && this.options.pointToLayer) {
 	      // update custom symbology, if necessary
 	      if (this.options.pointToLayer) {
-	        var getIcon = this.options.pointToLayer(geojson, L.latLng(geojson.geometry.coordinates[1], geojson.geometry.coordinates[0]));
+	        var getIcon = this.options.pointToLayer(geojson, L$1.latLng(geojson.geometry.coordinates[1], geojson.geometry.coordinates[0]));
 	        var updatedIcon = getIcon.options.icon;
 	        layer.setIcon(updatedIcon);
 	      }
@@ -10682,7 +10732,7 @@ require('../../js/affix.js')
 
 	    // looks like a vector marker (circleMarker)
 	    if (layer && layer.setStyle && this.options.pointToLayer) {
-	      var getStyle = this.options.pointToLayer(geojson, L.latLng(geojson.geometry.coordinates[1], geojson.geometry.coordinates[0]));
+	      var getStyle = this.options.pointToLayer(geojson, L$1.latLng(geojson.geometry.coordinates[1], geojson.geometry.coordinates[0]));
 	      var updatedStyle = getStyle.options;
 	      this.setFeatureStyle(geojson.id, updatedStyle);
 	    }
@@ -10701,7 +10751,7 @@ require('../../js/affix.js')
 	exports.VERSION = version;
 	exports.Support = Support;
 	exports.options = options;
-	exports.Util = Util;
+	exports.Util = EsriUtil;
 	exports.get = get;
 	exports.post = xmlHttpPost;
 	exports.request = request;
@@ -10740,19 +10790,19 @@ require('../../js/affix.js')
 
 }));
 
-},{"leaflet":19}],18:[function(require,module,exports){
+},{"leaflet":20}],18:[function(require,module,exports){
 /*!
- * jQuery JavaScript Library v3.1.1
+ * jQuery JavaScript Library v3.2.1
  * https://jquery.com/
  *
  * Includes Sizzle.js
  * https://sizzlejs.com/
  *
- * Copyright jQuery Foundation and other contributors
+ * Copyright JS Foundation and other contributors
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2016-09-22T22:30Z
+ * Date: 2017-03-20T18:59Z
  */
 ( function( global, factory ) {
 
@@ -10831,7 +10881,7 @@ var support = {};
 
 
 var
-	version = "3.1.1",
+	version = "3.2.1",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -10979,11 +11029,11 @@ jQuery.extend = jQuery.fn.extend = function() {
 
 				// Recurse if we're merging plain objects or arrays
 				if ( deep && copy && ( jQuery.isPlainObject( copy ) ||
-					( copyIsArray = jQuery.isArray( copy ) ) ) ) {
+					( copyIsArray = Array.isArray( copy ) ) ) ) {
 
 					if ( copyIsArray ) {
 						copyIsArray = false;
-						clone = src && jQuery.isArray( src ) ? src : [];
+						clone = src && Array.isArray( src ) ? src : [];
 
 					} else {
 						clone = src && jQuery.isPlainObject( src ) ? src : {};
@@ -11021,8 +11071,6 @@ jQuery.extend( {
 	isFunction: function( obj ) {
 		return jQuery.type( obj ) === "function";
 	},
-
-	isArray: Array.isArray,
 
 	isWindow: function( obj ) {
 		return obj != null && obj === obj.window;
@@ -11096,10 +11144,6 @@ jQuery.extend( {
 	// Microsoft forgot to hump their vendor prefix (#9572)
 	camelCase: function( string ) {
 		return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
-	},
-
-	nodeName: function( elem, name ) {
-		return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
 	},
 
 	each: function( obj, callback ) {
@@ -13586,6 +13630,13 @@ var siblings = function( n, elem ) {
 
 var rneedsContext = jQuery.expr.match.needsContext;
 
+
+
+function nodeName( elem, name ) {
+
+  return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
+
+};
 var rsingleTag = ( /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i );
 
 
@@ -13937,7 +13988,18 @@ jQuery.each( {
 		return siblings( elem.firstChild );
 	},
 	contents: function( elem ) {
-		return elem.contentDocument || jQuery.merge( [], elem.childNodes );
+        if ( nodeName( elem, "iframe" ) ) {
+            return elem.contentDocument;
+        }
+
+        // Support: IE 9 - 11 only, iOS 7 only, Android Browser <=4.3 only
+        // Treat the template element as a regular one in browsers that
+        // don't support it.
+        if ( nodeName( elem, "template" ) ) {
+            elem = elem.content || elem;
+        }
+
+        return jQuery.merge( [], elem.childNodes );
 	}
 }, function( name, fn ) {
 	jQuery.fn[ name ] = function( until, selector ) {
@@ -14035,7 +14097,7 @@ jQuery.Callbacks = function( options ) {
 		fire = function() {
 
 			// Enforce single-firing
-			locked = options.once;
+			locked = locked || options.once;
 
 			// Execute callbacks for all pending executions,
 			// respecting firingIndex overrides and runtime changes
@@ -14204,7 +14266,7 @@ function Thrower( ex ) {
 	throw ex;
 }
 
-function adoptValue( value, resolve, reject ) {
+function adoptValue( value, resolve, reject, noValue ) {
 	var method;
 
 	try {
@@ -14220,9 +14282,10 @@ function adoptValue( value, resolve, reject ) {
 		// Other non-thenables
 		} else {
 
-			// Support: Android 4.0 only
-			// Strict mode functions invoked without .call/.apply get global-object context
-			resolve.call( undefined, value );
+			// Control `resolve` arguments by letting Array#slice cast boolean `noValue` to integer:
+			// * false: [ value ].slice( 0 ) => resolve( value )
+			// * true: [ value ].slice( 1 ) => resolve()
+			resolve.apply( undefined, [ value ].slice( noValue ) );
 		}
 
 	// For Promises/A+, convert exceptions into rejections
@@ -14232,7 +14295,7 @@ function adoptValue( value, resolve, reject ) {
 
 		// Support: Android 4.0 only
 		// Strict mode functions invoked without .call/.apply get global-object context
-		reject.call( undefined, value );
+		reject.apply( undefined, [ value ] );
 	}
 }
 
@@ -14557,7 +14620,8 @@ jQuery.extend( {
 
 		// Single- and empty arguments are adopted like Promise.resolve
 		if ( remaining <= 1 ) {
-			adoptValue( singleValue, master.done( updateFunc( i ) ).resolve, master.reject );
+			adoptValue( singleValue, master.done( updateFunc( i ) ).resolve, master.reject,
+				!remaining );
 
 			// Use .then() to unwrap secondary thenables (cf. gh-3000)
 			if ( master.state() === "pending" ||
@@ -14628,15 +14692,6 @@ jQuery.extend( {
 	// A counter to track how many items to wait for before
 	// the ready event fires. See #6781
 	readyWait: 1,
-
-	// Hold (or release) the ready event
-	holdReady: function( hold ) {
-		if ( hold ) {
-			jQuery.readyWait++;
-		} else {
-			jQuery.ready( true );
-		}
-	},
 
 	// Handle when the DOM is ready
 	ready: function( wait ) {
@@ -14873,7 +14928,7 @@ Data.prototype = {
 		if ( key !== undefined ) {
 
 			// Support array or space separated string of keys
-			if ( jQuery.isArray( key ) ) {
+			if ( Array.isArray( key ) ) {
 
 				// If key is an array of keys...
 				// We always set camelCase keys, so remove that.
@@ -15099,7 +15154,7 @@ jQuery.extend( {
 
 			// Speed up dequeue by getting out quickly if this is just a lookup
 			if ( data ) {
-				if ( !queue || jQuery.isArray( data ) ) {
+				if ( !queue || Array.isArray( data ) ) {
 					queue = dataPriv.access( elem, type, jQuery.makeArray( data ) );
 				} else {
 					queue.push( data );
@@ -15476,7 +15531,7 @@ function getAll( context, tag ) {
 		ret = [];
 	}
 
-	if ( tag === undefined || tag && jQuery.nodeName( context, tag ) ) {
+	if ( tag === undefined || tag && nodeName( context, tag ) ) {
 		return jQuery.merge( [ context ], ret );
 	}
 
@@ -16083,7 +16138,7 @@ jQuery.event = {
 
 			// For checkbox, fire native event so checked state will be right
 			trigger: function() {
-				if ( this.type === "checkbox" && this.click && jQuery.nodeName( this, "input" ) ) {
+				if ( this.type === "checkbox" && this.click && nodeName( this, "input" ) ) {
 					this.click();
 					return false;
 				}
@@ -16091,7 +16146,7 @@ jQuery.event = {
 
 			// For cross-browser consistency, don't fire native .click() on links
 			_default: function( event ) {
-				return jQuery.nodeName( event.target, "a" );
+				return nodeName( event.target, "a" );
 			}
 		},
 
@@ -16368,11 +16423,12 @@ var
 	rscriptTypeMasked = /^true\/(.*)/,
 	rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g;
 
+// Prefer a tbody over its parent table for containing new rows
 function manipulationTarget( elem, content ) {
-	if ( jQuery.nodeName( elem, "table" ) &&
-		jQuery.nodeName( content.nodeType !== 11 ? content : content.firstChild, "tr" ) ) {
+	if ( nodeName( elem, "table" ) &&
+		nodeName( content.nodeType !== 11 ? content : content.firstChild, "tr" ) ) {
 
-		return elem.getElementsByTagName( "tbody" )[ 0 ] || elem;
+		return jQuery( ">tbody", elem )[ 0 ] || elem;
 	}
 
 	return elem;
@@ -16902,12 +16958,18 @@ var getStyles = function( elem ) {
 
 function curCSS( elem, name, computed ) {
 	var width, minWidth, maxWidth, ret,
+
+		// Support: Firefox 51+
+		// Retrieving style before computed somehow
+		// fixes an issue with getting wrong values
+		// on detached elements
 		style = elem.style;
 
 	computed = computed || getStyles( elem );
 
-	// Support: IE <=9 only
-	// getPropertyValue is only needed for .css('filter') (#12537)
+	// getPropertyValue is needed for:
+	//   .css('filter') (IE 9 only, #12537)
+	//   .css('--customProperty) (#3144)
 	if ( computed ) {
 		ret = computed.getPropertyValue( name ) || computed[ name ];
 
@@ -16973,6 +17035,7 @@ var
 	// except "table", "table-cell", or "table-caption"
 	// See here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
 	rdisplayswap = /^(none|table(?!-c[ea]).+)/,
+	rcustomProp = /^--/,
 	cssShow = { position: "absolute", visibility: "hidden", display: "block" },
 	cssNormalTransform = {
 		letterSpacing: "0",
@@ -17000,6 +17063,16 @@ function vendorPropName( name ) {
 			return name;
 		}
 	}
+}
+
+// Return a property mapped along what jQuery.cssProps suggests or to
+// a vendor prefixed property.
+function finalPropName( name ) {
+	var ret = jQuery.cssProps[ name ];
+	if ( !ret ) {
+		ret = jQuery.cssProps[ name ] = vendorPropName( name ) || name;
+	}
+	return ret;
 }
 
 function setPositiveNumber( elem, value, subtract ) {
@@ -17062,43 +17135,30 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 
 function getWidthOrHeight( elem, name, extra ) {
 
-	// Start with offset property, which is equivalent to the border-box value
-	var val,
-		valueIsBorderBox = true,
+	// Start with computed style
+	var valueIsBorderBox,
 		styles = getStyles( elem ),
+		val = curCSS( elem, name, styles ),
 		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
 
-	// Support: IE <=11 only
-	// Running getBoundingClientRect on a disconnected node
-	// in IE throws an error.
-	if ( elem.getClientRects().length ) {
-		val = elem.getBoundingClientRect()[ name ];
+	// Computed unit is not pixels. Stop here and return.
+	if ( rnumnonpx.test( val ) ) {
+		return val;
 	}
 
-	// Some non-html elements return undefined for offsetWidth, so check for null/undefined
-	// svg - https://bugzilla.mozilla.org/show_bug.cgi?id=649285
-	// MathML - https://bugzilla.mozilla.org/show_bug.cgi?id=491668
-	if ( val <= 0 || val == null ) {
+	// Check for style in case a browser which returns unreliable values
+	// for getComputedStyle silently falls back to the reliable elem.style
+	valueIsBorderBox = isBorderBox &&
+		( support.boxSizingReliable() || val === elem.style[ name ] );
 
-		// Fall back to computed then uncomputed css if necessary
-		val = curCSS( elem, name, styles );
-		if ( val < 0 || val == null ) {
-			val = elem.style[ name ];
-		}
-
-		// Computed unit is not pixels. Stop here and return.
-		if ( rnumnonpx.test( val ) ) {
-			return val;
-		}
-
-		// Check for style in case a browser which returns unreliable values
-		// for getComputedStyle silently falls back to the reliable elem.style
-		valueIsBorderBox = isBorderBox &&
-			( support.boxSizingReliable() || val === elem.style[ name ] );
-
-		// Normalize "", auto, and prepare for extra
-		val = parseFloat( val ) || 0;
+	// Fall back to offsetWidth/Height when value is "auto"
+	// This happens for inline elements with no explicit setting (gh-3571)
+	if ( val === "auto" ) {
+		val = elem[ "offset" + name[ 0 ].toUpperCase() + name.slice( 1 ) ];
 	}
+
+	// Normalize "", auto, and prepare for extra
+	val = parseFloat( val ) || 0;
 
 	// Use the active box-sizing model to add/subtract irrelevant styles
 	return ( val +
@@ -17163,10 +17223,15 @@ jQuery.extend( {
 		// Make sure that we're working with the right name
 		var ret, type, hooks,
 			origName = jQuery.camelCase( name ),
+			isCustomProp = rcustomProp.test( name ),
 			style = elem.style;
 
-		name = jQuery.cssProps[ origName ] ||
-			( jQuery.cssProps[ origName ] = vendorPropName( origName ) || origName );
+		// Make sure that we're working with the right name. We don't
+		// want to query the value if it is a CSS custom property
+		// since they are user-defined.
+		if ( !isCustomProp ) {
+			name = finalPropName( origName );
+		}
 
 		// Gets hook for the prefixed version, then unprefixed version
 		hooks = jQuery.cssHooks[ name ] || jQuery.cssHooks[ origName ];
@@ -17202,7 +17267,11 @@ jQuery.extend( {
 			if ( !hooks || !( "set" in hooks ) ||
 				( value = hooks.set( elem, value, extra ) ) !== undefined ) {
 
-				style[ name ] = value;
+				if ( isCustomProp ) {
+					style.setProperty( name, value );
+				} else {
+					style[ name ] = value;
+				}
 			}
 
 		} else {
@@ -17221,11 +17290,15 @@ jQuery.extend( {
 
 	css: function( elem, name, extra, styles ) {
 		var val, num, hooks,
-			origName = jQuery.camelCase( name );
+			origName = jQuery.camelCase( name ),
+			isCustomProp = rcustomProp.test( name );
 
-		// Make sure that we're working with the right name
-		name = jQuery.cssProps[ origName ] ||
-			( jQuery.cssProps[ origName ] = vendorPropName( origName ) || origName );
+		// Make sure that we're working with the right name. We don't
+		// want to modify the value if it is a CSS custom property
+		// since they are user-defined.
+		if ( !isCustomProp ) {
+			name = finalPropName( origName );
+		}
 
 		// Try prefixed name followed by the unprefixed name
 		hooks = jQuery.cssHooks[ name ] || jQuery.cssHooks[ origName ];
@@ -17250,6 +17323,7 @@ jQuery.extend( {
 			num = parseFloat( val );
 			return extra === true || isFinite( num ) ? num || 0 : val;
 		}
+
 		return val;
 	}
 } );
@@ -17349,7 +17423,7 @@ jQuery.fn.extend( {
 				map = {},
 				i = 0;
 
-			if ( jQuery.isArray( name ) ) {
+			if ( Array.isArray( name ) ) {
 				styles = getStyles( elem );
 				len = name.length;
 
@@ -17487,13 +17561,18 @@ jQuery.fx.step = {};
 
 
 var
-	fxNow, timerId,
+	fxNow, inProgress,
 	rfxtypes = /^(?:toggle|show|hide)$/,
 	rrun = /queueHooks$/;
 
-function raf() {
-	if ( timerId ) {
-		window.requestAnimationFrame( raf );
+function schedule() {
+	if ( inProgress ) {
+		if ( document.hidden === false && window.requestAnimationFrame ) {
+			window.requestAnimationFrame( schedule );
+		} else {
+			window.setTimeout( schedule, jQuery.fx.interval );
+		}
+
 		jQuery.fx.tick();
 	}
 }
@@ -17720,7 +17799,7 @@ function propFilter( props, specialEasing ) {
 		name = jQuery.camelCase( index );
 		easing = specialEasing[ name ];
 		value = props[ index ];
-		if ( jQuery.isArray( value ) ) {
+		if ( Array.isArray( value ) ) {
 			easing = value[ 1 ];
 			value = props[ index ] = value[ 0 ];
 		}
@@ -17779,12 +17858,19 @@ function Animation( elem, properties, options ) {
 
 			deferred.notifyWith( elem, [ animation, percent, remaining ] );
 
+			// If there's more to do, yield
 			if ( percent < 1 && length ) {
 				return remaining;
-			} else {
-				deferred.resolveWith( elem, [ animation ] );
-				return false;
 			}
+
+			// If this was an empty animation, synthesize a final progress notification
+			if ( !length ) {
+				deferred.notifyWith( elem, [ animation, 1, 0 ] );
+			}
+
+			// Resolve the animation and report its conclusion
+			deferred.resolveWith( elem, [ animation ] );
+			return false;
 		},
 		animation = deferred.promise( {
 			elem: elem,
@@ -17849,6 +17935,13 @@ function Animation( elem, properties, options ) {
 		animation.opts.start.call( elem, animation );
 	}
 
+	// Attach callbacks from options
+	animation
+		.progress( animation.opts.progress )
+		.done( animation.opts.done, animation.opts.complete )
+		.fail( animation.opts.fail )
+		.always( animation.opts.always );
+
 	jQuery.fx.timer(
 		jQuery.extend( tick, {
 			elem: elem,
@@ -17857,11 +17950,7 @@ function Animation( elem, properties, options ) {
 		} )
 	);
 
-	// attach callbacks from options
-	return animation.progress( animation.opts.progress )
-		.done( animation.opts.done, animation.opts.complete )
-		.fail( animation.opts.fail )
-		.always( animation.opts.always );
+	return animation;
 }
 
 jQuery.Animation = jQuery.extend( Animation, {
@@ -17912,8 +18001,8 @@ jQuery.speed = function( speed, easing, fn ) {
 		easing: fn && easing || easing && !jQuery.isFunction( easing ) && easing
 	};
 
-	// Go to the end state if fx are off or if document is hidden
-	if ( jQuery.fx.off || document.hidden ) {
+	// Go to the end state if fx are off
+	if ( jQuery.fx.off ) {
 		opt.duration = 0;
 
 	} else {
@@ -18105,7 +18194,7 @@ jQuery.fx.tick = function() {
 	for ( ; i < timers.length; i++ ) {
 		timer = timers[ i ];
 
-		// Checks the timer has not already been removed
+		// Run the timer and safely remove it when done (allowing for external removal)
 		if ( !timer() && timers[ i ] === timer ) {
 			timers.splice( i--, 1 );
 		}
@@ -18119,30 +18208,21 @@ jQuery.fx.tick = function() {
 
 jQuery.fx.timer = function( timer ) {
 	jQuery.timers.push( timer );
-	if ( timer() ) {
-		jQuery.fx.start();
-	} else {
-		jQuery.timers.pop();
-	}
+	jQuery.fx.start();
 };
 
 jQuery.fx.interval = 13;
 jQuery.fx.start = function() {
-	if ( !timerId ) {
-		timerId = window.requestAnimationFrame ?
-			window.requestAnimationFrame( raf ) :
-			window.setInterval( jQuery.fx.tick, jQuery.fx.interval );
+	if ( inProgress ) {
+		return;
 	}
+
+	inProgress = true;
+	schedule();
 };
 
 jQuery.fx.stop = function() {
-	if ( window.cancelAnimationFrame ) {
-		window.cancelAnimationFrame( timerId );
-	} else {
-		window.clearInterval( timerId );
-	}
-
-	timerId = null;
+	inProgress = null;
 };
 
 jQuery.fx.speeds = {
@@ -18259,7 +18339,7 @@ jQuery.extend( {
 		type: {
 			set: function( elem, value ) {
 				if ( !support.radioValue && value === "radio" &&
-					jQuery.nodeName( elem, "input" ) ) {
+					nodeName( elem, "input" ) ) {
 					var val = elem.value;
 					elem.setAttribute( "type", value );
 					if ( val ) {
@@ -18690,7 +18770,7 @@ jQuery.fn.extend( {
 			} else if ( typeof val === "number" ) {
 				val += "";
 
-			} else if ( jQuery.isArray( val ) ) {
+			} else if ( Array.isArray( val ) ) {
 				val = jQuery.map( val, function( value ) {
 					return value == null ? "" : value + "";
 				} );
@@ -18749,7 +18829,7 @@ jQuery.extend( {
 							// Don't return options that are disabled or in a disabled optgroup
 							!option.disabled &&
 							( !option.parentNode.disabled ||
-								!jQuery.nodeName( option.parentNode, "optgroup" ) ) ) {
+								!nodeName( option.parentNode, "optgroup" ) ) ) {
 
 						// Get the specific value for the option
 						value = jQuery( option ).val();
@@ -18801,7 +18881,7 @@ jQuery.extend( {
 jQuery.each( [ "radio", "checkbox" ], function() {
 	jQuery.valHooks[ this ] = {
 		set: function( elem, value ) {
-			if ( jQuery.isArray( value ) ) {
+			if ( Array.isArray( value ) ) {
 				return ( elem.checked = jQuery.inArray( jQuery( elem ).val(), value ) > -1 );
 			}
 		}
@@ -19096,7 +19176,7 @@ var
 function buildParams( prefix, obj, traditional, add ) {
 	var name;
 
-	if ( jQuery.isArray( obj ) ) {
+	if ( Array.isArray( obj ) ) {
 
 		// Serialize array item.
 		jQuery.each( obj, function( i, v ) {
@@ -19148,7 +19228,7 @@ jQuery.param = function( a, traditional ) {
 		};
 
 	// If an array was passed in, assume that it is an array of form elements.
-	if ( jQuery.isArray( a ) || ( a.jquery && !jQuery.isPlainObject( a ) ) ) {
+	if ( Array.isArray( a ) || ( a.jquery && !jQuery.isPlainObject( a ) ) ) {
 
 		// Serialize the form elements
 		jQuery.each( a, function() {
@@ -19194,7 +19274,7 @@ jQuery.fn.extend( {
 				return null;
 			}
 
-			if ( jQuery.isArray( val ) ) {
+			if ( Array.isArray( val ) ) {
 				return jQuery.map( val, function( val ) {
 					return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
 				} );
@@ -20619,13 +20699,6 @@ jQuery.expr.pseudos.animated = function( elem ) {
 
 
 
-/**
- * Gets a window from an element
- */
-function getWindow( elem ) {
-	return jQuery.isWindow( elem ) ? elem : elem.nodeType === 9 && elem.defaultView;
-}
-
 jQuery.offset = {
 	setOffset: function( elem, options, i ) {
 		var curPosition, curLeft, curCSSTop, curTop, curOffset, curCSSLeft, calculatePosition,
@@ -20690,13 +20763,14 @@ jQuery.fn.extend( {
 				} );
 		}
 
-		var docElem, win, rect, doc,
+		var doc, docElem, rect, win,
 			elem = this[ 0 ];
 
 		if ( !elem ) {
 			return;
 		}
 
+		// Return zeros for disconnected and hidden (display: none) elements (gh-2310)
 		// Support: IE <=11 only
 		// Running getBoundingClientRect on a
 		// disconnected node in IE throws an error
@@ -20706,20 +20780,14 @@ jQuery.fn.extend( {
 
 		rect = elem.getBoundingClientRect();
 
-		// Make sure element is not hidden (display: none)
-		if ( rect.width || rect.height ) {
-			doc = elem.ownerDocument;
-			win = getWindow( doc );
-			docElem = doc.documentElement;
+		doc = elem.ownerDocument;
+		docElem = doc.documentElement;
+		win = doc.defaultView;
 
-			return {
-				top: rect.top + win.pageYOffset - docElem.clientTop,
-				left: rect.left + win.pageXOffset - docElem.clientLeft
-			};
-		}
-
-		// Return zeros for disconnected and hidden elements (gh-2310)
-		return rect;
+		return {
+			top: rect.top + win.pageYOffset - docElem.clientTop,
+			left: rect.left + win.pageXOffset - docElem.clientLeft
+		};
 	},
 
 	position: function() {
@@ -20745,7 +20813,7 @@ jQuery.fn.extend( {
 
 			// Get correct offsets
 			offset = this.offset();
-			if ( !jQuery.nodeName( offsetParent[ 0 ], "html" ) ) {
+			if ( !nodeName( offsetParent[ 0 ], "html" ) ) {
 				parentOffset = offsetParent.offset();
 			}
 
@@ -20792,7 +20860,14 @@ jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( 
 
 	jQuery.fn[ method ] = function( val ) {
 		return access( this, function( elem, method, val ) {
-			var win = getWindow( elem );
+
+			// Coalesce documents and windows
+			var win;
+			if ( jQuery.isWindow( elem ) ) {
+				win = elem;
+			} else if ( elem.nodeType === 9 ) {
+				win = elem.defaultView;
+			}
 
 			if ( val === undefined ) {
 				return win ? win[ prop ] : elem[ method ];
@@ -20901,7 +20976,16 @@ jQuery.fn.extend( {
 	}
 } );
 
+jQuery.holdReady = function( hold ) {
+	if ( hold ) {
+		jQuery.readyWait++;
+	} else {
+		jQuery.ready( true );
+	}
+};
+jQuery.isArray = Array.isArray;
 jQuery.parseJSON = JSON.parse;
+jQuery.nodeName = nodeName;
 
 
 
@@ -20958,11 +21042,20 @@ if ( !noGlobal ) {
 
 
 
-
 return jQuery;
 } );
 
 },{}],19:[function(require,module,exports){
+/*
+ Leaflet.draw 0.4.9, a plugin that adds drawing and editing tools to Leaflet powered maps.
+ (c) 2012-2017, Jacob Toye, Jon West, Smartrak, Leaflet
+
+ https://github.com/Leaflet/Leaflet.draw
+ http://leafletjs.com
+ */
+!function(t,e,i){L.drawVersion="0.4.9",L.Draw={},L.drawLocal={draw:{toolbar:{actions:{title:"Cancel drawing",text:"Cancel"},finish:{title:"Finish drawing",text:"Finish"},undo:{title:"Delete last point drawn",text:"Delete last point"},buttons:{polyline:"Draw a polyline",polygon:"Draw a polygon",rectangle:"Draw a rectangle",circle:"Draw a circle",marker:"Draw a marker"}},handlers:{circle:{tooltip:{start:"Click and drag to draw circle."},radius:"Radius"},marker:{tooltip:{start:"Click map to place marker."}},polygon:{tooltip:{start:"Click to start drawing shape.",cont:"Click to continue drawing shape.",end:"Click first point to close this shape."}},polyline:{error:"<strong>Error:</strong> shape edges cannot cross!",tooltip:{start:"Click to start drawing line.",cont:"Click to continue drawing line.",end:"Click last point to finish line."}},rectangle:{tooltip:{start:"Click and drag to draw rectangle."}},simpleshape:{tooltip:{end:"Release mouse to finish drawing."}}}},edit:{toolbar:{actions:{save:{title:"Save changes.",text:"Save"},cancel:{title:"Cancel editing, discards all changes.",text:"Cancel"}},buttons:{edit:"Edit layers.",editDisabled:"No layers to edit.",remove:"Delete layers.",removeDisabled:"No layers to delete."}},handlers:{edit:{tooltip:{text:"Drag handles, or marker to edit feature.",subtext:"Click cancel to undo changes."}},remove:{tooltip:{text:"Click on a feature to remove"}}}}},L.Draw.Event={},L.Draw.Event.CREATED="draw:created",L.Draw.Event.EDITED="draw:edited",L.Draw.Event.DELETED="draw:deleted",L.Draw.Event.DRAWSTART="draw:drawstart",L.Draw.Event.DRAWSTOP="draw:drawstop",L.Draw.Event.DRAWVERTEX="draw:drawvertex",L.Draw.Event.EDITSTART="draw:editstart",L.Draw.Event.EDITMOVE="draw:editmove",L.Draw.Event.EDITRESIZE="draw:editresize",L.Draw.Event.EDITVERTEX="draw:editvertex",L.Draw.Event.EDITSTOP="draw:editstop",L.Draw.Event.DELETESTART="draw:deletestart",L.Draw.Event.DELETESTOP="draw:deletestop",L.Draw=L.Draw||{},L.Draw.Feature=L.Handler.extend({includes:L.Mixin.Events,initialize:function(t,e){this._map=t,this._container=t._container,this._overlayPane=t._panes.overlayPane,this._popupPane=t._panes.popupPane,e&&e.shapeOptions&&(e.shapeOptions=L.Util.extend({},this.options.shapeOptions,e.shapeOptions)),L.setOptions(this,e)},enable:function(){this._enabled||(L.Handler.prototype.enable.call(this),this.fire("enabled",{handler:this.type}),this._map.fire(L.Draw.Event.DRAWSTART,{layerType:this.type}))},disable:function(){this._enabled&&(L.Handler.prototype.disable.call(this),this._map.fire(L.Draw.Event.DRAWSTOP,{layerType:this.type}),this.fire("disabled",{handler:this.type}))},addHooks:function(){var t=this._map;t&&(L.DomUtil.disableTextSelection(),t.getContainer().focus(),this._tooltip=new L.Draw.Tooltip(this._map),L.DomEvent.on(this._container,"keyup",this._cancelDrawing,this))},removeHooks:function(){this._map&&(L.DomUtil.enableTextSelection(),this._tooltip.dispose(),this._tooltip=null,L.DomEvent.off(this._container,"keyup",this._cancelDrawing,this))},setOptions:function(t){L.setOptions(this,t)},_fireCreatedEvent:function(t){this._map.fire(L.Draw.Event.CREATED,{layer:t,layerType:this.type})},_cancelDrawing:function(t){this._map.fire("draw:canceled",{layerType:this.type}),27===t.keyCode&&this.disable()}}),L.Draw.Polyline=L.Draw.Feature.extend({statics:{TYPE:"polyline"},Poly:L.Polyline,options:{allowIntersection:!0,repeatMode:!1,drawError:{color:"#b00b00",timeout:2500},icon:new L.DivIcon({iconSize:new L.Point(8,8),className:"leaflet-div-icon leaflet-editing-icon"}),touchIcon:new L.DivIcon({iconSize:new L.Point(20,20),className:"leaflet-div-icon leaflet-editing-icon leaflet-touch-icon"}),guidelineDistance:20,maxGuideLineLength:4e3,shapeOptions:{stroke:!0,color:"#3388ff",weight:4,opacity:.5,fill:!1,clickable:!0},metric:!0,feet:!0,nautic:!1,showLength:!0,zIndexOffset:2e3},initialize:function(t,e){L.Browser.touch&&(this.options.icon=this.options.touchIcon),this.options.drawError.message=L.drawLocal.draw.handlers.polyline.error,e&&e.drawError&&(e.drawError=L.Util.extend({},this.options.drawError,e.drawError)),this.type=L.Draw.Polyline.TYPE,L.Draw.Feature.prototype.initialize.call(this,t,e)},addHooks:function(){L.Draw.Feature.prototype.addHooks.call(this),this._map&&(this._markers=[],this._markerGroup=new L.LayerGroup,this._map.addLayer(this._markerGroup),this._poly=new L.Polyline([],this.options.shapeOptions),this._tooltip.updateContent(this._getTooltipText()),this._mouseMarker||(this._mouseMarker=L.marker(this._map.getCenter(),{icon:L.divIcon({className:"leaflet-mouse-marker",iconAnchor:[20,20],iconSize:[40,40]}),opacity:0,zIndexOffset:this.options.zIndexOffset})),this._mouseMarker.on("mouseout",this._onMouseOut,this).on("mousemove",this._onMouseMove,this).on("mousedown",this._onMouseDown,this).on("mouseup",this._onMouseUp,this).addTo(this._map),this._map.on("mouseup",this._onMouseUp,this).on("mousemove",this._onMouseMove,this).on("zoomlevelschange",this._onZoomEnd,this).on("touchstart",this._onTouch,this).on("zoomend",this._onZoomEnd,this))},removeHooks:function(){L.Draw.Feature.prototype.removeHooks.call(this),this._clearHideErrorTimeout(),this._cleanUpShape(),this._map.removeLayer(this._markerGroup),delete this._markerGroup,delete this._markers,this._map.removeLayer(this._poly),delete this._poly,this._mouseMarker.off("mousedown",this._onMouseDown,this).off("mouseout",this._onMouseOut,this).off("mouseup",this._onMouseUp,this).off("mousemove",this._onMouseMove,this),this._map.removeLayer(this._mouseMarker),delete this._mouseMarker,this._clearGuides(),this._map.off("mouseup",this._onMouseUp,this).off("mousemove",this._onMouseMove,this).off("zoomlevelschange",this._onZoomEnd,this).off("zoomend",this._onZoomEnd,this).off("touchstart",this._onTouch,this).off("click",this._onTouch,this)},deleteLastVertex:function(){if(!(this._markers.length<=1)){var t=this._markers.pop(),e=this._poly,i=e.getLatLngs(),o=i.splice(-1,1)[0];this._poly.setLatLngs(i),this._markerGroup.removeLayer(t),e.getLatLngs().length<2&&this._map.removeLayer(e),this._vertexChanged(o,!1)}},addVertex:function(t){var e=this._markers.length;return e>=2&&!this.options.allowIntersection&&this._poly.newLatLngIntersects(t)?void this._showErrorTooltip():(this._errorShown&&this._hideErrorTooltip(),this._markers.push(this._createMarker(t)),this._poly.addLatLng(t),2===this._poly.getLatLngs().length&&this._map.addLayer(this._poly),void this._vertexChanged(t,!0))},completeShape:function(){this._markers.length<=1||(this._fireCreatedEvent(),this.disable(),this.options.repeatMode&&this.enable())},_finishShape:function(){var t=this._poly._defaultShape?this._poly._defaultShape():this._poly.getLatLngs(),e=this._poly.newLatLngIntersects(t[t.length-1]);return!this.options.allowIntersection&&e||!this._shapeIsValid()?void this._showErrorTooltip():(this._fireCreatedEvent(),this.disable(),void(this.options.repeatMode&&this.enable()))},_shapeIsValid:function(){return!0},_onZoomEnd:function(){null!==this._markers&&this._updateGuide()},_onMouseMove:function(t){var e=this._map.mouseEventToLayerPoint(t.originalEvent),i=this._map.layerPointToLatLng(e);this._currentLatLng=i,this._updateTooltip(i),this._updateGuide(e),this._mouseMarker.setLatLng(i),L.DomEvent.preventDefault(t.originalEvent)},_vertexChanged:function(t,e){this._map.fire(L.Draw.Event.DRAWVERTEX,{layers:this._markerGroup}),this._updateFinishHandler(),this._updateRunningMeasure(t,e),this._clearGuides(),this._updateTooltip()},_onMouseDown:function(t){if(!this._clickHandled&&!this._touchHandled&&!this._disableMarkers){this._onMouseMove(t),this._clickHandled=!0,this._disableNewMarkers();var e=t.originalEvent,i=e.clientX,o=e.clientY;this._startPoint.call(this,i,o)}},_startPoint:function(t,e){this._mouseDownOrigin=L.point(t,e)},_onMouseUp:function(t){var e=t.originalEvent,i=e.clientX,o=e.clientY;this._endPoint.call(this,i,o,t),this._clickHandled=null},_endPoint:function(e,i,o){if(this._mouseDownOrigin){var n=L.point(e,i).distanceTo(this._mouseDownOrigin),s=this._calculateFinishDistance(o.latlng);s<10&&L.Browser.touch?this._finishShape():Math.abs(n)<9*(t.devicePixelRatio||1)&&this.addVertex(o.latlng),this._enableNewMarkers()}this._mouseDownOrigin=null},_onTouch:function(t){var e,i,o=t.originalEvent;!o.touches||!o.touches[0]||this._clickHandled||this._touchHandled||this._disableMarkers||(e=o.touches[0].clientX,i=o.touches[0].clientY,this._disableNewMarkers(),this._touchHandled=!0,this._startPoint.call(this,e,i),this._endPoint.call(this,e,i,t),this._touchHandled=null),this._clickHandled=null},_onMouseOut:function(){this._tooltip&&this._tooltip._onMouseOut.call(this._tooltip)},_calculateFinishDistance:function(t){var e;if(this._markers.length>0){var i;if(this.type===L.Draw.Polyline.TYPE)i=this._markers[this._markers.length-1];else{if(this.type!==L.Draw.Polygon.TYPE)return 1/0;i=this._markers[0]}var o=this._map.latLngToContainerPoint(i.getLatLng()),n=new L.Marker(t,{icon:this.options.icon,zIndexOffset:2*this.options.zIndexOffset}),s=this._map.latLngToContainerPoint(n.getLatLng());e=o.distanceTo(s)}else e=1/0;return e},_updateFinishHandler:function(){var t=this._markers.length;t>1&&this._markers[t-1].on("click",this._finishShape,this),t>2&&this._markers[t-2].off("click",this._finishShape,this)},_createMarker:function(t){var e=new L.Marker(t,{icon:this.options.icon,zIndexOffset:2*this.options.zIndexOffset});return this._markerGroup.addLayer(e),e},_updateGuide:function(t){var e=this._markers?this._markers.length:0;e>0&&(t=t||this._map.latLngToLayerPoint(this._currentLatLng),this._clearGuides(),this._drawGuide(this._map.latLngToLayerPoint(this._markers[e-1].getLatLng()),t))},_updateTooltip:function(t){var e=this._getTooltipText();t&&this._tooltip.updatePosition(t),this._errorShown||this._tooltip.updateContent(e)},_drawGuide:function(t,e){var i,o,n,s=Math.floor(Math.sqrt(Math.pow(e.x-t.x,2)+Math.pow(e.y-t.y,2))),a=this.options.guidelineDistance,r=this.options.maxGuideLineLength,h=s>r?s-r:a;for(this._guidesContainer||(this._guidesContainer=L.DomUtil.create("div","leaflet-draw-guides",this._overlayPane));h<s;h+=this.options.guidelineDistance)i=h/s,o={x:Math.floor(t.x*(1-i)+i*e.x),y:Math.floor(t.y*(1-i)+i*e.y)},n=L.DomUtil.create("div","leaflet-draw-guide-dash",this._guidesContainer),n.style.backgroundColor=this._errorShown?this.options.drawError.color:this.options.shapeOptions.color,L.DomUtil.setPosition(n,o)},_updateGuideColor:function(t){if(this._guidesContainer)for(var e=0,i=this._guidesContainer.childNodes.length;e<i;e++)this._guidesContainer.childNodes[e].style.backgroundColor=t},_clearGuides:function(){if(this._guidesContainer)for(;this._guidesContainer.firstChild;)this._guidesContainer.removeChild(this._guidesContainer.firstChild)},_getTooltipText:function(){var t,e,i=this.options.showLength;return L.Browser.touch&&(i=!1),0===this._markers.length?t={text:L.drawLocal.draw.handlers.polyline.tooltip.start}:(e=i?this._getMeasurementString():"",t=1===this._markers.length?{text:L.drawLocal.draw.handlers.polyline.tooltip.cont,subtext:e}:{text:L.drawLocal.draw.handlers.polyline.tooltip.end,subtext:e}),t},_updateRunningMeasure:function(t,e){var i,o,n=this._markers.length;1===this._markers.length?this._measurementRunningTotal=0:(i=n-(e?2:1),o=t.distanceTo(this._markers[i].getLatLng()),this._measurementRunningTotal+=o*(e?1:-1))},_getMeasurementString:function(){var t,e=this._currentLatLng,i=this._markers[this._markers.length-1].getLatLng();return t=this._measurementRunningTotal+e.distanceTo(i),L.GeometryUtil.readableDistance(t,this.options.metric,this.options.feet,this.options.nautic)},_showErrorTooltip:function(){this._errorShown=!0,this._tooltip.showAsError().updateContent({text:this.options.drawError.message}),this._updateGuideColor(this.options.drawError.color),this._poly.setStyle({color:this.options.drawError.color}),this._clearHideErrorTimeout(),this._hideErrorTimeout=setTimeout(L.Util.bind(this._hideErrorTooltip,this),this.options.drawError.timeout)},_hideErrorTooltip:function(){this._errorShown=!1,this._clearHideErrorTimeout(),this._tooltip.removeError().updateContent(this._getTooltipText()),this._updateGuideColor(this.options.shapeOptions.color),this._poly.setStyle({color:this.options.shapeOptions.color})},_clearHideErrorTimeout:function(){this._hideErrorTimeout&&(clearTimeout(this._hideErrorTimeout),this._hideErrorTimeout=null)},_disableNewMarkers:function(){this._disableMarkers=!0},_enableNewMarkers:function(){setTimeout(function(){this._disableMarkers=!1}.bind(this),50)},_cleanUpShape:function(){this._markers.length>1&&this._markers[this._markers.length-1].off("click",this._finishShape,this)},_fireCreatedEvent:function(){var t=new this.Poly(this._poly.getLatLngs(),this.options.shapeOptions);L.Draw.Feature.prototype._fireCreatedEvent.call(this,t)}}),L.Draw.Polygon=L.Draw.Polyline.extend({statics:{TYPE:"polygon"},Poly:L.Polygon,options:{showArea:!1,shapeOptions:{stroke:!0,color:"#3388ff",weight:4,opacity:.5,fill:!0,fillColor:null,fillOpacity:.2,clickable:!0},metric:!0},initialize:function(t,e){L.Draw.Polyline.prototype.initialize.call(this,t,e),this.type=L.Draw.Polygon.TYPE},_updateFinishHandler:function(){var t=this._markers.length;1===t&&this._markers[0].on("click",this._finishShape,this),t>2&&(this._markers[t-1].on("dblclick",this._finishShape,this),t>3&&this._markers[t-2].off("dblclick",this._finishShape,this))},_getTooltipText:function(){var t,e;return 0===this._markers.length?t=L.drawLocal.draw.handlers.polygon.tooltip.start:this._markers.length<3?t=L.drawLocal.draw.handlers.polygon.tooltip.cont:(t=L.drawLocal.draw.handlers.polygon.tooltip.end,e=this._getMeasurementString()),{text:t,subtext:e}},_getMeasurementString:function(){var t=this._area;return t?L.GeometryUtil.readableArea(t,this.options.metric):null},_shapeIsValid:function(){return this._markers.length>=3},_vertexChanged:function(t,e){var i;!this.options.allowIntersection&&this.options.showArea&&(i=this._poly.getLatLngs(),this._area=L.GeometryUtil.geodesicArea(i)),L.Draw.Polyline.prototype._vertexChanged.call(this,t,e)},_cleanUpShape:function(){var t=this._markers.length;t>0&&(this._markers[0].off("click",this._finishShape,this),t>2&&this._markers[t-1].off("dblclick",this._finishShape,this))}}),L.SimpleShape={},L.Draw.SimpleShape=L.Draw.Feature.extend({options:{repeatMode:!1},initialize:function(t,e){this._endLabelText=L.drawLocal.draw.handlers.simpleshape.tooltip.end,L.Draw.Feature.prototype.initialize.call(this,t,e)},addHooks:function(){L.Draw.Feature.prototype.addHooks.call(this),this._map&&(this._mapDraggable=this._map.dragging.enabled(),this._mapDraggable&&this._map.dragging.disable(),this._container.style.cursor="crosshair",this._tooltip.updateContent({text:this._initialLabelText}),this._map.on("mousedown",this._onMouseDown,this).on("mousemove",this._onMouseMove,this).on("touchstart",this._onMouseDown,this).on("touchmove",this._onMouseMove,this))},removeHooks:function(){L.Draw.Feature.prototype.removeHooks.call(this),this._map&&(this._mapDraggable&&this._map.dragging.enable(),this._container.style.cursor="",this._map.off("mousedown",this._onMouseDown,this).off("mousemove",this._onMouseMove,this).off("touchstart",this._onMouseDown,this).off("touchmove",this._onMouseMove,this),L.DomEvent.off(e,"mouseup",this._onMouseUp,this),L.DomEvent.off(e,"touchend",this._onMouseUp,this),this._shape&&(this._map.removeLayer(this._shape),delete this._shape)),this._isDrawing=!1},_getTooltipText:function(){return{text:this._endLabelText}},_onMouseDown:function(t){this._isDrawing=!0,this._startLatLng=t.latlng,L.DomEvent.on(e,"mouseup",this._onMouseUp,this).on(e,"touchend",this._onMouseUp,this).preventDefault(t.originalEvent)},_onMouseMove:function(t){var e=t.latlng;this._tooltip.updatePosition(e),this._isDrawing&&(this._tooltip.updateContent(this._getTooltipText()),this._drawShape(e))},_onMouseUp:function(){this._shape&&this._fireCreatedEvent(),this.disable(),this.options.repeatMode&&this.enable()}}),L.Draw.Rectangle=L.Draw.SimpleShape.extend({statics:{TYPE:"rectangle"},options:{shapeOptions:{stroke:!0,color:"#3388ff",weight:4,opacity:.5,fill:!0,fillColor:null,fillOpacity:.2,showArea:!0,clickable:!0},metric:!0},initialize:function(t,e){this.type=L.Draw.Rectangle.TYPE,this._initialLabelText=L.drawLocal.draw.handlers.rectangle.tooltip.start,L.Draw.SimpleShape.prototype.initialize.call(this,t,e)},_drawShape:function(t){this._shape?this._shape.setBounds(new L.LatLngBounds(this._startLatLng,t)):(this._shape=new L.Rectangle(new L.LatLngBounds(this._startLatLng,t),this.options.shapeOptions),this._map.addLayer(this._shape))},_fireCreatedEvent:function(){var t=new L.Rectangle(this._shape.getBounds(),this.options.shapeOptions);L.Draw.SimpleShape.prototype._fireCreatedEvent.call(this,t)},_getTooltipText:function(){var t,e,i,o=L.Draw.SimpleShape.prototype._getTooltipText.call(this),n=this._shape,s=this.options.showArea;return n&&(t=this._shape._defaultShape?this._shape._defaultShape():this._shape.getLatLngs(),e=L.GeometryUtil.geodesicArea(t),i=s?L.GeometryUtil.readableArea(e,this.options.metric):""),{text:o.text,subtext:i}}}),L.Draw.Circle=L.Draw.SimpleShape.extend({statics:{TYPE:"circle"},options:{shapeOptions:{stroke:!0,color:"#3388ff",weight:4,opacity:.5,fill:!0,fillColor:null,fillOpacity:.2,clickable:!0},showRadius:!0,metric:!0,feet:!0,nautic:!1},initialize:function(t,e){this.type=L.Draw.Circle.TYPE,this._initialLabelText=L.drawLocal.draw.handlers.circle.tooltip.start,L.Draw.SimpleShape.prototype.initialize.call(this,t,e)},_drawShape:function(t){this._shape?this._shape.setRadius(this._startLatLng.distanceTo(t)):(this._shape=new L.Circle(this._startLatLng,this._startLatLng.distanceTo(t),this.options.shapeOptions),this._map.addLayer(this._shape))},_fireCreatedEvent:function(){var t=new L.Circle(this._startLatLng,this._shape.getRadius(),this.options.shapeOptions);L.Draw.SimpleShape.prototype._fireCreatedEvent.call(this,t)},_onMouseMove:function(t){var e,i=t.latlng,o=this.options.showRadius,n=this.options.metric;if(this._tooltip.updatePosition(i),this._isDrawing){this._drawShape(i),e=this._shape.getRadius().toFixed(1);var s="";o&&(s=L.drawLocal.draw.handlers.circle.radius+": "+L.GeometryUtil.readableDistance(e,n,this.options.feet,this.options.nautic)),this._tooltip.updateContent({text:this._endLabelText,subtext:s})}}}),L.Draw.Marker=L.Draw.Feature.extend({statics:{TYPE:"marker"},options:{icon:new L.Icon.Default,repeatMode:!1,zIndexOffset:2e3},initialize:function(t,e){this.type=L.Draw.Marker.TYPE,L.Draw.Feature.prototype.initialize.call(this,t,e)},addHooks:function(){L.Draw.Feature.prototype.addHooks.call(this),this._map&&(this._tooltip.updateContent({text:L.drawLocal.draw.handlers.marker.tooltip.start}),this._mouseMarker||(this._mouseMarker=L.marker(this._map.getCenter(),{icon:L.divIcon({className:"leaflet-mouse-marker",iconAnchor:[20,20],iconSize:[40,40]}),opacity:0,zIndexOffset:this.options.zIndexOffset})),this._mouseMarker.on("click",this._onClick,this).addTo(this._map),this._map.on("mousemove",this._onMouseMove,this),this._map.on("click",this._onTouch,this))},removeHooks:function(){L.Draw.Feature.prototype.removeHooks.call(this),this._map&&(this._marker&&(this._marker.off("click",this._onClick,this),this._map.off("click",this._onClick,this).off("click",this._onTouch,this).removeLayer(this._marker),delete this._marker),this._mouseMarker.off("click",this._onClick,this),this._map.removeLayer(this._mouseMarker),delete this._mouseMarker,this._map.off("mousemove",this._onMouseMove,this))},_onMouseMove:function(t){var e=t.latlng;this._tooltip.updatePosition(e),this._mouseMarker.setLatLng(e),this._marker?(e=this._mouseMarker.getLatLng(),this._marker.setLatLng(e)):(this._marker=new L.Marker(e,{icon:this.options.icon,zIndexOffset:this.options.zIndexOffset}),this._marker.on("click",this._onClick,this),this._map.on("click",this._onClick,this).addLayer(this._marker))},_onClick:function(){this._fireCreatedEvent(),this.disable(),this.options.repeatMode&&this.enable()},_onTouch:function(t){this._onMouseMove(t),this._onClick()},_fireCreatedEvent:function(){var t=new L.Marker.Touch(this._marker.getLatLng(),{icon:this.options.icon});L.Draw.Feature.prototype._fireCreatedEvent.call(this,t)}}),L.Edit=L.Edit||{},L.Edit.Marker=L.Handler.extend({initialize:function(t,e){this._marker=t,L.setOptions(this,e)},addHooks:function(){var t=this._marker;t.dragging.enable(),t.on("dragend",this._onDragEnd,t),this._toggleMarkerHighlight()},removeHooks:function(){var t=this._marker;t.dragging.disable(),t.off("dragend",this._onDragEnd,t),this._toggleMarkerHighlight()},_onDragEnd:function(t){var e=t.target;e.edited=!0,this._map.fire(L.Draw.Event.EDITMOVE,{layer:e})},_toggleMarkerHighlight:function(){var t=this._marker._icon;t&&(t.style.display="none",L.DomUtil.hasClass(t,"leaflet-edit-marker-selected")?(L.DomUtil.removeClass(t,"leaflet-edit-marker-selected"),this._offsetMarker(t,-4)):(L.DomUtil.addClass(t,"leaflet-edit-marker-selected"),this._offsetMarker(t,4)),t.style.display="")},_offsetMarker:function(t,e){var i=parseInt(t.style.marginTop,10)-e,o=parseInt(t.style.marginLeft,10)-e;t.style.marginTop=i+"px",t.style.marginLeft=o+"px"}}),L.Marker.addInitHook(function(){L.Edit.Marker&&(this.editing=new L.Edit.Marker(this),this.options.editable&&this.editing.enable())}),L.Edit=L.Edit||{},L.Edit.Poly=L.Handler.extend({options:{},initialize:function(t,e){this.latlngs=[t._latlngs],t._holes&&(this.latlngs=this.latlngs.concat(t._holes)),this._poly=t,L.setOptions(this,e),this._poly.on("revert-edited",this._updateLatLngs,this)},_defaultShape:function(){return L.Polyline._flat?L.Polyline._flat(this._poly._latlngs)?this._poly._latlngs:this._poly._latlngs[0]:this._poly._latlngs},_eachVertexHandler:function(t){for(var e=0;e<this._verticesHandlers.length;e++)t(this._verticesHandlers[e])},addHooks:function(){this._initHandlers(),this._eachVertexHandler(function(t){t.addHooks()})},removeHooks:function(){this._eachVertexHandler(function(t){t.removeHooks()})},updateMarkers:function(){this._eachVertexHandler(function(t){t.updateMarkers()})},_initHandlers:function(){this._verticesHandlers=[];for(var t=0;t<this.latlngs.length;t++)this._verticesHandlers.push(new L.Edit.PolyVerticesEdit(this._poly,this.latlngs[t],this.options))},_updateLatLngs:function(t){this.latlngs=[t.layer._latlngs],t.layer._holes&&(this.latlngs=this.latlngs.concat(t.layer._holes))}}),L.Edit.PolyVerticesEdit=L.Handler.extend({options:{icon:new L.DivIcon({iconSize:new L.Point(8,8),className:"leaflet-div-icon leaflet-editing-icon"}),touchIcon:new L.DivIcon({iconSize:new L.Point(20,20),className:"leaflet-div-icon leaflet-editing-icon leaflet-touch-icon"}),drawError:{color:"#b00b00",timeout:1e3}},initialize:function(t,e,i){L.Browser.touch&&(this.options.icon=this.options.touchIcon),this._poly=t,i&&i.drawError&&(i.drawError=L.Util.extend({},this.options.drawError,i.drawError)),this._latlngs=e,L.setOptions(this,i)},_defaultShape:function(){return L.Polyline._flat?L.Polyline._flat(this._latlngs)?this._latlngs:this._latlngs[0]:this._latlngs},addHooks:function(){var t=this._poly;t instanceof L.Polygon||(t.options.fill=!1,t.options.editing&&(t.options.editing.fill=!1)),t.setStyle(t.options.editing),this._poly._map&&(this._map=this._poly._map,this._markerGroup||this._initMarkers(),this._poly._map.addLayer(this._markerGroup))},removeHooks:function(){var t=this._poly;t.setStyle(t.options.original),t._map&&(t._map.removeLayer(this._markerGroup),delete this._markerGroup,delete this._markers)},updateMarkers:function(){this._markerGroup.clearLayers(),this._initMarkers()},_initMarkers:function(){this._markerGroup||(this._markerGroup=new L.LayerGroup),this._markers=[];var t,e,i,o,n=this._defaultShape();for(t=0,i=n.length;t<i;t++)o=this._createMarker(n[t],t),o.on("click",this._onMarkerClick,this),this._markers.push(o);var s,a;for(t=0,e=i-1;t<i;e=t++)(0!==t||L.Polygon&&this._poly instanceof L.Polygon)&&(s=this._markers[e],a=this._markers[t],this._createMiddleMarker(s,a),this._updatePrevNext(s,a))},_createMarker:function(t,e){var i=new L.Marker.Touch(t,{draggable:!0,icon:this.options.icon});return i._origLatLng=t,i._index=e,i.on("dragstart",this._onMarkerDragStart,this).on("drag",this._onMarkerDrag,this).on("dragend",this._fireEdit,this).on("touchmove",this._onTouchMove,this).on("touchend",this._fireEdit,this).on("MSPointerMove",this._onTouchMove,this).on("MSPointerUp",this._fireEdit,this),this._markerGroup.addLayer(i),i},_onMarkerDragStart:function(){this._poly.fire("editstart")},_spliceLatLngs:function(){var t=this._defaultShape(),e=[].splice.apply(t,arguments);return this._poly._convertLatLngs(t,!0),this._poly.redraw(),e},_removeMarker:function(t){var e=t._index;this._markerGroup.removeLayer(t),this._markers.splice(e,1),this._spliceLatLngs(e,1),this._updateIndexes(e,-1),t.off("dragstart",this._onMarkerDragStart,this).off("drag",this._onMarkerDrag,this).off("dragend",this._fireEdit,this).off("touchmove",this._onMarkerDrag,this).off("touchend",this._fireEdit,this).off("click",this._onMarkerClick,this).off("MSPointerMove",this._onTouchMove,this).off("MSPointerUp",this._fireEdit,this)},_fireEdit:function(){this._poly.edited=!0,this._poly.fire("edit"),this._poly._map.fire(L.Draw.Event.EDITVERTEX,{layers:this._markerGroup,poly:this._poly})},_onMarkerDrag:function(t){var e=t.target,i=this._poly;if(L.extend(e._origLatLng,e._latlng),e._middleLeft&&e._middleLeft.setLatLng(this._getMiddleLatLng(e._prev,e)),e._middleRight&&e._middleRight.setLatLng(this._getMiddleLatLng(e,e._next)),i.options.poly){var o=i._map._editTooltip;if(!i.options.poly.allowIntersection&&i.intersects()){var n=i.options.color;i.setStyle({color:this.options.drawError.color}),0!==L.version.indexOf("0.7")&&e.dragging._draggable._onUp(t),this._onMarkerClick(t),o&&o.updateContent({text:L.drawLocal.draw.handlers.polyline.error}),setTimeout(function(){i.setStyle({color:n}),o&&o.updateContent({text:L.drawLocal.edit.handlers.edit.tooltip.text,subtext:L.drawLocal.edit.handlers.edit.tooltip.subtext})},1e3)}}this._poly.redraw(),this._poly.fire("editdrag")},_onMarkerClick:function(t){var e=L.Polygon&&this._poly instanceof L.Polygon?4:3,i=t.target;this._defaultShape().length<e||(this._removeMarker(i),this._updatePrevNext(i._prev,i._next),i._middleLeft&&this._markerGroup.removeLayer(i._middleLeft),i._middleRight&&this._markerGroup.removeLayer(i._middleRight),i._prev&&i._next?this._createMiddleMarker(i._prev,i._next):i._prev?i._next||(i._prev._middleRight=null):i._next._middleLeft=null,this._fireEdit())},_onTouchMove:function(t){var e=this._map.mouseEventToLayerPoint(t.originalEvent.touches[0]),i=this._map.layerPointToLatLng(e),o=t.target;L.extend(o._origLatLng,i),o._middleLeft&&o._middleLeft.setLatLng(this._getMiddleLatLng(o._prev,o)),o._middleRight&&o._middleRight.setLatLng(this._getMiddleLatLng(o,o._next)),this._poly.redraw(),this.updateMarkers()},_updateIndexes:function(t,e){this._markerGroup.eachLayer(function(i){i._index>t&&(i._index+=e)})},_createMiddleMarker:function(t,e){var i,o,n,s=this._getMiddleLatLng(t,e),a=this._createMarker(s);a.setOpacity(.6),t._middleRight=e._middleLeft=a,o=function(){a.off("touchmove",o,this);var n=e._index;a._index=n,a.off("click",i,this).on("click",this._onMarkerClick,this),s.lat=a.getLatLng().lat,s.lng=a.getLatLng().lng,this._spliceLatLngs(n,0,s),this._markers.splice(n,0,a),a.setOpacity(1),this._updateIndexes(n,1),e._index++,this._updatePrevNext(t,a),this._updatePrevNext(a,e),this._poly.fire("editstart")},n=function(){a.off("dragstart",o,this),a.off("dragend",n,this),a.off("touchmove",o,this),this._createMiddleMarker(t,a),this._createMiddleMarker(a,e)},i=function(){o.call(this),n.call(this),this._fireEdit()},a.on("click",i,this).on("dragstart",o,this).on("dragend",n,this).on("touchmove",o,this),this._markerGroup.addLayer(a)},_updatePrevNext:function(t,e){t&&(t._next=e),e&&(e._prev=t)},_getMiddleLatLng:function(t,e){var i=this._poly._map,o=i.project(t.getLatLng()),n=i.project(e.getLatLng());return i.unproject(o._add(n)._divideBy(2))}}),L.Polyline.addInitHook(function(){this.editing||(L.Edit.Poly&&(this.editing=new L.Edit.Poly(this,this.options.poly),this.options.editable&&this.editing.enable()),this.on("add",function(){this.editing&&this.editing.enabled()&&this.editing.addHooks()}),this.on("remove",function(){this.editing&&this.editing.enabled()&&this.editing.removeHooks()}))}),L.Edit=L.Edit||{},L.Edit.SimpleShape=L.Handler.extend({options:{moveIcon:new L.DivIcon({iconSize:new L.Point(8,8),className:"leaflet-div-icon leaflet-editing-icon leaflet-edit-move"}),resizeIcon:new L.DivIcon({iconSize:new L.Point(8,8),className:"leaflet-div-icon leaflet-editing-icon leaflet-edit-resize"}),touchMoveIcon:new L.DivIcon({iconSize:new L.Point(20,20),className:"leaflet-div-icon leaflet-editing-icon leaflet-edit-move leaflet-touch-icon"}),touchResizeIcon:new L.DivIcon({iconSize:new L.Point(20,20),className:"leaflet-div-icon leaflet-editing-icon leaflet-edit-resize leaflet-touch-icon"})},initialize:function(t,e){L.Browser.touch&&(this.options.moveIcon=this.options.touchMoveIcon,this.options.resizeIcon=this.options.touchResizeIcon),this._shape=t,L.Util.setOptions(this,e)},addHooks:function(){var t=this._shape;this._shape._map&&(this._map=this._shape._map,t.setStyle(t.options.editing),t._map&&(this._map=t._map,this._markerGroup||this._initMarkers(),this._map.addLayer(this._markerGroup)))},removeHooks:function(){var t=this._shape;if(t.setStyle(t.options.original),t._map){this._unbindMarker(this._moveMarker);for(var e=0,i=this._resizeMarkers.length;e<i;e++)this._unbindMarker(this._resizeMarkers[e]);this._resizeMarkers=null,this._map.removeLayer(this._markerGroup),delete this._markerGroup}this._map=null},updateMarkers:function(){this._markerGroup.clearLayers(),this._initMarkers()},_initMarkers:function(){this._markerGroup||(this._markerGroup=new L.LayerGroup),this._createMoveMarker(),this._createResizeMarker()},_createMoveMarker:function(){},_createResizeMarker:function(){},_createMarker:function(t,e){var i=new L.Marker.Touch(t,{draggable:!0,icon:e,zIndexOffset:10});return this._bindMarker(i),this._markerGroup.addLayer(i),i},_bindMarker:function(t){t.on("dragstart",this._onMarkerDragStart,this).on("drag",this._onMarkerDrag,this).on("dragend",this._onMarkerDragEnd,this).on("touchstart",this._onTouchStart,this).on("touchmove",this._onTouchMove,this).on("MSPointerMove",this._onTouchMove,this).on("touchend",this._onTouchEnd,this).on("MSPointerUp",this._onTouchEnd,this)},_unbindMarker:function(t){t.off("dragstart",this._onMarkerDragStart,this).off("drag",this._onMarkerDrag,this).off("dragend",this._onMarkerDragEnd,this).off("touchstart",this._onTouchStart,this).off("touchmove",this._onTouchMove,this).off("MSPointerMove",this._onTouchMove,this).off("touchend",this._onTouchEnd,this).off("MSPointerUp",this._onTouchEnd,this)},_onMarkerDragStart:function(t){var e=t.target;e.setOpacity(0),this._shape.fire("editstart")},_fireEdit:function(){this._shape.edited=!0,this._shape.fire("edit")},_onMarkerDrag:function(t){var e=t.target,i=e.getLatLng();e===this._moveMarker?this._move(i):this._resize(i),this._shape.redraw(),this._shape.fire("editdrag")},_onMarkerDragEnd:function(t){var e=t.target;e.setOpacity(1),this._fireEdit()},_onTouchStart:function(t){if(L.Edit.SimpleShape.prototype._onMarkerDragStart.call(this,t),"function"==typeof this._getCorners){var e=this._getCorners(),i=t.target,o=i._cornerIndex;i.setOpacity(0),this._oppositeCorner=e[(o+2)%4],this._toggleCornerMarkers(0,o)}this._shape.fire("editstart")},_onTouchMove:function(t){var e=this._map.mouseEventToLayerPoint(t.originalEvent.touches[0]),i=this._map.layerPointToLatLng(e),o=t.target;return o===this._moveMarker?this._move(i):this._resize(i),this._shape.redraw(),!1},_onTouchEnd:function(t){var e=t.target;e.setOpacity(1),this.updateMarkers(),this._fireEdit()},_move:function(){},_resize:function(){}}),L.Edit=L.Edit||{},L.Edit.Rectangle=L.Edit.SimpleShape.extend({_createMoveMarker:function(){var t=this._shape.getBounds(),e=t.getCenter();this._moveMarker=this._createMarker(e,this.options.moveIcon);
+},_createResizeMarker:function(){var t=this._getCorners();this._resizeMarkers=[];for(var e=0,i=t.length;e<i;e++)this._resizeMarkers.push(this._createMarker(t[e],this.options.resizeIcon)),this._resizeMarkers[e]._cornerIndex=e},_onMarkerDragStart:function(t){L.Edit.SimpleShape.prototype._onMarkerDragStart.call(this,t);var e=this._getCorners(),i=t.target,o=i._cornerIndex;this._oppositeCorner=e[(o+2)%4],this._toggleCornerMarkers(0,o)},_onMarkerDragEnd:function(t){var e,i,o=t.target;o===this._moveMarker&&(e=this._shape.getBounds(),i=e.getCenter(),o.setLatLng(i)),this._toggleCornerMarkers(1),this._repositionCornerMarkers(),L.Edit.SimpleShape.prototype._onMarkerDragEnd.call(this,t)},_move:function(t){for(var e,i=this._shape._defaultShape?this._shape._defaultShape():this._shape.getLatLngs(),o=this._shape.getBounds(),n=o.getCenter(),s=[],a=0,r=i.length;a<r;a++)e=[i[a].lat-n.lat,i[a].lng-n.lng],s.push([t.lat+e[0],t.lng+e[1]]);this._shape.setLatLngs(s),this._repositionCornerMarkers(),this._map.fire(L.Draw.Event.EDITMOVE,{layer:this._shape})},_resize:function(t){var e;this._shape.setBounds(L.latLngBounds(t,this._oppositeCorner)),e=this._shape.getBounds(),this._moveMarker.setLatLng(e.getCenter()),this._map.fire(L.Draw.Event.EDITRESIZE,{layer:this._shape})},_getCorners:function(){var t=this._shape.getBounds(),e=t.getNorthWest(),i=t.getNorthEast(),o=t.getSouthEast(),n=t.getSouthWest();return[e,i,o,n]},_toggleCornerMarkers:function(t){for(var e=0,i=this._resizeMarkers.length;e<i;e++)this._resizeMarkers[e].setOpacity(t)},_repositionCornerMarkers:function(){for(var t=this._getCorners(),e=0,i=this._resizeMarkers.length;e<i;e++)this._resizeMarkers[e].setLatLng(t[e])}}),L.Rectangle.addInitHook(function(){L.Edit.Rectangle&&(this.editing=new L.Edit.Rectangle(this),this.options.editable&&this.editing.enable())}),L.Edit=L.Edit||{},L.Edit.Circle=L.Edit.SimpleShape.extend({_createMoveMarker:function(){var t=this._shape.getLatLng();this._moveMarker=this._createMarker(t,this.options.moveIcon)},_createResizeMarker:function(){var t=this._shape.getLatLng(),e=this._getResizeMarkerPoint(t);this._resizeMarkers=[],this._resizeMarkers.push(this._createMarker(e,this.options.resizeIcon))},_getResizeMarkerPoint:function(t){var e=this._shape._radius*Math.cos(Math.PI/4),i=this._map.project(t);return this._map.unproject([i.x+e,i.y-e])},_move:function(t){var e=this._getResizeMarkerPoint(t);this._resizeMarkers[0].setLatLng(e),this._shape.setLatLng(t),this._map.fire(L.Draw.Event.EDITMOVE,{layer:this._shape})},_resize:function(t){var e=this._moveMarker.getLatLng(),i=e.distanceTo(t);this._shape.setRadius(i),this._map.fire(L.Draw.Event.EDITRESIZE,{layer:this._shape})}}),L.Circle.addInitHook(function(){L.Edit.Circle&&(this.editing=new L.Edit.Circle(this),this.options.editable&&this.editing.enable()),this.on("add",function(){this.editing&&this.editing.enabled()&&this.editing.addHooks()}),this.on("remove",function(){this.editing&&this.editing.enabled()&&this.editing.removeHooks()})}),L.Map.mergeOptions({touchExtend:!0}),L.Map.TouchExtend=L.Handler.extend({initialize:function(t){this._map=t,this._container=t._container,this._pane=t._panes.overlayPane},addHooks:function(){L.DomEvent.on(this._container,"touchstart",this._onTouchStart,this),L.DomEvent.on(this._container,"touchend",this._onTouchEnd,this),L.DomEvent.on(this._container,"touchmove",this._onTouchMove,this),this._detectIE()?(L.DomEvent.on(this._container,"MSPointerDown",this._onTouchStart,this),L.DomEvent.on(this._container,"MSPointerUp",this._onTouchEnd,this),L.DomEvent.on(this._container,"MSPointerMove",this._onTouchMove,this),L.DomEvent.on(this._container,"MSPointerCancel",this._onTouchCancel,this)):(L.DomEvent.on(this._container,"touchcancel",this._onTouchCancel,this),L.DomEvent.on(this._container,"touchleave",this._onTouchLeave,this))},removeHooks:function(){L.DomEvent.off(this._container,"touchstart",this._onTouchStart),L.DomEvent.off(this._container,"touchend",this._onTouchEnd),L.DomEvent.off(this._container,"touchmove",this._onTouchMove),this._detectIE()?(L.DomEvent.off(this._container,"MSPointerDowm",this._onTouchStart),L.DomEvent.off(this._container,"MSPointerUp",this._onTouchEnd),L.DomEvent.off(this._container,"MSPointerMove",this._onTouchMove),L.DomEvent.off(this._container,"MSPointerCancel",this._onTouchCancel)):(L.DomEvent.off(this._container,"touchcancel",this._onTouchCancel),L.DomEvent.off(this._container,"touchleave",this._onTouchLeave))},_touchEvent:function(t,e){var i={};if("undefined"!=typeof t.touches){if(!t.touches.length)return;i=t.touches[0]}else{if("touch"!==t.pointerType)return;if(i=t,!this._filterClick(t))return}var o=this._map.mouseEventToContainerPoint(i),n=this._map.mouseEventToLayerPoint(i),s=this._map.layerPointToLatLng(n);this._map.fire(e,{latlng:s,layerPoint:n,containerPoint:o,pageX:i.pageX,pageY:i.pageY,originalEvent:t})},_filterClick:function(t){var e=t.timeStamp||t.originalEvent.timeStamp,i=L.DomEvent._lastClick&&e-L.DomEvent._lastClick;return i&&i>100&&i<500||t.target._simulatedClick&&!t._simulated?(L.DomEvent.stop(t),!1):(L.DomEvent._lastClick=e,!0)},_onTouchStart:function(t){if(this._map._loaded){var e="touchstart";this._touchEvent(t,e)}},_onTouchEnd:function(t){if(this._map._loaded){var e="touchend";this._touchEvent(t,e)}},_onTouchCancel:function(t){if(this._map._loaded){var e="touchcancel";this._detectIE()&&(e="pointercancel"),this._touchEvent(t,e)}},_onTouchLeave:function(t){if(this._map._loaded){var e="touchleave";this._touchEvent(t,e)}},_onTouchMove:function(t){if(this._map._loaded){var e="touchmove";this._touchEvent(t,e)}},_detectIE:function(){var e=t.navigator.userAgent,i=e.indexOf("MSIE ");if(i>0)return parseInt(e.substring(i+5,e.indexOf(".",i)),10);var o=e.indexOf("Trident/");if(o>0){var n=e.indexOf("rv:");return parseInt(e.substring(n+3,e.indexOf(".",n)),10)}var s=e.indexOf("Edge/");return s>0&&parseInt(e.substring(s+5,e.indexOf(".",s)),10)}}),L.Map.addInitHook("addHandler","touchExtend",L.Map.TouchExtend),L.Marker.Touch=L.Marker.extend({_initInteraction:function(){return this.addInteractiveTarget?L.Marker.prototype._initInteraction.apply(this):this._initInteractionLegacy()},_initInteractionLegacy:function(){if(this.options.clickable){var t=this._icon,e=["dblclick","mousedown","mouseover","mouseout","contextmenu","touchstart","touchend","touchmove"];this._detectIE?e.concat(["MSPointerDown","MSPointerUp","MSPointerMove","MSPointerCancel"]):e.concat(["touchcancel"]),L.DomUtil.addClass(t,"leaflet-clickable"),L.DomEvent.on(t,"click",this._onMouseClick,this),L.DomEvent.on(t,"keypress",this._onKeyPress,this);for(var i=0;i<e.length;i++)L.DomEvent.on(t,e[i],this._fireMouseEvent,this);L.Handler.MarkerDrag&&(this.dragging=new L.Handler.MarkerDrag(this),this.options.draggable&&this.dragging.enable())}},_detectIE:function(){var e=t.navigator.userAgent,i=e.indexOf("MSIE ");if(i>0)return parseInt(e.substring(i+5,e.indexOf(".",i)),10);var o=e.indexOf("Trident/");if(o>0){var n=e.indexOf("rv:");return parseInt(e.substring(n+3,e.indexOf(".",n)),10)}var s=e.indexOf("Edge/");return s>0&&parseInt(e.substring(s+5,e.indexOf(".",s)),10)}}),L.LatLngUtil={cloneLatLngs:function(t){for(var e=[],i=0,o=t.length;i<o;i++)Array.isArray(t[i])?e.push(L.LatLngUtil.cloneLatLngs(t[i])):e.push(this.cloneLatLng(t[i]));return e},cloneLatLng:function(t){return L.latLng(t.lat,t.lng)}},L.GeometryUtil=L.extend(L.GeometryUtil||{},{geodesicArea:function(t){var e,i,o=t.length,n=0,s=Math.PI/180;if(o>2){for(var a=0;a<o;a++)e=t[a],i=t[(a+1)%o],n+=(i.lng-e.lng)*s*(2+Math.sin(e.lat*s)+Math.sin(i.lat*s));n=6378137*n*6378137/2}return Math.abs(n)},readableArea:function(t,e){var i;return e?i=t>=1e4?(1e-4*t).toFixed(2)+" ha":t.toFixed(2)+" m&sup2;":(t/=.836127,i=t>=3097600?(t/3097600).toFixed(2)+" mi&sup2;":t>=4840?(t/4840).toFixed(2)+" acres":Math.ceil(t)+" yd&sup2;"),i},readableDistance:function(t,e,i,o){var n,s;switch(s="string"==typeof e?e:i?"feet":o?"nauticalMile":e?"metric":"yards"){case"metric":n=t>1e3?(t/1e3).toFixed(2)+" km":Math.ceil(t)+" m";break;case"feet":t*=3.28083,n=Math.ceil(t)+" ft";break;case"nauticalMile":t*=.53996,n=(t/1e3).toFixed(2)+" nm";break;case"yards":default:t*=1.09361,n=t>1760?(t/1760).toFixed(2)+" miles":Math.ceil(t)+" yd"}return n}}),L.Util.extend(L.LineUtil,{segmentsIntersect:function(t,e,i,o){return this._checkCounterclockwise(t,i,o)!==this._checkCounterclockwise(e,i,o)&&this._checkCounterclockwise(t,e,i)!==this._checkCounterclockwise(t,e,o)},_checkCounterclockwise:function(t,e,i){return(i.y-t.y)*(e.x-t.x)>(e.y-t.y)*(i.x-t.x)}}),L.Polyline.include({intersects:function(){var t,e,i,o=this._getProjectedPoints(),n=o?o.length:0;if(this._tooFewPointsForIntersection())return!1;for(t=n-1;t>=3;t--)if(e=o[t-1],i=o[t],this._lineSegmentsIntersectsRange(e,i,t-2))return!0;return!1},newLatLngIntersects:function(t,e){return!!this._map&&this.newPointIntersects(this._map.latLngToLayerPoint(t),e)},newPointIntersects:function(t,e){var i=this._getProjectedPoints(),o=i?i.length:0,n=i?i[o-1]:null,s=o-2;return!this._tooFewPointsForIntersection(1)&&this._lineSegmentsIntersectsRange(n,t,s,e?1:0)},_tooFewPointsForIntersection:function(t){var e=this._getProjectedPoints(),i=e?e.length:0;return i+=t||0,!e||i<=3},_lineSegmentsIntersectsRange:function(t,e,i,o){var n,s,a=this._getProjectedPoints();o=o||0;for(var r=i;r>o;r--)if(n=a[r-1],s=a[r],L.LineUtil.segmentsIntersect(t,e,n,s))return!0;return!1},_getProjectedPoints:function(){if(!this._defaultShape)return this._originalPoints;for(var t=[],e=this._defaultShape(),i=0;i<e.length;i++)t.push(this._map.latLngToLayerPoint(e[i]));return t}}),L.Polygon.include({intersects:function(){var t,e,i,o,n,s=this._getProjectedPoints();return!this._tooFewPointsForIntersection()&&(!!(t=L.Polyline.prototype.intersects.call(this))||(e=s.length,i=s[0],o=s[e-1],n=e-2,this._lineSegmentsIntersectsRange(o,i,n,1)))}}),L.Control.Draw=L.Control.extend({options:{position:"topleft",draw:{},edit:!1},initialize:function(t){if(L.version<"0.7")throw new Error("Leaflet.draw 0.2.3+ requires Leaflet 0.7.0+. Download latest from https://github.com/Leaflet/Leaflet/");L.Control.prototype.initialize.call(this,t);var e;this._toolbars={},L.DrawToolbar&&this.options.draw&&(e=new L.DrawToolbar(this.options.draw),this._toolbars[L.DrawToolbar.TYPE]=e,this._toolbars[L.DrawToolbar.TYPE].on("enable",this._toolbarEnabled,this)),L.EditToolbar&&this.options.edit&&(e=new L.EditToolbar(this.options.edit),this._toolbars[L.EditToolbar.TYPE]=e,this._toolbars[L.EditToolbar.TYPE].on("enable",this._toolbarEnabled,this)),L.toolbar=this},onAdd:function(t){var e,i=L.DomUtil.create("div","leaflet-draw"),o=!1,n="leaflet-draw-toolbar-top";for(var s in this._toolbars)this._toolbars.hasOwnProperty(s)&&(e=this._toolbars[s].addToolbar(t),e&&(o||(L.DomUtil.hasClass(e,n)||L.DomUtil.addClass(e.childNodes[0],n),o=!0),i.appendChild(e)));return i},onRemove:function(){for(var t in this._toolbars)this._toolbars.hasOwnProperty(t)&&this._toolbars[t].removeToolbar()},setDrawingOptions:function(t){for(var e in this._toolbars)this._toolbars[e]instanceof L.DrawToolbar&&this._toolbars[e].setOptions(t)},_toolbarEnabled:function(t){var e=t.target;for(var i in this._toolbars)this._toolbars[i]!==e&&this._toolbars[i].disable()}}),L.Map.mergeOptions({drawControlTooltips:!0,drawControl:!1}),L.Map.addInitHook(function(){this.options.drawControl&&(this.drawControl=new L.Control.Draw,this.addControl(this.drawControl))}),L.Toolbar=L.Class.extend({includes:[L.Mixin.Events],initialize:function(t){L.setOptions(this,t),this._modes={},this._actionButtons=[],this._activeMode=null},enabled:function(){return null!==this._activeMode},disable:function(){this.enabled()&&this._activeMode.handler.disable()},addToolbar:function(t){var e,i=L.DomUtil.create("div","leaflet-draw-section"),o=0,n=this._toolbarClass||"",s=this.getModeHandlers(t);for(this._toolbarContainer=L.DomUtil.create("div","leaflet-draw-toolbar leaflet-bar"),this._map=t,e=0;e<s.length;e++)s[e].enabled&&this._initModeHandler(s[e].handler,this._toolbarContainer,o++,n,s[e].title);if(o)return this._lastButtonIndex=--o,this._actionsContainer=L.DomUtil.create("ul","leaflet-draw-actions"),i.appendChild(this._toolbarContainer),i.appendChild(this._actionsContainer),i},removeToolbar:function(){for(var t in this._modes)this._modes.hasOwnProperty(t)&&(this._disposeButton(this._modes[t].button,this._modes[t].handler.enable,this._modes[t].handler),this._modes[t].handler.disable(),this._modes[t].handler.off("enabled",this._handlerActivated,this).off("disabled",this._handlerDeactivated,this));this._modes={};for(var e=0,i=this._actionButtons.length;e<i;e++)this._disposeButton(this._actionButtons[e].button,this._actionButtons[e].callback,this);this._actionButtons=[],this._actionsContainer=null},_initModeHandler:function(t,e,i,o,n){var s=t.type;this._modes[s]={},this._modes[s].handler=t,this._modes[s].button=this._createButton({type:s,title:n,className:o+"-"+s,container:e,callback:this._modes[s].handler.enable,context:this._modes[s].handler}),this._modes[s].buttonIndex=i,this._modes[s].handler.on("enabled",this._handlerActivated,this).on("disabled",this._handlerDeactivated,this)},_createButton:function(t){var e=L.DomUtil.create("a",t.className||"",t.container),i=L.DomUtil.create("span","sr-only",t.container);return e.href="#",e.appendChild(i),t.title&&(e.title=t.title,i.innerHTML=t.title),t.text&&(e.innerHTML=t.text,i.innerHTML=t.text),L.DomEvent.on(e,"click",L.DomEvent.stopPropagation).on(e,"mousedown",L.DomEvent.stopPropagation).on(e,"dblclick",L.DomEvent.stopPropagation).on(e,"touchstart",L.DomEvent.stopPropagation).on(e,"click",L.DomEvent.preventDefault).on(e,"click",t.callback,t.context),e},_disposeButton:function(t,e){L.DomEvent.off(t,"click",L.DomEvent.stopPropagation).off(t,"mousedown",L.DomEvent.stopPropagation).off(t,"dblclick",L.DomEvent.stopPropagation).off(t,"touchstart",L.DomEvent.stopPropagation).off(t,"click",L.DomEvent.preventDefault).off(t,"click",e)},_handlerActivated:function(t){this.disable(),this._activeMode=this._modes[t.handler],L.DomUtil.addClass(this._activeMode.button,"leaflet-draw-toolbar-button-enabled"),this._showActionsToolbar(),this.fire("enable")},_handlerDeactivated:function(){this._hideActionsToolbar(),L.DomUtil.removeClass(this._activeMode.button,"leaflet-draw-toolbar-button-enabled"),this._activeMode=null,this.fire("disable")},_createActions:function(t){var e,i,o,n,s=this._actionsContainer,a=this.getActions(t),r=a.length;for(i=0,o=this._actionButtons.length;i<o;i++)this._disposeButton(this._actionButtons[i].button,this._actionButtons[i].callback);for(this._actionButtons=[];s.firstChild;)s.removeChild(s.firstChild);for(var h=0;h<r;h++)"enabled"in a[h]&&!a[h].enabled||(e=L.DomUtil.create("li","",s),n=this._createButton({title:a[h].title,text:a[h].text,container:e,callback:a[h].callback,context:a[h].context}),this._actionButtons.push({button:n,callback:a[h].callback}))},_showActionsToolbar:function(){var t=this._activeMode.buttonIndex,e=this._lastButtonIndex,i=this._activeMode.button.offsetTop-1;this._createActions(this._activeMode.handler),this._actionsContainer.style.top=i+"px",0===t&&(L.DomUtil.addClass(this._toolbarContainer,"leaflet-draw-toolbar-notop"),L.DomUtil.addClass(this._actionsContainer,"leaflet-draw-actions-top")),t===e&&(L.DomUtil.addClass(this._toolbarContainer,"leaflet-draw-toolbar-nobottom"),L.DomUtil.addClass(this._actionsContainer,"leaflet-draw-actions-bottom")),this._actionsContainer.style.display="block"},_hideActionsToolbar:function(){this._actionsContainer.style.display="none",L.DomUtil.removeClass(this._toolbarContainer,"leaflet-draw-toolbar-notop"),L.DomUtil.removeClass(this._toolbarContainer,"leaflet-draw-toolbar-nobottom"),L.DomUtil.removeClass(this._actionsContainer,"leaflet-draw-actions-top"),L.DomUtil.removeClass(this._actionsContainer,"leaflet-draw-actions-bottom")}}),L.Draw=L.Draw||{},L.Draw.Tooltip=L.Class.extend({initialize:function(t){this._map=t,this._popupPane=t._panes.popupPane,this._container=t.options.drawControlTooltips?L.DomUtil.create("div","leaflet-draw-tooltip",this._popupPane):null,this._singleLineLabel=!1,this._map.on("mouseout",this._onMouseOut,this)},dispose:function(){this._map.off("mouseout",this._onMouseOut,this),this._container&&(this._popupPane.removeChild(this._container),this._container=null)},updateContent:function(t){return this._container?(t.subtext=t.subtext||"",0!==t.subtext.length||this._singleLineLabel?t.subtext.length>0&&this._singleLineLabel&&(L.DomUtil.removeClass(this._container,"leaflet-draw-tooltip-single"),this._singleLineLabel=!1):(L.DomUtil.addClass(this._container,"leaflet-draw-tooltip-single"),this._singleLineLabel=!0),this._container.innerHTML=(t.subtext.length>0?'<span class="leaflet-draw-tooltip-subtext">'+t.subtext+"</span><br />":"")+"<span>"+t.text+"</span>",this):this},updatePosition:function(t){var e=this._map.latLngToLayerPoint(t),i=this._container;return this._container&&(i.style.visibility="inherit",L.DomUtil.setPosition(i,e)),this},showAsError:function(){return this._container&&L.DomUtil.addClass(this._container,"leaflet-error-draw-tooltip"),this},removeError:function(){return this._container&&L.DomUtil.removeClass(this._container,"leaflet-error-draw-tooltip"),this},_onMouseOut:function(){this._container&&(this._container.style.visibility="hidden")}}),L.DrawToolbar=L.Toolbar.extend({statics:{TYPE:"draw"},options:{polyline:{},polygon:{},rectangle:{},circle:{},marker:{}},initialize:function(t){for(var e in this.options)this.options.hasOwnProperty(e)&&t[e]&&(t[e]=L.extend({},this.options[e],t[e]));this._toolbarClass="leaflet-draw-draw",L.Toolbar.prototype.initialize.call(this,t)},getModeHandlers:function(t){return[{enabled:this.options.polyline,handler:new L.Draw.Polyline(t,this.options.polyline),title:L.drawLocal.draw.toolbar.buttons.polyline},{enabled:this.options.polygon,handler:new L.Draw.Polygon(t,this.options.polygon),title:L.drawLocal.draw.toolbar.buttons.polygon},{enabled:this.options.rectangle,handler:new L.Draw.Rectangle(t,this.options.rectangle),title:L.drawLocal.draw.toolbar.buttons.rectangle},{enabled:this.options.circle,handler:new L.Draw.Circle(t,this.options.circle),title:L.drawLocal.draw.toolbar.buttons.circle},{enabled:this.options.marker,handler:new L.Draw.Marker(t,this.options.marker),title:L.drawLocal.draw.toolbar.buttons.marker}]},getActions:function(t){return[{enabled:t.completeShape,title:L.drawLocal.draw.toolbar.finish.title,text:L.drawLocal.draw.toolbar.finish.text,callback:t.completeShape,context:t},{enabled:t.deleteLastVertex,title:L.drawLocal.draw.toolbar.undo.title,text:L.drawLocal.draw.toolbar.undo.text,callback:t.deleteLastVertex,context:t},{title:L.drawLocal.draw.toolbar.actions.title,text:L.drawLocal.draw.toolbar.actions.text,callback:this.disable,context:this}]},setOptions:function(t){L.setOptions(this,t);for(var e in this._modes)this._modes.hasOwnProperty(e)&&t.hasOwnProperty(e)&&this._modes[e].handler.setOptions(t[e])}}),L.EditToolbar=L.Toolbar.extend({statics:{TYPE:"edit"},options:{edit:{selectedPathOptions:{dashArray:"10, 10",fill:!0,fillColor:"#fe57a1",fillOpacity:.1,maintainColor:!1}},remove:{},poly:null,featureGroup:null},initialize:function(t){t.edit&&("undefined"==typeof t.edit.selectedPathOptions&&(t.edit.selectedPathOptions=this.options.edit.selectedPathOptions),t.edit.selectedPathOptions=L.extend({},this.options.edit.selectedPathOptions,t.edit.selectedPathOptions)),t.remove&&(t.remove=L.extend({},this.options.remove,t.remove)),t.poly&&(t.poly=L.extend({},this.options.poly,t.poly)),this._toolbarClass="leaflet-draw-edit",L.Toolbar.prototype.initialize.call(this,t),this._selectedFeatureCount=0},getModeHandlers:function(t){var e=this.options.featureGroup;return[{enabled:this.options.edit,handler:new L.EditToolbar.Edit(t,{featureGroup:e,selectedPathOptions:this.options.edit.selectedPathOptions,poly:this.options.poly}),title:L.drawLocal.edit.toolbar.buttons.edit},{enabled:this.options.remove,handler:new L.EditToolbar.Delete(t,{featureGroup:e}),title:L.drawLocal.edit.toolbar.buttons.remove}]},getActions:function(){return[{title:L.drawLocal.edit.toolbar.actions.save.title,text:L.drawLocal.edit.toolbar.actions.save.text,callback:this._save,context:this},{title:L.drawLocal.edit.toolbar.actions.cancel.title,text:L.drawLocal.edit.toolbar.actions.cancel.text,callback:this.disable,context:this}]},addToolbar:function(t){var e=L.Toolbar.prototype.addToolbar.call(this,t);return this._checkDisabled(),this.options.featureGroup.on("layeradd layerremove",this._checkDisabled,this),e},removeToolbar:function(){this.options.featureGroup.off("layeradd layerremove",this._checkDisabled,this),L.Toolbar.prototype.removeToolbar.call(this)},disable:function(){this.enabled()&&(this._activeMode.handler.revertLayers(),L.Toolbar.prototype.disable.call(this))},_save:function(){this._activeMode.handler.save(),this._activeMode&&this._activeMode.handler.disable()},_checkDisabled:function(){var t,e=this.options.featureGroup,i=0!==e.getLayers().length;this.options.edit&&(t=this._modes[L.EditToolbar.Edit.TYPE].button,i?L.DomUtil.removeClass(t,"leaflet-disabled"):L.DomUtil.addClass(t,"leaflet-disabled"),t.setAttribute("title",i?L.drawLocal.edit.toolbar.buttons.edit:L.drawLocal.edit.toolbar.buttons.editDisabled)),this.options.remove&&(t=this._modes[L.EditToolbar.Delete.TYPE].button,i?L.DomUtil.removeClass(t,"leaflet-disabled"):L.DomUtil.addClass(t,"leaflet-disabled"),t.setAttribute("title",i?L.drawLocal.edit.toolbar.buttons.remove:L.drawLocal.edit.toolbar.buttons.removeDisabled))}}),L.EditToolbar.Edit=L.Handler.extend({statics:{TYPE:"edit"},includes:L.Mixin.Events,initialize:function(t,e){if(L.Handler.prototype.initialize.call(this,t),L.setOptions(this,e),this._featureGroup=e.featureGroup,!(this._featureGroup instanceof L.FeatureGroup))throw new Error("options.featureGroup must be a L.FeatureGroup");this._uneditedLayerProps={},this.type=L.EditToolbar.Edit.TYPE},enable:function(){!this._enabled&&this._hasAvailableLayers()&&(this.fire("enabled",{handler:this.type}),this._map.fire(L.Draw.Event.EDITSTART,{handler:this.type}),L.Handler.prototype.enable.call(this),this._featureGroup.on("layeradd",this._enableLayerEdit,this).on("layerremove",this._disableLayerEdit,this))},disable:function(){this._enabled&&(this._featureGroup.off("layeradd",this._enableLayerEdit,this).off("layerremove",this._disableLayerEdit,this),L.Handler.prototype.disable.call(this),this._map.fire(L.Draw.Event.EDITSTOP,{handler:this.type}),this.fire("disabled",{handler:this.type}))},addHooks:function(){var t=this._map;t&&(t.getContainer().focus(),this._featureGroup.eachLayer(this._enableLayerEdit,this),this._tooltip=new L.Draw.Tooltip(this._map),this._tooltip.updateContent({text:L.drawLocal.edit.handlers.edit.tooltip.text,subtext:L.drawLocal.edit.handlers.edit.tooltip.subtext}),t._editTooltip=this._tooltip,this._updateTooltip(),this._map.on("mousemove",this._onMouseMove,this).on("touchmove",this._onMouseMove,this).on("MSPointerMove",this._onMouseMove,this).on(L.Draw.Event.EDITVERTEX,this._updateTooltip,this))},removeHooks:function(){this._map&&(this._featureGroup.eachLayer(this._disableLayerEdit,this),this._uneditedLayerProps={},this._tooltip.dispose(),this._tooltip=null,this._map.off("mousemove",this._onMouseMove,this).off("touchmove",this._onMouseMove,this).off("MSPointerMove",this._onMouseMove,this).off(L.Draw.Event.EDITVERTEX,this._updateTooltip,this))},revertLayers:function(){this._featureGroup.eachLayer(function(t){this._revertLayer(t)},this)},save:function(){var t=new L.LayerGroup;this._featureGroup.eachLayer(function(e){e.edited&&(t.addLayer(e),e.edited=!1)}),this._map.fire(L.Draw.Event.EDITED,{layers:t})},_backupLayer:function(t){var e=L.Util.stamp(t);this._uneditedLayerProps[e]||(t instanceof L.Polyline||t instanceof L.Polygon||t instanceof L.Rectangle?this._uneditedLayerProps[e]={latlngs:L.LatLngUtil.cloneLatLngs(t.getLatLngs())}:t instanceof L.Circle?this._uneditedLayerProps[e]={latlng:L.LatLngUtil.cloneLatLng(t.getLatLng()),radius:t.getRadius()}:t instanceof L.Marker&&(this._uneditedLayerProps[e]={latlng:L.LatLngUtil.cloneLatLng(t.getLatLng())}))},_getTooltipText:function(){return{text:L.drawLocal.edit.handlers.edit.tooltip.text,subtext:L.drawLocal.edit.handlers.edit.tooltip.subtext}},_updateTooltip:function(){this._tooltip.updateContent(this._getTooltipText())},_revertLayer:function(t){var e=L.Util.stamp(t);t.edited=!1,this._uneditedLayerProps.hasOwnProperty(e)&&(t instanceof L.Polyline||t instanceof L.Polygon||t instanceof L.Rectangle?t.setLatLngs(this._uneditedLayerProps[e].latlngs):t instanceof L.Circle?(t.setLatLng(this._uneditedLayerProps[e].latlng),t.setRadius(this._uneditedLayerProps[e].radius)):t instanceof L.Marker&&t.setLatLng(this._uneditedLayerProps[e].latlng),t.fire("revert-edited",{layer:t}))},_enableLayerEdit:function(t){var e,i,o=t.layer||t.target||t;this._backupLayer(o),this.options.poly&&(i=L.Util.extend({},this.options.poly),o.options.poly=i),this.options.selectedPathOptions&&(e=L.Util.extend({},this.options.selectedPathOptions),e.maintainColor&&(e.color=o.options.color,e.fillColor=o.options.fillColor),o.options.original=L.extend({},o.options),o.options.editing=e),o instanceof L.Marker?(o.editing&&o.editing.enable(),o.dragging.enable(),o.on("dragend",this._onMarkerDragEnd).on("touchmove",this._onTouchMove,this).on("MSPointerMove",this._onTouchMove,this).on("touchend",this._onMarkerDragEnd,this).on("MSPointerUp",this._onMarkerDragEnd,this)):o.editing.enable()},_disableLayerEdit:function(t){var e=t.layer||t.target||t;e.edited=!1,e.editing&&e.editing.disable(),delete e.options.editing,delete e.options.original,this._selectedPathOptions&&(e instanceof L.Marker?this._toggleMarkerHighlight(e):(e.setStyle(e.options.previousOptions),delete e.options.previousOptions)),e instanceof L.Marker?(e.dragging.disable(),e.off("dragend",this._onMarkerDragEnd,this).off("touchmove",this._onTouchMove,this).off("MSPointerMove",this._onTouchMove,this).off("touchend",this._onMarkerDragEnd,this).off("MSPointerUp",this._onMarkerDragEnd,this)):e.editing.disable()},_onMouseMove:function(t){this._tooltip.updatePosition(t.latlng)},_onMarkerDragEnd:function(t){var e=t.target;e.edited=!0,this._map.fire(L.Draw.Event.EDITMOVE,{layer:e})},_onTouchMove:function(t){var e=t.originalEvent.changedTouches[0],i=this._map.mouseEventToLayerPoint(e),o=this._map.layerPointToLatLng(i);t.target.setLatLng(o)},_hasAvailableLayers:function(){return 0!==this._featureGroup.getLayers().length}}),L.EditToolbar.Delete=L.Handler.extend({statics:{TYPE:"remove"},includes:L.Mixin.Events,initialize:function(t,e){if(L.Handler.prototype.initialize.call(this,t),L.Util.setOptions(this,e),this._deletableLayers=this.options.featureGroup,!(this._deletableLayers instanceof L.FeatureGroup))throw new Error("options.featureGroup must be a L.FeatureGroup");this.type=L.EditToolbar.Delete.TYPE},enable:function(){!this._enabled&&this._hasAvailableLayers()&&(this.fire("enabled",{handler:this.type}),this._map.fire(L.Draw.Event.DELETESTART,{handler:this.type}),L.Handler.prototype.enable.call(this),this._deletableLayers.on("layeradd",this._enableLayerDelete,this).on("layerremove",this._disableLayerDelete,this))},disable:function(){this._enabled&&(this._deletableLayers.off("layeradd",this._enableLayerDelete,this).off("layerremove",this._disableLayerDelete,this),L.Handler.prototype.disable.call(this),this._map.fire(L.Draw.Event.DELETESTOP,{handler:this.type}),this.fire("disabled",{handler:this.type}))},addHooks:function(){var t=this._map;t&&(t.getContainer().focus(),this._deletableLayers.eachLayer(this._enableLayerDelete,this),this._deletedLayers=new L.LayerGroup,this._tooltip=new L.Draw.Tooltip(this._map),this._tooltip.updateContent({text:L.drawLocal.edit.handlers.remove.tooltip.text}),this._map.on("mousemove",this._onMouseMove,this))},removeHooks:function(){this._map&&(this._deletableLayers.eachLayer(this._disableLayerDelete,this),this._deletedLayers=null,this._tooltip.dispose(),this._tooltip=null,this._map.off("mousemove",this._onMouseMove,this))},revertLayers:function(){this._deletedLayers.eachLayer(function(t){this._deletableLayers.addLayer(t),t.fire("revert-deleted",{layer:t})},this)},save:function(){this._map.fire(L.Draw.Event.DELETED,{layers:this._deletedLayers})},_enableLayerDelete:function(t){var e=t.layer||t.target||t;e.on("click",this._removeLayer,this)},_disableLayerDelete:function(t){var e=t.layer||t.target||t;e.off("click",this._removeLayer,this),this._deletedLayers.removeLayer(e)},_removeLayer:function(t){var e=t.layer||t.target||t;this._deletableLayers.removeLayer(e),this._deletedLayers.addLayer(e),e.fire("deleted")},_onMouseMove:function(t){this._tooltip.updatePosition(t.latlng)},_hasAvailableLayers:function(){return 0!==this._deletableLayers.getLayers().length}})}(window,document);
+},{}],20:[function(require,module,exports){
 /*
  Leaflet 1.0.3, a JS library for interactive maps. http://leafletjs.com
  (c) 2010-2016 Vladimir Agafonkin, (c) 2010-2011 CloudMade
@@ -34214,10 +34307,8 @@ L.control.layers = function (baseLayers, overlays, options) {
 
 }(window, document));
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (global){
-//***  Require & Imports for bundle *** 
-
 //jQuery & Bootstrap 
 var $ = require('jquery');
 global.jQuery = require('jquery');
@@ -34225,10 +34316,11 @@ window.$ = $;
 require('bootstrap');
 require('bootstrap-table');
 
-// require leaflet
+// require leaflet & plugins
 var L = require('leaflet');
 var esri = require('esri-leaflet');
 var geocoding = require('esri-leaflet-geocoder');
+require('leaflet-draw');
 
 // since leaflet is bundled into the browserify package it won't be able to detect where the images
 // solution is to point it to where you host the the leaflet images yourself
@@ -34331,6 +34423,7 @@ var sqlQuery = "SELECT the_geom, address, address2, catastral, city, comment, em
 
 // Create Leaflet map object
 var map = L.map('map', { center: config.mapcenter, zoom: config.zoom});
+var map2 = L.map('map2', { center: config.mapcenter, zoom: config.zoom});
 
 //var map = L.map('map').setView([41.396904, 2.120389], 15);
 
@@ -34352,7 +34445,7 @@ var Esri_WorldStreetMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/res
 });
 
 Esri_WorldStreetMap.addTo(map);
-
+Esri_WorldStreetMap.addTo(map2);
 //CartoDB_Positron.addTo(map);
 //OpenStreetMap_DE.addTo(map)
 /*L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -34383,12 +34476,6 @@ function getGeoJSON() {
 
 			}
 		}).addTo(map);
-$table.bootstrapTable({data: data.features});	
-console.log (data.features);
-
-
-console.log (data.features.length);
-	console.log (datos);
 	});
 }
 
@@ -34565,9 +34652,5 @@ $('#desa').click(function (e) {
 //http://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
 
 //////////bootstrap-table
-
-
-
-
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"bootstrap":2,"bootstrap-table":1,"drmonty-leaflet-awesome-markers":15,"esri-leaflet":17,"esri-leaflet-geocoder":16,"jquery":18,"leaflet":19}]},{},[20]);
+},{"bootstrap":2,"bootstrap-table":1,"drmonty-leaflet-awesome-markers":15,"esri-leaflet":17,"esri-leaflet-geocoder":16,"jquery":18,"leaflet":20,"leaflet-draw":19}]},{},[21]);

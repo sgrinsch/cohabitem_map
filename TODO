@@ -24,6 +24,16 @@ Ok Working,
 infrmation is saved in a different carto.db table
 
 
+information is saved in the same table -> add flag to differentiate
+this might be easier?
+cartodb restrictions?
+
+
+
+
+
+
+
 # add score for zones // emojis // colors?
 visualization that aggregates data.
 

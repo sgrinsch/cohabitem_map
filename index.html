@@ -3,12 +3,13 @@
 <html>
   <head>
      <meta charset=utf-8 />
-    <title>mappeig| cohabitem sarrià</title>
+    <title>mappeig | cohabitem sarrià</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.3/dist/esri-leaflet-geocoder.css">
     <link rel="stylesheet" href="static/css/leaflet.awesome-markers.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.7/dist/leaflet.draw-src.css">
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
   </head>
   <body>
@@ -19,18 +20,19 @@
 	</div>
 
 	<ul class="nav nav-tabs" id=myTabs role=tablist>
-	    <li role=presentation class=active><a href=#addtab id=home-tab role=tab data-toggle=tab aria-controls=home aria-expanded=true>Afegeix informació</a></li>
+	    <li role=presentation class=active><a href=#addresstab id=home-tab role=tab data-toggle=tab aria-controls=home aria-expanded=true>Afegeix adreces</a></li>
 	    <!-- <li role=presentation><a href=#maptab role=tab id=profile-tab data-toggle=tab aria-controls=profile>Visualitza el mapa</a></li> -->
-	    <li role=presentation><a href=#datatab role=tab id=profile-tab data-toggle=tab aria-controls=profile>Visualitza les dades</a></li>
+	    <li role=presentation><a href=#drawtab role=tab id=profile-tab data-toggle=tab aria-controls=profile>Afegeix lliurement</a></li>
 	</ul>
 
 
 	<div class=tab-content id=myTabContent>
-	    <div class="tab-pane fade in active" role=tabpanel id=addtab aria-labelledby=home-tab>
+	    <div class="tab-pane fade in active" role=tabpanel id=addresstab aria-labelledby=home-tab>
 	        <div class="row">
 	        	<div class="col-sm-5 col-xs-12">
 					<form class="form-horizontal myform">
-					  <h3>Formulari per afegir informació</h3>
+					  <h3>Formulari per afegir adreces</h3>
+					  <p>Escull una adreça  clicant al mapa o cercant amb el buscador. Només trobaràs adreces existents. Pots moure el marcador fins trobar l'adreça que busques. Afegeix informació i desa-la.</p>
 					  <div class="form-group">
 						<div class="row">
 						  <div class="col-xs-8">
@@ -105,23 +107,48 @@
 				<div class="col-sm-7 col-xs-12">
 					<div id="map"></div>
 				</div>
-
 			</div>
 		</div>
 	   	
 	   <!--  <div class="tab-pane fade" role=tabpanel id=maptab aria-labelledby=profile-tab>
 		    <iframe width="100%" height="520" frameborder="0" src="https://sgrinschpun.carto.com/viz/5ea72642-00d5-11e7-9256-0e233c30368f/embed_map?center=[41.39,2.12]&zoom=15"" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 	    </div> -->
-	   	<div class="tab-pane fade" role=tabpanel id=datatab aria-labelledby=profile-tab>
-	        <table id="table">
-            <thead>
-            <tr>
-                <th data-field="id">ID</th>
-                <th data-field="name">Item Name</th>
-                <th data-field="price">Item Price</th>
-            </tr>
-            </thead>
-        </table>
+	   	<div class="tab-pane fade" role=tabpanel id=drawtab aria-labelledby=profile-tab>
+	        	        <div class="row">
+	        	<div class="col-sm-5 col-xs-12">
+					<form class="form-horizontal myform">
+					  <h3>Formulari per afegir informació lliurement</h3>
+					  <p>Dibuixa un carrer sencer, una zona, una cruïlla,...el que tu vulguis, Després explican's què passa allà i desa la infromació.</p>
+					  <div class="form-group">
+					  	<div class="row">
+						  <div class="col-xs-12">
+						    <label for="title2">Títol</label>
+							<input type="text" class="form-control" id="title2" placeholder="Posa-li un nom al que has dibuixat">
+						  </div>
+						</div>
+						<div class="row">
+						  <div class="col-xs-12">
+							<label for="comment2">Comentaris</label>
+					    	<textarea class="form-control" id="comment2" rows="3" placeholder="Tota la informació que puguis aportar"></textarea>
+						  </div>
+						  <div class="col-xs-6">
+						    <label for="name2">Nom</label>
+				   			<input type="text" class="form-control" id="name2" placeholder="El teu nom">
+						  </div>
+						  <div class="col-xs-6">
+							<label for="email2">email</label>
+					    	<input type="email" class="form-control" id="email2" placeholder="El teu email">
+						  </div>
+						</div>
+						<br>
+						<button type="submit" id="desa2" class="btn btn-default">Desa</button>
+					   </div>
+					</form>
+				</div>
+				<div class="col-sm-7 col-xs-12">
+					<div id="map2"></div>
+				</div>
+			</div>
 
 	    </div>
 	</div>
