@@ -21,26 +21,6 @@ L.Icon.Default.imagePath = 'static/img/';
 require('drmonty-leaflet-awesome-markers');
 
 
-// Allow tabbed navigation bootstrap
-$('#myTabs a').click(function (e) {
-  e.preventDefault()
-  $(this).tab('show');
-  console.log ("hecho");
-})
-
-
-$("body").on("shown.bs.tab", "#addresstab", function() {
-    map.invalidateSize(false);
-    map2.invalidateSize(false);
-});
-
-$("body").on("shown.bs.tab", "#drawtab", function() {
-    map2.invalidateSize(false);
-    map.invalidateSize(false);
-});
-
-
-
 //*** Initial Configurations *** 
 var config = {
 	cartoDBusername : "sgrinschpun",
@@ -65,7 +45,6 @@ var config = {
 				remove: false
 	}
 };
-
 
 
 //***  Define icons  ***/
@@ -123,6 +102,7 @@ L.Marker.prototype.animateDragging = function () {
         this._shadow.style.marginLeft = shadowMargin + 'px';
       });
     };
+
 
 //*** Draw map with data from Carto *** 
 

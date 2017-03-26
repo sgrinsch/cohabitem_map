@@ -1,0 +1,19 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Sebastián Grinschpun -- Developer & designer
+
+# THANKS
+
+    <name>
+
+# TECHNOLOGY COLOPHON
+
+	leaflet, Leaflet-esri
+	Bootstrap,
+    HTML5, CSS3
+    jQuery, Modernizr
+    Bootstrap
+    Lektor

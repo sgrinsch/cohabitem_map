@@ -1,0 +1,5 @@
+<ul class="nav nav-tabs">
+  <li role="presentation" {% if this._path=='/' %} class="active" {% endif %}><a href="{{ '/'|url }}">Home</a></li>
+  <li role="presentation" {% if this._path=='/adreces' %} class="active" {% endif %}><a href="{{ '/adreces'|url }}">Afegeix adreces</a></li>
+  <li role="presentation" {% if this._path=='/dibuix' %} class="active" {% endif %}><a href="{{ '/dibuix'|url }}">Dibuixa al mapa de Sarrià</a></li>
+</ul>

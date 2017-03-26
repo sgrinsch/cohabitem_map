@@ -1,0 +1,21 @@
+@charset "utf-8"
+
+//change the folder of the bootswatch template
+//https://bootswatch.com/
+
+//@import "../node_modules/bootswatch/simplex/variables";
+//@import "custom";
+@import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+//@import "../node_modules/bootswatch/simplex/bootswatch";
+
+//leaflet css
+@import "../node_modules/leaflet/dist/leaflet";
+
+// esri-leaflet-geocoder
+@import "../node_modules/esri-leaflet-geocoder/dist/esri-leaflet-geocoder";
+
+//awesome markers
+@import "../node_modules/esri-leaflet-geocoder/css/leaflet.awesome-markers";
+
+// leaflet draw
+@import "../node_modules/drmonty-leaflet-awesome-markers/dist/leaflet.draw-src";

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--Based on https://github.com/mjfoster83/web-map-workshop/blob/master/7_advancedMapping_CartoDB/index-completed.html-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <title>mappeig | cohabitem sarrià | {% block title %}{% endblock %}</title>
+    <meta name="description" content="">
+    
+
+    <!-- Favicon and Mobile Icons -->
+    <link rel="shortcut icon" href="{{ '/static/img/favicon.ico'|url }}" > 
+   
+
+    <!-- Stylesheets --> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.3/dist/esri-leaflet-geocoder.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.7/dist/leaflet.draw-src.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
+
+    <link rel="stylesheet" href="{{ '/static/css/leaflet.awesome-markers.css'|asseturl }}">
+    <link rel="stylesheet" href="{{ '/static/css/style.css'|asseturl }}">
+
+  </head>
+  <body>
+  <div class="container">
+	<div class="jumbotron">
+		<h1>Cohabitem Sarrià</h1>
+		<p><small>Mappeig the pisos, cases i terrenys del barri per impulsar cessions d'ús i masoveria urbana</p>
+	</div>
+
+	{% include "macros/_nav.html" %}
+
+	{% block content %}
+  {% endblock %}
+
+  {% include "macros/_footer.html" %}
+
+   </div>
+   
+   {% block javascript %} {% endblock %}
+
+  </body>
+</html>

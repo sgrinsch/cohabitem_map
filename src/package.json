@@ -5,9 +5,10 @@
   "main": "static/js/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "beefy static/js/app.js:static/js/bundle.js --live",
-    "bundle": "browserify static/js/app.js -o static/js/bundle.js",
-    "add": "browserify static/js/app.js -o static/js/bundle.js && git add ."
+    "start": "beefy src/js/app.js:../assets/static/js/bundle.js --live",
+    "bundle": "browserify js/app1.js -o ../assets/static/js/bundle1.js  &&  browserify js/app2.js -o ../assets/static/js/bundle2.js",
+    "add": "browserify src/js/app.js -o ../assets/static/js/bundle.js && git add .",
+    "build-css": "node-sass --includepath scss sass/main.sass ../assets/static/css/styles.min.css --output-style compressed"
   },
   "author": "sgrinschpun",
   "license": "ISC",
@@ -17,13 +18,16 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "bootstrap-sass": "^3.3.7",
     "bootstrap-table": "^1.11.2",
     "drmonty-leaflet-awesome-markers": "^2.0.2",
     "esri-leaflet": "^2.0.7",
     "esri-leaflet-geocoder": "^2.2.3",
     "jquery": "^3.1.1",
     "leaflet": "^1.0.3",
-    "leaflet-draw": "^0.4.9"
+    "leaflet-draw": "^0.4.9",
+    "leaflet.locatecontrol": "^0.60.0",
+    "node-sass": "^4.5.1"
   },
   "devDependencies": {
     "beefy": "^2.1.8",

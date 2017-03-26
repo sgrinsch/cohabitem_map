@@ -1,0 +1,5 @@
+[project]
+name = Cohabitem map
+
+[servers.ghpages]
+target = ghpages+https://sgrinschpun/cohabitem

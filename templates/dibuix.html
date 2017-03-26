@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block title %}{{ this.title }}{% endblock %}
+{% block content %}
+
+<div class="row">
+	<div class="col-sm-5 col-xs-12">
+		<form class="form-horizontal myform">
+		  <h3>Formulari per afegir informació lliurement</h3>
+		  <p>Dibuixa un carrer sencer, una zona, una cruïlla,...el que tu vulguis, Després explican's què passa allà i desa la infromació.</p>
+		  <div class="form-group">
+		  	<div class="row">
+			  <div class="col-xs-12">
+			    <label for="title2">Títol</label>
+				<input type="text" class="form-control" id="title2" placeholder="Posa-li un nom al que has dibuixat">
+			  </div>
+			</div>
+			<div class="row">
+			  <div class="col-xs-12">
+				<label for="comment2">Comentaris</label>
+		    	<textarea class="form-control" id="comment2" rows="3" placeholder="Tota la informació que puguis aportar"></textarea>
+			  </div>
+			  <div class="col-xs-6">
+			    <label for="name2">Nom</label>
+	   			<input type="text" class="form-control" id="name2" placeholder="El teu nom">
+			  </div>
+			  <div class="col-xs-6">
+				<label for="email2">email</label>
+		    	<input type="email" class="form-control" id="email2" placeholder="El teu email">
+			  </div>
+			</div>
+			<br>
+			<button type="submit" id="desa2" class="btn btn-default">Desa</button>
+		   </div>
+		</form>
+	</div>
+	<div class="col-sm-7 col-xs-12">
+		<div id="map2"></div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ '/static/js/bundle2.js'|url }}"></script>
+{% endblock %}
+

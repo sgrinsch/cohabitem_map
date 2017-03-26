@@ -1,5 +1,3 @@
-//***  Require & Imports for bundle *** 
-
 //jQuery & Bootstrap 
 var $ = require('jquery');
 global.jQuery = require('jquery');
@@ -7,10 +5,12 @@ window.$ = $;
 require('bootstrap');
 require('bootstrap-table');
 
-// require leaflet
+// require leaflet & plugins
 var L = require('leaflet');
 var esri = require('esri-leaflet');
 var geocoding = require('esri-leaflet-geocoder');
+require('leaflet-draw');
+require('leaflet.locatecontrol');
 
 // since leaflet is bundled into the browserify package it won't be able to detect where the images
 // solution is to point it to where you host the the leaflet images yourself
@@ -22,23 +22,14 @@ L.Icon.Default.imagePath = 'static/img/';
 require('drmonty-leaflet-awesome-markers');
 
 
-// Allow tabbed navigation bootstrap
-$('#myTabs a').click(function (e) {
-  e.preventDefault()
-  $(this).tab('show')
-});
-
-
-
 //*** Initial Configurations *** 
 var config = {
 	cartoDBusername : "sgrinschpun",
 	cartoDBinsertfunction : "insert_crowd_mapping_data",
 	cartoDBtablename : "mappeig_2",
 	mapcenter: [41.396904, 2.120389],
-	zoom: 15,
+	zoom: 15
 };
-
 
 
 //***  Define icons  ***/
@@ -46,34 +37,39 @@ var config = {
 
 //from db
 var house = L.AwesomeMarkers.icon({
+	prefix: 'fa',
     icon: 'home',
     markerColor: 'blue',
-    spin: true
+    spin: false
 });
 
 var apartment = L.AwesomeMarkers.icon({
-    icon: 'th-large',
+	prefix: 'fa',
+    icon: 'clone',
     markerColor: 'blue',
-    spin: true
+    spin: false
 });
 
 var building = L.AwesomeMarkers.icon({
-    icon: 'th',
+	prefix: 'fa',
+    icon: 'building-o',
     markerColor: 'blue',
-    spin: true
+    spin: false
 });
 
 var solar = L.AwesomeMarkers.icon({
-    icon: 'align-justify',
+	prefix: 'fa',
+    icon: 'square',
     markerColor: 'blue',
-    spin: true
+    spin: false
 });
 
 
 var add = L.AwesomeMarkers.icon({
+	prefix: 'fa',
 	icon: 'asterisk',
     markerColor: 'red',
-    spin: true
+    spin: false
 });
 
 //*** Function for animateddragging ***
@@ -98,9 +94,6 @@ L.Marker.prototype.animateDragging = function () {
     };
 
 
-
-
-
 //*** Draw map with data from Carto *** 
 
 // Add Data from CartoDB using the SQL API
@@ -108,11 +101,14 @@ L.Marker.prototype.animateDragging = function () {
 // Create Global Variable to hold CartoDB points
 var cartoDBData = null;
 
+
 // Write SQL Selection Query to be Used on CartoDB Table
 var sqlQuery = "SELECT the_geom, address, address2, catastral, city, comment, email, name, postal, region, type FROM " + config.cartoDBtablename;
 
+
 // Create Leaflet map object
 var map = L.map('map', { center: config.mapcenter, zoom: config.zoom});
+
 
 //var map = L.map('map').setView([41.396904, 2.120389], 15);
 
@@ -133,6 +129,10 @@ var Esri_WorldStreetMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/res
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
 });
 
+var Esri_WorldStreetMap2 = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+});
+
 Esri_WorldStreetMap.addTo(map);
 
 //CartoDB_Positron.addTo(map);
@@ -141,13 +141,24 @@ Esri_WorldStreetMap.addTo(map);
     attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);*/
 
+
+
+//Leaflet.Locate
+var lc = L.control.locate({
+    position: 'topright',
+    strings: {
+        title: "Geolocalitza'm"
+    },
+    icon: 'fa fa-location-arrow'
+}).addTo(map);
+
+
 //Fetches
 var getData = "https://" + config.cartoDBusername + ".cartodb.com/api/v2/sql?format=GeoJSON&q=" + sqlQuery;
 
 
 function getGeoJSON() {
 	$.getJSON(getData, function (data) {
-		var datos = [];
 		cartoDBData = L.geoJson(data, {
 			pointToLayer: function(feature, latlng) {
 				if (feature.properties.type == 'Pis'){
@@ -162,18 +173,24 @@ function getGeoJSON() {
     		},
 			onEachFeature: function (feature, layer) {
 				layer.bindPopup('<strong>' + feature.properties.type + '</strong>  a  ' + unescape(feature.properties.address) 
-					+ '<br><br>Afegit per  ' + unescape(feature.properties.name) + '');
+					+ '<br><br>Afegit per  ' + unescape(feature.properties.name) + '<br><br>' + unescape(feature.properties.comment));
+
 			}
 		}).addTo(map);
+	});
+}
+
 
 
 getGeoJSON();
+
 
 //*** GeoCoding Control + Reverse geocoding from ESRI ****
 //https://github.com/Esri/esri-leaflet-browserify-example
 //https://esri.github.io/esri-leaflet/examples/geocoding-control.html
 
 var marker;
+
 
 
 // add search control
@@ -335,9 +352,4 @@ $('#desa').click(function (e) {
 	setData();
 });
 
-//http://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
-
 //////////bootstrap-table
-
-
-
