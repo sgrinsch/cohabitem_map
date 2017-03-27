@@ -2,14 +2,14 @@
 {% block title %}{{ this.title }}{% endblock %}
 {% block content %}
 
-<div class="row ">
+<div class="row">
 	<div class="col-sm-12 col-xs-12" style="padding-top: 20px">
-		<div class="col-sm-2 hidden-xs"></div>
-		<div class="col-sm-2 col-xs-3" data-toggle="modal" data-target=".bs-example-modal-sm"><img src="{{ '/static/img/1f60d.png'|url }}" class="img-responsive hvr-grow"></div>
-		<div class="col-sm-2 col-xs-3"><img src="{{ '/static/img/1f624.png'|url }}" class="img-responsive hvr-grow"></div>
-		<div class="col-sm-2 col-xs-3"><img src="{{ '/static/img/1f631.png'|url }}" class="img-responsive hvr-grow"></div>
-		<div class="col-sm-2 col-xs-3"><img src="{{ '/static/img/1f914.png'|url }}" class="img-responsive hvr-grow"></div>
-		<div class="col-sm-2 hidden-xs"></div>
+		<div class="col-md-4 col-sm-2 hidden-xs"></div>
+		<div class="col-md-1 col-sm-2 col-xs-3" data-toggle="modal" data-target="#menamora"><img src="{{ '/static/img/1f60d.svg'|url }}" class="img-responsive hvr-grow"></div>
+		<div class="col-md-1 col-sm-2 col-xs-3" data-toggle="modal" data-target="#memprenya"><img src="{{ '/static/img/1f621.svg'|url }}" class="img-responsive hvr-grow"></div>
+		<div class="col-md-1 col-sm-2 col-xs-3" data-toggle="modal" data-target="#nomhopuccreure"><img src="{{ '/static/img/1f631.svg'|url }}" class="img-responsive hvr-grow"></div>
+		<div class="col-md-1 col-sm-2 col-xs-3" data-toggle="modal" data-target="#podriemmillorar"><img src="{{ '/static/img/1f914.svg'|url }}" class="img-responsive hvr-grow"></div>
+		<div class="col-md-4 col-sm-2 hidden-xs"></div>
 		<br>
 	</div>
 	<div class="col-sm-12 col-xs-12" style="padding-top: 20px">
@@ -17,16 +17,85 @@
 	</div>
 </div>
 
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div class="modal fade" id="menamora" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
-      ...
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="row">
+	        <div class="col-xs-1"><img src="{{ '/static/img/1f60d.svg'|url }}" width="25"></div>
+	        <div class="col-xs-6"><h4 class="modal-title">M'enamora...</h4></div>
+        </div>
+      </div>
+      <div class="modal-body">
+		<textarea class="form-control" id="comment" rows="5" placeholder="Digues què t'enamora i per què"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Desa</button>
+      </div>
     </div>
   </div>
 </div>
 
+<div class="modal fade" id="memprenya" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="row">
+	        <div class="col-xs-1"><img src="{{ '/static/img/1f621.svg'|url }}" width="25"></div>
+	        <div class="col-xs-5"><h4 class="modal-title">M'emprenya...</h4></div>
+        </div>
+      </div>
+      <div class="modal-body">
+		<textarea class="form-control" id="comment" rows="5" placeholder="Digues què t'emprenya i per què"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Desa</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div class="modal fade" id="nomhopuccreure" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="row">
+	        <div class="col-xs-1"><img src="{{ '/static/img/1f631.svg'|url }}" width="25"></div>
+	        <div class="col-xs-9"><h4 class="modal-title">No m'ho puc creure!</h4></div>
+        </div>
+      </div>
+      <div class="modal-body">
+		<textarea class="form-control" id="comment" rows="5" placeholder="Digues què no et pots creure i per què"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Desa</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div class="modal fade" id="podriemmillorar" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="row">
+	        <div class="col-xs-1"><img src="{{ '/static/img/1f914.svg'|url }}" width="25"></div>
+	        <div class="col-xs-8"><h4 class="modal-title">Podríem millorar...</h4></div>
+        </div>
+      </div>
+      <div class="modal-body">
+		<textarea class="form-control" id="comment" rows="5" placeholder="Digues què podríem millorar i com"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Desa</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 {% endblock %}
