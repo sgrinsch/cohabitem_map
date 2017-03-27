@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}{{ this.title }}{% endblock %}
+{% block content %}
+
+<div class="row ">
+	<div class="col-sm-12 col-xs-12" style="padding-top: 20px">
+		<div class="col-sm-2 hidden-xs"></div>
+		<div class="col-sm-2 col-xs-3" data-toggle="modal" data-target=".bs-example-modal-sm"><img src="{{ '/static/img/1f60d.png'|url }}" class="img-responsive hvr-grow"></div>
+		<div class="col-sm-2 col-xs-3"><img src="{{ '/static/img/1f624.png'|url }}" class="img-responsive hvr-grow"></div>
+		<div class="col-sm-2 col-xs-3"><img src="{{ '/static/img/1f631.png'|url }}" class="img-responsive hvr-grow"></div>
+		<div class="col-sm-2 col-xs-3"><img src="{{ '/static/img/1f914.png'|url }}" class="img-responsive hvr-grow"></div>
+		<div class="col-sm-2 hidden-xs"></div>
+		<br>
+	</div>
+	<div class="col-sm-12 col-xs-12" style="padding-top: 20px">
+		<div id="map"></div>
+	</div>
+</div>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      ...
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}
+{% block javascript %}
+<script src="{{ '/static/js/bundle1.js'|url }}"></script>
+{% endblock %}
