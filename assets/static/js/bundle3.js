@@ -179,11 +179,9 @@ var lc = L.control.locate({
 //Leaflet easy button
 //http://danielmontague.com/projects/easyButton.js/v1/examples/
 L.easyButton('fa-times', function(){
-    console.log ("did it");
-    map.removeLayer(marker); 
     if (marker) { // check
-    	// remove
-
+    	 marker.clearLayers();
+    	 var marker_latlng ;
 	}
 }).addTo( map );
 
@@ -225,8 +223,8 @@ getGeoJSON();
 //https://github.com/Esri/esri-leaflet-browserify-example
 //https://esri.github.io/esri-leaflet/examples/geocoding-control.html
 
-var marker;
-
+var marker= L.layerGroup().addTo(map);
+var marker_latlng;
 
 
 // add search control
@@ -240,31 +238,19 @@ var searchControl = geocoding.geosearch({
 	title: 'Cercador d\'Adreces'
 	}).addTo(map);
 
-var results = L.layerGroup().addTo(map);
+//var results = L.layerGroup().addTo(map);
 
   searchControl.on('results', function(data){
   	if (marker) { // check
-    map.removeLayer(marker); // remove
+   	marker.clearLayers();// remove
 	}
     
-    results.clearLayers();
-    results.addLayer(L.marker(data.results[0].latlng, {icon: add,draggable: true}).animateDragging()  );
-    //console.log(data.results[0]);
-    $('#lat').val(data.results[0].latlng.lat);
-	$('#lon').val(data.results[0].latlng.lng);
-    $('#Address').val(data.results[0].properties.StAddr);
-    $('#Postal').val(data.results[0].properties.Postal);
-	$('#City').val(data.results[0].properties.City);
-	$('#Region').val(data.results[0].properties.Region);
-/*    for (var i = data.results.length - 1; i >= 0; i--) {
-      results.addLayer(L.marker(data.results[i].latlng));
-    }*/
+    //results.clearLayers();
+    marker.addLayer(L.marker(data.results[0].latlng, {icon: add,draggable: true}).animateDragging()  );
+    marker_latlng = data.results[0].latlng;
+    console.log(marker_latlng);
   });
 
-// reverse geocoding
-//https://esri.github.io/esri-leaflet/examples/reverse-geocoding.html
-
-var geocodeService = geocoding.geocodeService();
 
 //*** Function for animateddragging ***
 L.Marker.prototype.animateDragging = function () {
@@ -281,52 +267,43 @@ L.Marker.prototype.animateDragging = function () {
         this._shadow.style.marginLeft = (shadowMargin + 8) + 'px';
       });
       
-      return this.on('dragend', function (e) {
-        this._icon.style.marginTop = iconMargin + 'px';
-        this._shadow.style.marginLeft = shadowMargin + 'px';
-        geocodeService.reverse().latlng(e.target.getLatLng()).run(function(error, result) {
-			 $('#lat').val(result.latlng.lat);
-			 $('#lon').val(result.latlng.lng);
-			 $('#Address').val(result.address.Address);
-			 $('#Postal').val(result.address.Postal);
-			 $('#City').val(result.address.City);
-			 $('#Region').val(result.address.Region);
-			map.removeLayer(marker);
-		 	marker = L.marker(result.latlng, {icon: add, draggable: true})
-	  			.addTo(map)
-	  			.bindPopup(result.address.Match_addr)
-	  			.openPopup()
-	  			.animateDragging();
-	});
-
-
-
-      });
+	  return this.on('dragend', function (e) {
+	    this._icon.style.marginTop = iconMargin + 'px';
+	    this._shadow.style.marginLeft = shadowMargin + 'px';
+		
+		marker_latlng = e.target.getLatLng();
+		console.log(marker_latlng);
+	   });
     };
 
 
 map.on('click', function(e) {
-	if (results) { // check
+/*	if (results) { // check
     	results.clearLayers(); // remove
-	}
+	}*/
 	if (marker) { // check
-    	map.removeLayer(marker); // remove
+    	marker.clearLayers();  // remove
 	}
-	marker = L.marker(e.latlng, {icon: add, draggable: true})
-		.addTo(map)
-		.animateDragging();
-/*	geocodeService.reverse().latlng(e.latlng).run(function(error, result) {
-		//console.log (result);
-		 $('#lat').val(result.latlng.lat);
-		 $('#lon').val(result.latlng.lng);
-		 $('#Address').val(result.address.Address);
-		 $('#Postal').val(result.address.Postal);
-		 $('#City').val(result.address.City);
-		 $('#Region').val(result.address.Region);
-
-    });*/
-
+	marker.addLayer(L.marker(e.latlng, {icon: add, draggable: true}).animateDragging()  );
+	marker_latlng = e.latlng;
+	console.log(marker_latlng);
 });
+
+
+$('#menamora').click(function (e) {
+	e.preventDefault();
+	console.log(marker._layers);
+	console.log('menamora');
+	console.log (escape($('#comment_menamora').val()));
+	console.log(marker_latlng);
+});
+
+
+
+
+
+
+
 
 
 //*** Send data to Carto ****
@@ -365,9 +342,9 @@ var the_geom = {"type":"Point","coordinates":[$('#lon').val(),$('#lat').val()]}
 				if (cartoDBData) { // check
 					cartoDBData.clearLayers(); // remove
 				}
-				if (results) { // check
+/*				if (results) { // check
 					results.clearLayers(); // remove
-				}
+				}*/
 				if (marker) { // check
 					map.removeLayer(marker);// remove
 				}
@@ -2903,7 +2880,7 @@ require('../../js/affix.js')
 
 
 },{}],16:[function(require,module,exports){
-/* esri-leaflet-geocoder - v2.2.3 - Fri Jan 06 2017 15:53:06 GMT-0800 (PST)
+/* esri-leaflet-geocoder - v2.2.4 - Wed Mar 22 2017 15:48:59 GMT-0700 (PDT)
  * Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 (function (global, factory) {
@@ -2914,10 +2891,10 @@ require('../../js/affix.js')
 
 	L = 'default' in L ? L['default'] : L;
 
-	var version = "2.2.3";
+	var version = "2.2.4";
 
 	var Geocode = esriLeaflet.Task.extend({
-	  path: 'find',
+	  path: 'findAddressCandidates',
 
 	  params: {
 	    outSr: 4326,
@@ -2934,7 +2911,7 @@ require('../../js/affix.js')
 	    'region': 'region',
 	    'postal': 'postal',
 	    'country': 'country',
-	    'text': 'text',
+	    'text': 'singleLine',
 	    'category': 'category',
 	    'token': 'token',
 	    'key': 'magicKey',
@@ -2951,7 +2928,7 @@ require('../../js/affix.js')
 
 	  within: function (bounds) {
 	    bounds = L.latLngBounds(bounds);
-	    this.params.bbox = esriLeaflet.Util.boundsToExtent(bounds);
+	    this.params.searchExtent = esriLeaflet.Util.boundsToExtent(bounds);
 	    return this;
 	  },
 
@@ -2964,49 +2941,18 @@ require('../../js/affix.js')
 
 	  run: function (callback, context) {
 	    if (this.options.customParam) {
-	      this.path = 'findAddressCandidates';
-	      this.params[this.options.customParam] = this.params.text;
-	      delete this.params.text;
-	    } else {
-	      this.path = (this.params.text) ? 'find' : 'findAddressCandidates';
-	    }
-
-	    if (this.path === 'findAddressCandidates' && this.params.bbox) {
-	      this.params.searchExtent = this.params.bbox;
-	      delete this.params.bbox;
+	      this.params[this.options.customParam] = this.params.singleLine;
+	      delete this.params.singleLine;
 	    }
 
 	    return this.request(function (error, response) {
-	      var processor = (this.path === 'find') ? this._processFindResponse : this._processFindAddressCandidatesResponse;
+	      var processor = this._processGeocoderResponse;
 	      var results = (!error) ? processor(response) : undefined;
 	      callback.call(context, error, { results: results }, response);
 	    }, this);
 	  },
 
-	  _processFindResponse: function (response) {
-	    var results = [];
-
-	    for (var i = 0; i < response.locations.length; i++) {
-	      var location = response.locations[i];
-	      var bounds;
-
-	      if (location.extent) {
-	        bounds = esriLeaflet.Util.extentToBounds(location.extent);
-	      }
-
-	      results.push({
-	        text: location.name,
-	        bounds: bounds,
-	        score: location.feature.attributes.Score,
-	        latlng: L.latLng(location.feature.geometry.y, location.feature.geometry.x),
-	        properties: location.feature.attributes
-	      });
-	    }
-
-	    return results;
-	  },
-
-	  _processFindAddressCandidatesResponse: function (response) {
+	  _processGeocoderResponse: function (response) {
 	    var results = [];
 
 	    for (var i = 0; i < response.candidates.length; i++) {
@@ -3023,10 +2969,8 @@ require('../../js/affix.js')
 	        properties: candidate.attributes
 	      });
 	    }
-
 	    return results;
 	  }
-
 	});
 
 	function geocode (options) {
@@ -3166,7 +3110,7 @@ require('../../js/affix.js')
 	    this.metadata(function (error, response) {
 	      if (error) { return; }
 	      // pre 10.3 geocoding services dont list capabilities (and dont support maxLocations)
-	      // since, only SOME individual services have been configured to support asking for suggestions
+	      // only SOME individual services have been configured to support asking for suggestions
 	      if (!response.capabilities) {
 	        this.options.supportsSuggest = false;
 	        this.options.customParam = response.singleLineAddressField.name;
@@ -3419,7 +3363,7 @@ require('../../js/affix.js')
 	    if (key) {
 	      request.key(key);
 	    }
-	    // in the future Address/StreetName geocoding requests that include a magicKey will only return one match
+	    // in the future Address/StreetName geocoding requests that include a magicKey will always only return one match
 	    request.maxLocations(this.options.maxResults);
 
 	    if (bounds) {
@@ -3656,6 +3600,8 @@ require('../../js/affix.js')
 	    }, this);
 
 	    L.DomEvent.addListener(this._input, 'keydown', function (e) {
+	      var text = (e.target || e.srcElement).value;
+
 	      L.DomUtil.addClass(this._wrapper, 'geocoder-control-expanded');
 
 	      var list = this._suggestions.querySelectorAll('.' + 'geocoder-control-suggestion');
@@ -3671,14 +3617,25 @@ require('../../js/affix.js')
 
 	      switch (e.keyCode) {
 	        case 13:
+	          /*
+	            if an item has been selected, geocode it
+	            if focus is on the input textbox, geocode only if multiple results are allowed and more than two characters are present, or if a single suggestion is displayed.
+	            if less than two characters have been typed, abort the geocode
+	          */
 	          if (selected) {
 	            this._geosearchCore._geocode(selected.innerHTML, selected['data-magic-key'], selected.provider);
 	            this.clear();
-	          } else if (this.options.allowMultipleResults) {
+	          } else if (this.options.allowMultipleResults && text.length >= 2) {
 	            this._geosearchCore._geocode(this._input.value, undefined);
 	            this.clear();
 	          } else {
-	            L.DomUtil.addClass(list[0], 'geocoder-control-selected');
+	            if (list.length === 1) {
+	              L.DomUtil.addClass(list[0], 'geocoder-control-selected');
+	              this._geosearchCore._geocode(list[0].innerHTML, list[0]['data-magic-key'], list[0].provider);
+	            } else {
+	              this.clear();
+	              this._input.blur();
+	            }
 	          }
 	          L.DomEvent.preventDefault(e);
 	          break;

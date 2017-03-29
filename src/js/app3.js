@@ -177,11 +177,9 @@ var lc = L.control.locate({
 //Leaflet easy button
 //http://danielmontague.com/projects/easyButton.js/v1/examples/
 L.easyButton('fa-times', function(){
-    console.log ("did it");
-    map.removeLayer(marker); 
     if (marker) { // check
-    	// remove
-
+    	 marker.clearLayers();
+    	 var marker_latlng ;
 	}
 }).addTo( map );
 
@@ -223,8 +221,8 @@ getGeoJSON();
 //https://github.com/Esri/esri-leaflet-browserify-example
 //https://esri.github.io/esri-leaflet/examples/geocoding-control.html
 
-var marker;
-
+var marker= L.layerGroup().addTo(map);
+var marker_latlng;
 
 
 // add search control
@@ -238,31 +236,19 @@ var searchControl = geocoding.geosearch({
 	title: 'Cercador d\'Adreces'
 	}).addTo(map);
 
-var results = L.layerGroup().addTo(map);
+//var results = L.layerGroup().addTo(map);
 
   searchControl.on('results', function(data){
   	if (marker) { // check
-    map.removeLayer(marker); // remove
+   	marker.clearLayers();// remove
 	}
     
-    results.clearLayers();
-    results.addLayer(L.marker(data.results[0].latlng, {icon: add,draggable: true}).animateDragging()  );
-    //console.log(data.results[0]);
-    $('#lat').val(data.results[0].latlng.lat);
-	$('#lon').val(data.results[0].latlng.lng);
-    $('#Address').val(data.results[0].properties.StAddr);
-    $('#Postal').val(data.results[0].properties.Postal);
-	$('#City').val(data.results[0].properties.City);
-	$('#Region').val(data.results[0].properties.Region);
-/*    for (var i = data.results.length - 1; i >= 0; i--) {
-      results.addLayer(L.marker(data.results[i].latlng));
-    }*/
+    //results.clearLayers();
+    marker.addLayer(L.marker(data.results[0].latlng, {icon: add,draggable: true}).animateDragging()  );
+    marker_latlng = data.results[0].latlng;
+    console.log(marker_latlng);
   });
 
-// reverse geocoding
-//https://esri.github.io/esri-leaflet/examples/reverse-geocoding.html
-
-var geocodeService = geocoding.geocodeService();
 
 //*** Function for animateddragging ***
 L.Marker.prototype.animateDragging = function () {
@@ -279,52 +265,43 @@ L.Marker.prototype.animateDragging = function () {
         this._shadow.style.marginLeft = (shadowMargin + 8) + 'px';
       });
       
-      return this.on('dragend', function (e) {
-        this._icon.style.marginTop = iconMargin + 'px';
-        this._shadow.style.marginLeft = shadowMargin + 'px';
-        geocodeService.reverse().latlng(e.target.getLatLng()).run(function(error, result) {
-			 $('#lat').val(result.latlng.lat);
-			 $('#lon').val(result.latlng.lng);
-			 $('#Address').val(result.address.Address);
-			 $('#Postal').val(result.address.Postal);
-			 $('#City').val(result.address.City);
-			 $('#Region').val(result.address.Region);
-			map.removeLayer(marker);
-		 	marker = L.marker(result.latlng, {icon: add, draggable: true})
-	  			.addTo(map)
-	  			.bindPopup(result.address.Match_addr)
-	  			.openPopup()
-	  			.animateDragging();
-	});
-
-
-
-      });
+	  return this.on('dragend', function (e) {
+	    this._icon.style.marginTop = iconMargin + 'px';
+	    this._shadow.style.marginLeft = shadowMargin + 'px';
+		
+		marker_latlng = e.target.getLatLng();
+		console.log(marker_latlng);
+	   });
     };
 
 
 map.on('click', function(e) {
-	if (results) { // check
+/*	if (results) { // check
     	results.clearLayers(); // remove
-	}
+	}*/
 	if (marker) { // check
-    	map.removeLayer(marker); // remove
+    	marker.clearLayers();  // remove
 	}
-	marker = L.marker(e.latlng, {icon: add, draggable: true})
-		.addTo(map)
-		.animateDragging();
-/*	geocodeService.reverse().latlng(e.latlng).run(function(error, result) {
-		//console.log (result);
-		 $('#lat').val(result.latlng.lat);
-		 $('#lon').val(result.latlng.lng);
-		 $('#Address').val(result.address.Address);
-		 $('#Postal').val(result.address.Postal);
-		 $('#City').val(result.address.City);
-		 $('#Region').val(result.address.Region);
-
-    });*/
-
+	marker.addLayer(L.marker(e.latlng, {icon: add, draggable: true}).animateDragging()  );
+	marker_latlng = e.latlng;
+	console.log(marker_latlng);
 });
+
+
+$('#menamora').click(function (e) {
+	e.preventDefault();
+	console.log(marker._layers);
+	console.log('menamora');
+	console.log (escape($('#comment_menamora').val()));
+	console.log(marker_latlng);
+});
+
+
+
+
+
+
+
 
 
 //*** Send data to Carto ****
@@ -363,9 +340,9 @@ var the_geom = {"type":"Point","coordinates":[$('#lon').val(),$('#lat').val()]}
 				if (cartoDBData) { // check
 					cartoDBData.clearLayers(); // remove
 				}
-				if (results) { // check
+/*				if (results) { // check
 					results.clearLayers(); // remove
-				}
+				}*/
 				if (marker) { // check
 					map.removeLayer(marker);// remove
 				}
