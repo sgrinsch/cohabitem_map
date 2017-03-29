@@ -288,15 +288,18 @@ map.on('click', function(e) {
 });
 
 
-$('#menamora').click(function (e) {
+$('.emoji').click(function (e) {
 	e.preventDefault();
-	console.log(marker._layers);
-	console.log('menamora');
-	console.log (escape($('#comment_menamora').val()));
-	console.log(marker_latlng);
+	
+	if (jQuery.isEmptyObject(marker._layers)) {
+		console.log ('portem dades de la taula')
+	}
+	else {
+		var id = '#' + e.currentTarget.id;
+		var modal_id = id + '_modal';
+		$(modal_id).modal('show');
+	}    
 });
-
-
 
 
 

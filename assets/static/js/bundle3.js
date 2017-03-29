@@ -290,15 +290,18 @@ map.on('click', function(e) {
 });
 
 
-$('#menamora').click(function (e) {
+$('.emoji').click(function (e) {
 	e.preventDefault();
-	console.log(marker._layers);
-	console.log('menamora');
-	console.log (escape($('#comment_menamora').val()));
-	console.log(marker_latlng);
+	
+	if (jQuery.isEmptyObject(marker._layers)) {
+		console.log ('portem dades de la taula')
+	}
+	else {
+		var id = '#' + e.currentTarget.id;
+		var modal_id = id + '_modal';
+		$(modal_id).modal('show');
+	}    
 });
-
-
 
 
 
@@ -2880,7 +2883,7 @@ require('../../js/affix.js')
 
 
 },{}],16:[function(require,module,exports){
-/* esri-leaflet-geocoder - v2.2.4 - Wed Mar 22 2017 15:48:59 GMT-0700 (PDT)
+/* esri-leaflet-geocoder - v2.2.3 - Fri Jan 06 2017 15:53:06 GMT-0800 (PST)
  * Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 (function (global, factory) {
@@ -2891,10 +2894,10 @@ require('../../js/affix.js')
 
 	L = 'default' in L ? L['default'] : L;
 
-	var version = "2.2.4";
+	var version = "2.2.3";
 
 	var Geocode = esriLeaflet.Task.extend({
-	  path: 'findAddressCandidates',
+	  path: 'find',
 
 	  params: {
 	    outSr: 4326,
@@ -2911,7 +2914,7 @@ require('../../js/affix.js')
 	    'region': 'region',
 	    'postal': 'postal',
 	    'country': 'country',
-	    'text': 'singleLine',
+	    'text': 'text',
 	    'category': 'category',
 	    'token': 'token',
 	    'key': 'magicKey',
@@ -2928,7 +2931,7 @@ require('../../js/affix.js')
 
 	  within: function (bounds) {
 	    bounds = L.latLngBounds(bounds);
-	    this.params.searchExtent = esriLeaflet.Util.boundsToExtent(bounds);
+	    this.params.bbox = esriLeaflet.Util.boundsToExtent(bounds);
 	    return this;
 	  },
 
@@ -2941,18 +2944,49 @@ require('../../js/affix.js')
 
 	  run: function (callback, context) {
 	    if (this.options.customParam) {
-	      this.params[this.options.customParam] = this.params.singleLine;
-	      delete this.params.singleLine;
+	      this.path = 'findAddressCandidates';
+	      this.params[this.options.customParam] = this.params.text;
+	      delete this.params.text;
+	    } else {
+	      this.path = (this.params.text) ? 'find' : 'findAddressCandidates';
+	    }
+
+	    if (this.path === 'findAddressCandidates' && this.params.bbox) {
+	      this.params.searchExtent = this.params.bbox;
+	      delete this.params.bbox;
 	    }
 
 	    return this.request(function (error, response) {
-	      var processor = this._processGeocoderResponse;
+	      var processor = (this.path === 'find') ? this._processFindResponse : this._processFindAddressCandidatesResponse;
 	      var results = (!error) ? processor(response) : undefined;
 	      callback.call(context, error, { results: results }, response);
 	    }, this);
 	  },
 
-	  _processGeocoderResponse: function (response) {
+	  _processFindResponse: function (response) {
+	    var results = [];
+
+	    for (var i = 0; i < response.locations.length; i++) {
+	      var location = response.locations[i];
+	      var bounds;
+
+	      if (location.extent) {
+	        bounds = esriLeaflet.Util.extentToBounds(location.extent);
+	      }
+
+	      results.push({
+	        text: location.name,
+	        bounds: bounds,
+	        score: location.feature.attributes.Score,
+	        latlng: L.latLng(location.feature.geometry.y, location.feature.geometry.x),
+	        properties: location.feature.attributes
+	      });
+	    }
+
+	    return results;
+	  },
+
+	  _processFindAddressCandidatesResponse: function (response) {
 	    var results = [];
 
 	    for (var i = 0; i < response.candidates.length; i++) {
@@ -2969,8 +3003,10 @@ require('../../js/affix.js')
 	        properties: candidate.attributes
 	      });
 	    }
+
 	    return results;
 	  }
+
 	});
 
 	function geocode (options) {
@@ -3110,7 +3146,7 @@ require('../../js/affix.js')
 	    this.metadata(function (error, response) {
 	      if (error) { return; }
 	      // pre 10.3 geocoding services dont list capabilities (and dont support maxLocations)
-	      // only SOME individual services have been configured to support asking for suggestions
+	      // since, only SOME individual services have been configured to support asking for suggestions
 	      if (!response.capabilities) {
 	        this.options.supportsSuggest = false;
 	        this.options.customParam = response.singleLineAddressField.name;
@@ -3363,7 +3399,7 @@ require('../../js/affix.js')
 	    if (key) {
 	      request.key(key);
 	    }
-	    // in the future Address/StreetName geocoding requests that include a magicKey will always only return one match
+	    // in the future Address/StreetName geocoding requests that include a magicKey will only return one match
 	    request.maxLocations(this.options.maxResults);
 
 	    if (bounds) {
@@ -3600,8 +3636,6 @@ require('../../js/affix.js')
 	    }, this);
 
 	    L.DomEvent.addListener(this._input, 'keydown', function (e) {
-	      var text = (e.target || e.srcElement).value;
-
 	      L.DomUtil.addClass(this._wrapper, 'geocoder-control-expanded');
 
 	      var list = this._suggestions.querySelectorAll('.' + 'geocoder-control-suggestion');
@@ -3617,25 +3651,14 @@ require('../../js/affix.js')
 
 	      switch (e.keyCode) {
 	        case 13:
-	          /*
-	            if an item has been selected, geocode it
-	            if focus is on the input textbox, geocode only if multiple results are allowed and more than two characters are present, or if a single suggestion is displayed.
-	            if less than two characters have been typed, abort the geocode
-	          */
 	          if (selected) {
 	            this._geosearchCore._geocode(selected.innerHTML, selected['data-magic-key'], selected.provider);
 	            this.clear();
-	          } else if (this.options.allowMultipleResults && text.length >= 2) {
+	          } else if (this.options.allowMultipleResults) {
 	            this._geosearchCore._geocode(this._input.value, undefined);
 	            this.clear();
 	          } else {
-	            if (list.length === 1) {
-	              L.DomUtil.addClass(list[0], 'geocoder-control-selected');
-	              this._geosearchCore._geocode(list[0].innerHTML, list[0]['data-magic-key'], list[0].provider);
-	            } else {
-	              this.clear();
-	              this._input.blur();
-	            }
+	            L.DomUtil.addClass(list[0], 'geocoder-control-selected');
 	          }
 	          L.DomEvent.preventDefault(e);
 	          break;
