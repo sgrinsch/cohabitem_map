@@ -11,6 +11,7 @@ var geocoding = require('esri-leaflet-geocoder');
 
 require('leaflet.locatecontrol');
 require('leaflet-easybutton');
+require('leaflet.markercluster');
 
 // since leaflet is bundled into the browserify package it won't be able to detect where the images
 // solution is to point it to where you host the the leaflet images yourself
@@ -213,28 +214,31 @@ L.easyButton('fa-times', function(){
 
 //Fetches
 var getData = "https://" + config.cartoDBusername + ".cartodb.com/api/v2/sql?format=GeoJSON&q=" + sqlQuery;
-
+var emojis = L.markerClusterGroup();
 
 function getGeoJSON(emoti=1) {
 	var getData2 = getData + " WHERE emoji=" + "'" + String(emoti)+ "'";
-	$.getJSON(getData2, function (data) {
-		cartoDBData = L.geoJson(data, {
-			pointToLayer: function(feature, latlng) {
-				if (feature.properties.emoji == '1'){
-        		return new L.marker(latlng, {icon: menamora});
-        		} else if (feature.properties.emoji == '2'){
-        		return new L.marker(latlng, {icon: memprenya})
-        		} else if (feature.properties.emoji == '3'){
-        		return new L.marker(latlng, {icon: nomhopuccreure})
-        		}  else if (feature.properties.emoji == '4'){
-        		return new L.marker(latlng, {icon: podriemmillorar})
-        		}
-    		},
-			onEachFeature: function (feature, layer) {
-				layer.bindPopup('<strong>' + unescape(feature.properties.comment) + '</strong>');
 
-			}
-		}).addTo(map);
+	$.getJSON(getData2, function (data) {
+		var cartoDBData = L.geoJson(data, {
+				pointToLayer: function(feature, latlng) {
+					if (feature.properties.emoji == '1'){
+	        		return new L.marker(latlng, {icon: menamora});
+	        		} else if (feature.properties.emoji == '2'){
+	        		return new L.marker(latlng, {icon: memprenya})
+	        		} else if (feature.properties.emoji == '3'){
+	        		return new L.marker(latlng, {icon: nomhopuccreure})
+	        		}  else if (feature.properties.emoji == '4'){
+	        		return new L.marker(latlng, {icon: podriemmillorar})
+	        		}
+	    		},
+				onEachFeature: function (feature, layer) {
+					layer.bindPopup('<strong>' + unescape(feature.properties.comment) + '</strong>');
+
+				}
+		})
+		emojis.addLayer(cartoDBData)
+		map.addLayer(emojis);
 	});
 }
 
@@ -320,8 +324,8 @@ $('.emoji').click(function (e) {
 	var id = '#' + e.currentTarget.id;
 
 	if (jQuery.isEmptyObject(marker._layers)) {
-		if (cartoDBData) { // check
-		 cartoDBData.clearLayers(); // remove
+		if (emojis) { // check
+		 emojis.clearLayers(); // remove
 		}
 		getGeoJSON(emoticona[e.currentTarget.id]);
 		
@@ -368,8 +372,8 @@ var the_geom = {"type":"Point","coordinates":[marker_latlng.lng,marker_latlng.la
 				console.log("Data saved");
 					// refresh map
 				//console.log('https://' + config.cartoDBusername + '.cartodb.com/api/v2/'+ sql);
-				if (cartoDBData) { // check
-					cartoDBData.clearLayers(); // remove
+				if (emojis) { // check
+					emojis.clearLayers(); // remove
 				}
 /*				if (results) { // check
 					results.clearLayers(); // remove
