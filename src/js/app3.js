@@ -404,6 +404,8 @@ var the_geom = {"type":"Point","coordinates":[marker_latlng.lng,marker_latlng.la
 		sql += "'" + JSON.stringify(the_geom) + "'";
 		sql += "," + "'" + emoti + "'";
 		sql += "," + "'" + escape(comment)+ "'";
+		sql += "," + "0";
+		sql += "," + "0";
 		sql += ");";
 
 		//console.log(sql);

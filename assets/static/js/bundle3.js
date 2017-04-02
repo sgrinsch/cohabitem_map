@@ -136,7 +136,7 @@ var cartoDBData = null;
 
 
 // Write SQL Selection Query to be Used on CartoDB Table
-var sqlQuery = "SELECT the_geom, emoji, comment FROM " + config.cartoDBtablename;
+var sqlQuery = "SELECT cartodb_id, the_geom, emoji, comment FROM " + config.cartoDBtablename;
 
 
 // Create Leaflet map object
@@ -227,7 +227,9 @@ function getGeoJSON(emoti=1) {
 
 	$.getJSON(getData2, function (data) {
 		var cartoDBData = L.geoJson(data, {
+
 				pointToLayer: function(feature, latlng) {
+					console.log(data);
 					if (feature.properties.emoji == '1'){
 	        		return new L.marker(latlng, {icon: menamora});
 	        		} else if (feature.properties.emoji == '2'){
@@ -239,14 +241,37 @@ function getGeoJSON(emoti=1) {
 	        		}
 	    		},
 				onEachFeature: function (feature, layer) {
-					layer.bindPopup('<strong>' + unescape(feature.properties.comment) + '</strong>');
+					
+					var cartodb_id= feature.properties.cartodb_id;
+					// Create an element to hold all your text and markup
+					var container = $('<div />');
+
+					// Delegate all event handling for the container itself and its contents to the container
+					container.on('click', '.thumbup', function() {
+					    console.log('update database thumbup')
+					});
+
+					container.on('click', '.thumbdown', function() {
+					    console.log('update database thumbdown')
+					});
+
+					// Insert whatever you want into the container, using whichever approach you prefer
+					container.html('<h5>Comentari:</h5>'+
+									'<h6>' + unescape(feature.properties.comment) + '</h6><br><br>'
+										+ '<img src="../static/img/1f44d.svg" class="img-responsive hvr-grow thumbup"  width="30">' 
+										+ unescape(feature.properties.emoji) + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'
+										+ '<img src="../static/img/1f44e.svg" class="img-responsive hvr-grow thumbdown" width="30">'
+										+ unescape(feature.properties.emoji));
+					layer.bindPopup(container[0],{ maxWidth : 200, minWidth: 200});
 
 				}
 		})
-		emojis.addLayer(cartoDBData)
+		
+		emojis.addLayer(cartoDBData);
 		map.addLayer(emojis);
 	});
 }
+
 
 
 
@@ -351,6 +376,24 @@ $('.emoji').click(function (e) {
 	}    
 });
 
+map.on('popupopen', function() {  
+	$('img.thumbsup').click(function (e) {
+		console.log('fireup')
+	});
+
+	$('img.thumbsdown').click(function (e) {
+		console.log('firedown')
+	});
+
+});
+
+
+
+
+
+
+
+
 
 
 //*** Send data to Carto ****
@@ -363,6 +406,8 @@ var the_geom = {"type":"Point","coordinates":[marker_latlng.lng,marker_latlng.la
 		sql += "'" + JSON.stringify(the_geom) + "'";
 		sql += "," + "'" + emoti + "'";
 		sql += "," + "'" + escape(comment)+ "'";
+		sql += "," + "0";
+		sql += "," + "0";
 		sql += ");";
 
 		//console.log(sql);
