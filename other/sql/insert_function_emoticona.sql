@@ -40,31 +40,25 @@ http://bl.ocks.org/crstn/5ca52b2c577724db0e51
 
 
 
-DROP FUNCTION IF EXISTS update_emoji_data(integer,text,text);
+DROP FUNCTION IF EXISTS update_emoji_data(integer,integer,integer);
 --Assumes only one value being inserted
 
 CREATE OR REPLACE FUNCTION update_emoji_data (
     _cartodb_id INTEGER,
-    _geojson TEXT,
-    _emoji TEXT,
-    _comment TEXT
+    _thumbsup INTEGER,
+    _thumbsdown INTEGER
     )
 --Has to return something in order to be used in a "SELECT" statement
 RETURNS integer
 AS $$
 DECLARE 
-    _the_geom GEOMETRY;
     --The name of your table in cartoDB
     _the_table TEXT := 'emoticona';
 BEGIN
-    --Convert the GeoJSON to a geometry type for insertion. 
-    _the_geom := ST_SetSRID(ST_GeomFromGeoJSON(_geojson),4326); 
     
 
     --Executes the insert given the supplied geometry, description, and username, while protecting against SQL injection.
-    EXECUTE ' INSERT INTO '||quote_ident(_the_table)||' (the_geom, emoji, comment)
-            VALUES ($1, $2, $3)
-            ' USING _the_geom, _emoji, _comment;
+    EXECUTE UPDATE emoticona SET emoticona.thumbsup = _thumbsup, emoticona.thumbsdown = _thumbsdown WHERE emoticona.cartodb_id = _cartodb_id;
             
     RETURN 1;
 END;
@@ -72,7 +66,7 @@ $$
 LANGUAGE plpgsql SECURITY DEFINER ;
 
 --Grant access to the public user
-GRANT EXECUTE ON FUNCTION insert_emoji_data(text,text,text) TO publicuser;
+GRANT EXECUTE ON FUNCTION insert_emoji_data(text,text,text,integer,integer) TO publicuser;
 
 
 
