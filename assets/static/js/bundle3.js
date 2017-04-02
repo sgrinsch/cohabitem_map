@@ -92,10 +92,10 @@ var EmojiIcon = L.Icon.extend({
     }
 });
 
-var menamora = new EmojiIcon({iconUrl: '/static/img/1f60d.png'}),
-    memprenya = new EmojiIcon({iconUrl: '/static/img/1f621.png'}),
-    nomhopuccreure = new EmojiIcon({iconUrl: '/static/img/1f631.png'}),
-    podriemmillorar = new EmojiIcon({iconUrl: '/static/img/1f914.png'});
+var menamora = new EmojiIcon({iconUrl: '../static/img/1f60d.svg'}),
+    memprenya = new EmojiIcon({iconUrl: '../static/img/1f621.svg'}),
+    nomhopuccreure = new EmojiIcon({iconUrl: '../static/img/1f631.svg'}),
+    podriemmillorar = new EmojiIcon({iconUrl: '../static/img/1f914.svg'});
 
 
 
