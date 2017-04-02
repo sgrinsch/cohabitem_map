@@ -27,10 +27,17 @@ require('drmonty-leaflet-awesome-markers');
 //*** Initial Configurations *** 
 var config = {
 	cartoDBusername : "sgrinschpun",
-	cartoDBinsertfunction : "insert_crowd_mapping_data",
-	cartoDBtablename : "mappeig_2",
+	cartoDBinsertfunction : "insert_emoji_data",
+	cartoDBtablename : "emoticona",
 	mapcenter: [41.396904, 2.120389],
 	zoom: 15
+};
+
+var emoticona = {
+	menamora : 1,
+	memprenya : 2,
+	nomhopuccreure : 3,
+	podriemmillorar: 4
 };
 
 
@@ -74,6 +81,25 @@ var add = L.AwesomeMarkers.icon({
     spin: false
 });
 
+
+var EmojiIcon = L.Icon.extend({
+    options: {
+        iconSize:     [30, 30],
+        shadowSize:   [0, 0],
+        iconAnchor:   [20, 20],
+        shadowAnchor: [0, 0],
+        popupAnchor:  [-3, -20]
+    }
+});
+
+var menamora = new EmojiIcon({iconUrl: '/static/img/1f60d.png'}),
+    memprenya = new EmojiIcon({iconUrl: '/static/img/1f621.png'}),
+    nomhopuccreure = new EmojiIcon({iconUrl: '/static/img/1f631.png'}),
+    podriemmillorar = new EmojiIcon({iconUrl: '/static/img/1f914.png'});
+
+
+
+
 //*** Function for animateddragging ***
 L.Marker.prototype.animateDragging = function () {
       
@@ -105,7 +131,7 @@ var cartoDBData = null;
 
 
 // Write SQL Selection Query to be Used on CartoDB Table
-var sqlQuery = "SELECT the_geom, address, address2, catastral, city, comment, email, name, postal, region, type FROM " + config.cartoDBtablename;
+var sqlQuery = "SELECT the_geom, emoji, comment FROM " + config.cartoDBtablename;
 
 
 // Create Leaflet map object
@@ -127,7 +153,7 @@ var OpenStreetMap_DE = L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmd
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 });
 
-var Esri_WorldStreetMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+var Esri_WorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
 });
 
@@ -191,23 +217,23 @@ L.easyButton('fa-times', function(){
 var getData = "https://" + config.cartoDBusername + ".cartodb.com/api/v2/sql?format=GeoJSON&q=" + sqlQuery;
 
 
-function getGeoJSON() {
-	$.getJSON(getData, function (data) {
+function getGeoJSON(emoti=1) {
+	var getData2 = getData + " WHERE emoji=" + "'" + String(emoti)+ "'";
+	$.getJSON(getData2, function (data) {
 		cartoDBData = L.geoJson(data, {
 			pointToLayer: function(feature, latlng) {
-				if (feature.properties.type == 'Pis'){
-        		return new L.marker(latlng, {icon: apartment});
-        		} else if (feature.properties.type == 'Casa'){
-        		return new L.marker(latlng, {icon: house})
-        		} else if (feature.properties.type == 'Edifici'){
-        		return new L.marker(latlng, {icon: building})
-        		}  else if (feature.properties.type == 'Solar'){
-        		return new L.marker(latlng, {icon: solar})
+				if (feature.properties.emoji == '1'){
+        		return new L.marker(latlng, {icon: menamora});
+        		} else if (feature.properties.emoji == '2'){
+        		return new L.marker(latlng, {icon: memprenya})
+        		} else if (feature.properties.emoji == '3'){
+        		return new L.marker(latlng, {icon: nomhopuccreure})
+        		}  else if (feature.properties.emoji == '4'){
+        		return new L.marker(latlng, {icon: podriemmillorar})
         		}
     		},
 			onEachFeature: function (feature, layer) {
-				layer.bindPopup('<strong>' + feature.properties.type + '</strong>  a  ' + unescape(feature.properties.address) 
-					+ '<br><br>Afegit per  ' + unescape(feature.properties.name) + '<br><br>' + unescape(feature.properties.comment));
+				layer.bindPopup('<strong>' + unescape(feature.properties.comment) + '</strong>');
 
 			}
 		}).addTo(map);
@@ -216,7 +242,7 @@ function getGeoJSON() {
 
 
 
-getGeoJSON();
+//getGeoJSON();
 
 
 //*** GeoCoding Control + Reverse geocoding from ESRI ****
@@ -286,47 +312,49 @@ map.on('click', function(e) {
 	}
 	marker.addLayer(L.marker(e.latlng, {icon: add, draggable: true}).animateDragging()  );
 	marker_latlng = e.latlng;
-	console.log(marker_latlng);
+
 });
 
 
 $('.emoji').click(function (e) {
 	e.preventDefault();
-	
+	var emo = e.currentTarget.id;
+	var id = '#' + e.currentTarget.id;
+
 	if (jQuery.isEmptyObject(marker._layers)) {
-		console.log ('portem dades de la taula')
+		if (cartoDBData) { // check
+		 cartoDBData.clearLayers(); // remove
+		}
+		getGeoJSON(emoticona[e.currentTarget.id]);
+		
 	}
 	else {
-		var id = '#' + e.currentTarget.id;
 		var modal_id = id + '_modal';
 		$(modal_id).modal('show');
+		var button_id = id + '_a'
+		$(button_id).click(function (e) {
+			e.preventDefault();
+			var comment = $(modal_id + ' textarea').val();
+			setData(emoticona[emo],marker_latlng, comment);
+			$(modal_id).modal('hide');
+
+		});
+
 	}    
 });
 
 
 
-
-
-
-
 //*** Send data to Carto ****
-function setData() {
+function setData(emoti, marker_latlng, comment) {
 //Construct the geometry
-var the_geom = {"type":"Point","coordinates":[$('#lon').val(),$('#lat').val()]}
+var the_geom = {"type":"Point","coordinates":[marker_latlng.lng,marker_latlng.lat]}
 
 //Construct the SQL query to insert data
 		sql = "SELECT " + config.cartoDBinsertfunction + "(";
 		sql += "'" + JSON.stringify(the_geom) + "'";
-		sql += "," + "'" + escape($('#Address').val())+ "'";
-		sql += "," + "'" + escape($('#address2').val())+ "'";
-		sql += "," + "'" + escape($('#catastral').val())+ "'";
-		sql += "," + "'" + escape($('#City').val())+ "'";
-		sql += "," + "'" + escape($('#comment').val())+ "'";
-		sql += "," + "'" + escape($('#email').val())+ "'";
-		sql += "," + "'" + escape($('#name').val())+ "'";
-		sql += "," + "'" + escape($('#Postal').val())+ "'";
-		sql += "," + "'" + escape($('#Region').val())+ "'";
-		sql += "," + "'" + escape($('#type').val())+ "'";
+		sql += "," + "'" + emoti + "'";
+		sql += "," + "'" + escape(comment)+ "'";
 		sql += ");";
 
 		//console.log(sql);
@@ -349,10 +377,10 @@ var the_geom = {"type":"Point","coordinates":[$('#lon').val(),$('#lat').val()]}
 					results.clearLayers(); // remove
 				}*/
 				if (marker) { // check
-					map.removeLayer(marker);// remove
+					marker.clearLayers();// remove
 				}
 
-				getGeoJSON();
+				getGeoJSON(emoti);
 			},
 			error: function (responseData, textStatus, errorThrown) {
 
@@ -362,10 +390,7 @@ var the_geom = {"type":"Point","coordinates":[$('#lon').val(),$('#lat').val()]}
 
 }
 
-$('#desa').click(function (e) {
-	e.preventDefault();
-	setData();
-});
+
 
 //////////bootstrap-table
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
