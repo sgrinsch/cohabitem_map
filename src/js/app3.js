@@ -4,6 +4,10 @@ global.jQuery = require('jquery');
 window.$ = $;
 require('bootstrap');
 
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
 // require leaflet & plugins
 var L = require('leaflet');
 var esri = require('esri-leaflet');
