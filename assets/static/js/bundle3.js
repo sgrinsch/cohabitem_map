@@ -35,6 +35,7 @@ var config = {
 	cartoDBinsertfunction : "insert_emoji_data",
 	cartoDBupdatefunction : "update_emoji_data",
 	cartoDBtablename : "emoticona",
+	cartoDBapikey: "ccf08eda5c1ee54b2f70735a568d5e358c84c54b",
 	mapcenter: [41.396904, 2.120389],
 	zoom: 15
 };
@@ -225,7 +226,6 @@ var emojis = L.markerClusterGroup();
 
 function getGeoJSON(emoti=1) {
 	var getData2 = getData + " WHERE emoji=" + "'" + String(emoti)+ "'";
-
 	$.getJSON(getData2, function (data) {
 		var cartoDBData = L.geoJson(data, {
 
@@ -243,18 +243,19 @@ function getGeoJSON(emoti=1) {
 				onEachFeature: function (feature, layer) {
 					
 					var cartodb_id= feature.properties.cartodb_id;
+
 					// Create an element to hold all your text and markup
 					var container = $('<div />');
 
 					// Delegate all event handling for the container itself and its contents to the container
 					container.on('click', '.thumbup', function() {
-					    console.log('update database thumbup')
-					    updateData(cartodb_id, feature.properties.thumbsup +1, feature.properties.thumbsdown)
+					    
+					    updateThumbsup(feature.properties.emoji, cartodb_id, feature.properties.thumbsup +1)
 					});
 
 					container.on('click', '.thumbdown', function() {
-					    console.log('update database thumbdown')
-					    updateData(cartodb_id, feature.properties.thumbsup, feature.properties.thumbsdown + 1)
+					 
+					    updateThumbsdown(feature.properties.emoji, cartodb_id, feature.properties.thumbsdown +1)
 					});
 
 					// Insert whatever you want into the container, using whichever approach you prefer
@@ -275,7 +276,7 @@ function getGeoJSON(emoti=1) {
 }
 
 
-
+//http://stackoverflow.com/questions/13698975/click-link-inside-leaflet-popup-and-do-javascript
 
 //getGeoJSON();
 
@@ -292,8 +293,8 @@ var marker_latlng;
 var searchControl = geocoding.geosearch({
 	position : 'topleft',
 	zoomToResult: true,
-	collapseAfterResult: false,
-	expanded: true,
+	collapseAfterResult: true,
+	expanded: false,
 	allowMultipleResults: false,
 	placeholder: 'Busca Adreces',
 	title: 'Cercador d\'Adreces'
@@ -427,25 +428,52 @@ var the_geom = {"type":"Point","coordinates":[marker_latlng.lng,marker_latlng.la
 }
 
 
+//https://carto.com/blog/faster-data-updates-with-cartodb
+
+
+// https://{account}.cartodb.com/api/v2/sql?q=UPDATE test_table SET column_name = 'my new string value' WHERE cartodb_id = 1 &api_key={Your API key}
+// 'https://'+'config.cartoDBusername + '.cartodb.com/api/v2/sql?q=UPDATE'+ cartoDBtablename +  'SET thumbsup = _thumbsup WHERE cartodb_id = _cartodb_id &api_key=' + cartoDBapikey
 
 //*** Send data to Carto ****
-function updateData(cartodb_id, thumbsup, thumbsdown) {
-
-//Construct the SQL query to insert data
-		sql = "SELECT " + config.cartoDBupdatefunction + "(";
-		sql += cartodb_id;
-		sql += "," + thumbsup;
-		sql += "," + thumbsdown;
-		sql += ");";
-
-		console.log(sql);
-
+function updateThumbsup(emoti, _cartodb_id, _thumbsup) {
+var update_url = 'https://'+ config.cartoDBusername + '.cartodb.com/api/v2/sql?q=UPDATE '+ config.cartoDBtablename +  ' SET thumbsup =' + _thumbsup +' WHERE cartodb_id ='+ _cartodb_id+'&api_key=' + config.cartoDBapikey
 //Sending the data
 		$.ajax({
 			type: 'POST',
-			url: 'https://' + config.cartoDBusername + '.cartodb.com/api/v2/sql',
+			url: update_url,
 			crossDomain: true,
-			data: {"q": sql},
+			dataType: 'json',
+			success: function (responseData, textStatus, jqXHR) {
+				console.log("Data saved");
+					// refresh map
+				//console.log('https://' + config.cartoDBusername + '.cartodb.com/api/v2/'+ sql);
+				if (emojis) { // check
+					emojis.clearLayers(); // remove
+				}
+/*				if (results) { // check
+					results.clearLayers(); // remove
+				}*/
+				if (marker) { // check
+					marker.clearLayers();// remove
+				}
+
+				getGeoJSON(emoti);
+			},
+			error: function (responseData, textStatus, errorThrown) {
+
+				console.log("Problem saving the data");
+			}
+		});
+
+}
+
+function updateThumbsdown(emoti, _cartodb_id, _thumbsdown) {
+var update_url = 'https://'+ config.cartoDBusername + '.cartodb.com/api/v2/sql?q=UPDATE '+ config.cartoDBtablename +  ' SET thumbsdown =' + _thumbsdown +' WHERE cartodb_id ='+ _cartodb_id+'&api_key=' + config.cartoDBapikey
+//Sending the data
+		$.ajax({
+			type: 'POST',
+			url: update_url,
+			crossDomain: true,
 			dataType: 'json',
 			success: function (responseData, textStatus, jqXHR) {
 				console.log("Data saved");
