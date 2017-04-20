@@ -251,6 +251,7 @@ function getGeoJSON(emoti=1) {
 					container.on('click', '.thumbup', function() {
 					    
 					    updateThumbsup(feature.properties.emoji, cartodb_id, feature.properties.thumbsup +1)
+
 					});
 
 					container.on('click', '.thumbdown', function() {
@@ -261,11 +262,11 @@ function getGeoJSON(emoti=1) {
 					// Insert whatever you want into the container, using whichever approach you prefer
 					container.html('<h5>Comentari:</h5>'+
 									'<h6>' + unescape(feature.properties.comment) + '</h6><br><br>'
-										+ '<img src="../static/img/1f44d.svg" class="img-responsive hvr-grow thumbup"  width="30">' 
+										+ '<img src="../static/img/1f44d.svg" class="img-responsive hvr-grow thumbup"  width="30" data-switch="ON">' 
 										+ unescape(feature.properties.thumbsup) + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'
-										+ '<img src="../static/img/1f44e.svg" class="img-responsive hvr-grow thumbdown" width="30">'
+										+ '<img src="../static/img/1f44e.svg" class="img-responsive hvr-grow thumbdown" width="30" data-switch="ON">'
 										+ unescape(feature.properties.thumbsdown));
-					layer.bindPopup(container[0],{ maxWidth : 200, minWidth: 200});
+					layer.bindPopup(container[0],{ maxWidth : 200, minWidth: 200, autoClose: false, closeOnClick: false});
 
 				}
 		})
@@ -394,7 +395,7 @@ var the_geom = {"type":"Point","coordinates":[marker_latlng.lng,marker_latlng.la
 		sql += "," + "0";
 		sql += ");";
 
-		console.log(sql);
+		//console.log(sql);
 
 //Sending the data
 		$.ajax({
